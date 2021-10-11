@@ -4,17 +4,17 @@
 winexe
 C#
 .cs
-D:\School\21-22\programming\Period 1\Tron-Mario\Tron-Mario\obj\Debug\
+E:\HBO ICT\ProjectArcadeGame\obj\Debug\
 Tron_Mario
 none
 false
 DEBUG;TRACE
-D:\School\21-22\programming\Period 1\Tron-Mario\Tron-Mario\App.xaml
-21464792666
-
-7160408630
+E:\HBO ICT\ProjectArcadeGame\App.xaml
+5-1573452870
+1819034883
+11-1962401463
 13-1505183044
-Level1.xaml;MainWindow.xaml;
+Highscore_screen.xaml;Level1.xaml;MainWindow.xaml;One_player_screen.xaml;Two_Player_Screen.xaml;
 
-False
+True
 
