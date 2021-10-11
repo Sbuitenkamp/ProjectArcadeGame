@@ -5,8 +5,11 @@
         xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
         xmlns:local="clr-namespace:Tron_Mario"
         mc:Ignorable="d"
-        Title="Level1" Height="450" Width="800">
+        WindowStyle="None"
+        WindowState="Maximized"
+        Title="Level1" Height="1080" Width="1920">
     <Canvas x:Name="GameCanvas" Focusable="true" KeyDown="OnKeyDown" KeyUp="OnKeyUp">
+        <Button Canvas.Right="0" Width="250" Height="250" Click="Button_Click">QUIT</Button>
         <!-- make sure to allocate a Canvas.Top value to the player (or any moving object subjected to gravity) or gravity won't work -->
         <Rectangle x:Name="Player" Fill="DarkMagenta" Height="46" Width="42" Canvas.Left="530" Canvas.Top="150" />
         <Rectangle x:Name="Floor" Tag="walkable" Fill="DarkGreen" Height="56" Width="792" Canvas.Left="0" Canvas.Top="363" />

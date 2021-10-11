@@ -1,4 +1,4 @@
-﻿<Window x:Class="Tron_Mario.MainWindow"
+﻿<Window x:Class="Tron_Mario.Highscore_screen"
         xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
         xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
         xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
@@ -24,15 +24,11 @@
         </Grid.ColumnDefinitions>
         <Label 
             Grid.Column="1" Grid.Row="1" 
-            Content="NAME GAME" VerticalAlignment="center" 
-            HorizontalAlignment="Center" FontSize="100" Foreground="#8CC7E6" 
+            Content="LEADERBOARD" VerticalAlignment="center" 
+            HorizontalAlignment="Center" FontSize="75" Foreground="#8CC7E6" 
             UseLayoutRounding="False" OpacityMask="Black" FontFamily="Montserrat">
         </Label>
-        <Button Grid.Column="1" Grid.Row="2" Content="1 PLAYER" Background="#00A2A2A2" Click="OnePlayer" Foreground="#8CC7E6" FontSize="50" BorderBrush="#00707070"  />
-        <Button Grid.Column="1" Grid.Row="3" Content="2 PLAYERS" Background="#00A2A2A2" Click="TwoPlayer" Foreground="#8CC7E6" FontSize="50" BorderBrush="#00707070" />
-        <Button Grid.Row="5" Grid.Column="4" Margin="10,0,0.2,10.4" Click="Open_Highsores" Height="164" VerticalAlignment="Bottom" Background="#00DDDDDD" BorderBrush="#00707070">
-            <Image Source="Images/Trophy_asset.png"/>
-        </Button>
-        <Button Grid.Row="5" Grid.Column="0" Content="EXIT" Click="End_Game" Margin="0,0,10,10" Foreground="#8CC7E6" BorderBrush="#00707070" Background="#00DDDDDD" FontSize="50"/>
+        
+        <Button Grid.Row="5" Grid.Column="0" Content="BACK" Click="Main_menu" Margin="0,0,10,10" Foreground="#8CC7E6" BorderBrush="#00707070" Background="#00DDDDDD" FontSize="50"/>
     </Grid>
 </Window>
