@@ -7,6 +7,9 @@
         mc:Ignorable="d"
         Title="Level1" Height="450" Width="800">
     <Canvas x:Name="GameCanvas" Focusable="true" KeyDown="OnKeyDown" KeyUp="OnKeyUp">
-        <Rectangle x:Name="Player" Fill="DarkMagenta" Height="46" Width="43" Canvas.Left="0" />
+        <!-- make sure to allocate a Canvas.Top value to the player (or any moving object subjected to gravity) or gravity won't work -->
+        <Rectangle x:Name="Player" Fill="DarkMagenta" Height="46" Width="42" Canvas.Left="530" Canvas.Top="150" />
+        <Rectangle x:Name="Floor" Tag="walkable" Fill="DarkGreen" Height="56" Width="792" Canvas.Left="0" Canvas.Top="363" />
+        <Label x:Name="Debug" Content="Label" Canvas.Left="64" Canvas.Top="30" Width="537"/>
     </Canvas>
 </Window>
