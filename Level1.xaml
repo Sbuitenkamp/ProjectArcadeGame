@@ -5,8 +5,11 @@
         xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
         xmlns:local="clr-namespace:Tron_Mario"
         mc:Ignorable="d"
-        Title="Level1" Height="450" Width="800">
+        WindowStyle="None"
+        WindowState="Maximized"
+        Title="Level1" Height="1080" Width="1920">
     <Canvas x:Name="GameCanvas" Focusable="true" KeyDown="OnKeyDown" KeyUp="OnKeyUp">
         <Rectangle x:Name="Player" Fill="DarkMagenta" Height="46" Width="43" Canvas.Left="0" />
+        <Button Canvas.Right="0" Width="250" Height="250" Click="Button_Click">QUIT</Button>
     </Canvas>
 </Window>
