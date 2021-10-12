@@ -28,7 +28,7 @@
             HorizontalAlignment="Center" FontSize="75" Foreground="#8CC7E6" 
             UseLayoutRounding="False" OpacityMask="Black" FontFamily="Montserrat">
         </Label>
-        
-        <Button Grid.Row="5" Grid.Column="0" Content="BACK" Click="Main_menu" Margin="0,0,10,10" Foreground="#8CC7E6" BorderBrush="#00707070" Background="#00DDDDDD" FontSize="50"/>
+
+        <Button Grid.Column="0" Grid.Row="5"  Content="BACK" Click="Main_menu" FontSize="50" Style="{DynamicResource ButtonStyleOne}"/>
     </Grid>
 </Window>

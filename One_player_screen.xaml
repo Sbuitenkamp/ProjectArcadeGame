@@ -39,7 +39,7 @@
                  FontSize="35" Margin="0,25,150,0">JOHNDOE1234</TextBox>
         <Rectangle Fill="#8CC7E6" Grid.Column="1" Grid.Row="3" Height="5" Width="400"/>
 
-        <Button Grid.Row="4" Grid.Column="1" HorizontalAlignment="Center" VerticalAlignment="Bottom" Content="START" Click="Start_game" Margin="0,0,10,10" Foreground="#8CC7E6" BorderBrush="#00707070" Background="#00DDDDDD" FontSize="50"/>
-        <Button Grid.Row="5" Grid.Column="0" Content="BACK" Click="Main_menu" Margin="0,0,10,10" Foreground="#8CC7E6" BorderBrush="#00707070" Background="#00DDDDDD" FontSize="50"/>
+        <Button Grid.Column="1" Grid.Row="4" VerticalAlignment="Center" Content="START" Click="Start_game" FontSize="50" Style="{DynamicResource ButtonStyleOne}"/>
+        <Button Grid.Column="0" Grid.Row="5"  Content="BACK" Click="Main_menu" FontSize="50" Style="{DynamicResource ButtonStyleOne}"/>
     </Grid>
 </Window>
