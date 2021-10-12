@@ -10,9 +10,16 @@
         Title="Level1" Height="1080" Width="1920">
     <Canvas x:Name="GameCanvas" Focusable="true" KeyDown="OnKeyDown" KeyUp="OnKeyUp">
         <Button Canvas.Right="0" Width="250" Height="250" Click="Button_Click">QUIT</Button>
+        <!-- NOTE: first rectangle marked with the tag "walkable" in the xaml code will not allow the player to jump if walked upon, ez fix: make a ghost rectangle and hide it somewhere the player will never be able to move to-->
+        <!-- <Rectangle x:Name="GhostBox" Tag="walkable" Fill="Transparent" Height="6" Width="144" Canvas.Left="10" /> -->
         <!-- make sure to allocate a Canvas.Top value to the player (or any moving object subjected to gravity) or gravity won't work -->
-        <Rectangle x:Name="Player" Fill="DarkMagenta" Height="46" Width="42" Canvas.Left="530" Canvas.Top="150" />
-        <Rectangle x:Name="Floor" Tag="walkable" Fill="DarkGreen" Height="56" Width="792" Canvas.Left="0" Canvas.Top="363" />
+        <Rectangle x:Name="Player" Fill="DarkMagenta" Height="46" Width="42" Canvas.Left="1037" Canvas.Top="437" />
+        <Rectangle Tag="walkable" Fill="DarkGreen" Height="42" Width="222" Canvas.Left="970" Canvas.Top="488" />
+        <Rectangle Tag="walkable" Fill="DarkGreen" Height="42" Width="210" Canvas.Left="869" Canvas.Top="704" />
+        <Rectangle Tag="walkable" Fill="DarkGreen" Height="42" Width="210" Canvas.Left="685" Canvas.Top="638" />
+        <Rectangle Tag="walkable" Fill="DarkGreen" Height="42" Width="210" Canvas.Left="1391" Canvas.Top="684" />
+        <Rectangle Tag="walkable" Fill="DarkGreen" Height="42" Width="185" Canvas.Left="498" Canvas.Top="718" />
+        <Rectangle Tag="walkable" Fill="DarkGreen" Height="287" Width="1918" Canvas.Left="0" Canvas.Top="795" />
         <Label x:Name="Debug" Content="Label" Canvas.Left="64" Canvas.Top="30" Width="537"/>
     </Canvas>
 </Window>
