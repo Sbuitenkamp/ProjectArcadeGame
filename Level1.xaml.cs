@@ -39,10 +39,21 @@ namespace Tron_Mario
 
             foreach (Rectangle x in GameCanvas.Children.OfType<Rectangle>()) {
                 if ((string) x.Tag != "walkable") continue;
+                
                 Rect floorHitbox = new Rect(Canvas.GetLeft(x), Canvas.GetTop(x), x.Width, x.Height);
-
-                if (Controller.PlayerHitbox.IntersectsWith(floorHitbox)) Controller.HandleLanding(x);
-                else Controller.Fall();
+                Rect playerHitbox = Controller.PlayerHitbox;
+                
+                if (playerHitbox.IntersectsWith(floorHitbox)) {
+                    Controller.HandleLanding(floorHitbox);
+                    // if player hits the left side of the platform
+//                    if (Controller.Grounded) break;
+//                    Debug.Content = "grounded";
+//                    if (playerHitbox.Left + playerHitbox.Width > floorHitbox.Left && playerHitbox.Top + playerHitbox.Height > floorHitbox.Top) {
+//                        Canvas.SetLeft(Player, floorHitbox.Left - playerHitbox.Width);
+//                        Debug.Content = "left";
+//                    }
+                    break;
+                } else Controller.Fall(floorHitbox);
             }
         }
 
@@ -56,6 +67,7 @@ namespace Tron_Mario
         {
             Controller.OnKeyDown(e);
         }
+        
         /// <summary>
         /// fires when key is let loose
         /// </summary>

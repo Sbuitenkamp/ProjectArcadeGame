@@ -16,7 +16,7 @@ namespace Tron_Mario.Models
         private Dictionary<int, ImageBrush> PlayerSkins = new Dictionary<int, ImageBrush>();
         private Rectangle Player;
         private Canvas GameCanvas;
-        private bool MoveLeft, MoveRight, Jumping, Grounded;
+        public bool MoveLeft, MoveRight, Jumping, Grounded;
         private int Speed = 10;
 
         private Label Debug;
@@ -50,7 +50,6 @@ namespace Tron_Mario.Models
         public void OnTick(Label debug)
         {
             Debug = debug;
-//            Debug.Content = "Grounded: " + Grounded + ", Jumping: " + Jumping;
             // hitbox
             PlayerHitbox = new Rect(Canvas.GetLeft(Player), Canvas.GetTop(Player), Player.Width, Player.Height);
             
@@ -63,7 +62,7 @@ namespace Tron_Mario.Models
                     Jumping = false;
                     Gravity = 10;
                 }
-            }
+            } else if (Grounded) Gravity = 0;
             // movement and create borders on the edge of the screen
             if (MoveLeft && Canvas.GetLeft(Player) > 0) Canvas.SetLeft(Player, Canvas.GetLeft(Player) - Speed);
             else if (MoveRight && Canvas.GetLeft(Player) + Player.Width < Application.Current.MainWindow.Width) Canvas.SetLeft(Player, Canvas.GetLeft(Player) + Speed);
@@ -97,6 +96,7 @@ namespace Tron_Mario.Models
                     break;
             }
         }
+        
         /// <summary>
         /// fires when key is let loose
         /// </summary>
@@ -118,23 +118,33 @@ namespace Tron_Mario.Models
         /// <summary>
         /// fires when player lands on a platform
         /// </summary>
-        /// <param name="floor">the floor that the player landed on</param>
-        public void HandleLanding(Rectangle floor)
+        /// <param name="hitbox">the hitbox of floor that the player landed on</param>
+        public void HandleLanding(Rect hitbox)
         {
             if (Grounded) return;
             if (Jumping && Gravity < 0) return;
-            Gravity = 0;
-            Canvas.SetTop(Player, Canvas.GetTop(floor) - Player.Height);
+            // check if player is within the length of the platform
+//            if (!(PlayerHitbox.Left + PlayerHitbox.Width >= hitbox.Left && PlayerHitbox.Left <= hitbox.Left + hitbox.Width)) return;
+            Debug.Content = "landed";
+            Canvas.SetTop(Player, hitbox.Top - Player.Height);
             Grounded = true;
+            Jumping = false;
         }
 
         /// <summary>
         /// fires when player falls off a platform
         /// </summary>
-        public void Fall()
+        /// /// <param name="hitbox">the hitbox of the floor that the player is currently moving on</param>
+        public void Fall(Rect hitbox)
         {
-            if (Jumping) return;
-            Gravity = 10;
+            // check if we're still on the platform by comparing the player left to the left of the platform and the right (calculated by left + width)
+            if (PlayerHitbox.Left >= hitbox.Left && PlayerHitbox.Left <= hitbox.Left + hitbox.Width) return;
+            // check if on top of the platform
+            if (Math.Abs(PlayerHitbox.Top + PlayerHitbox.Height - hitbox.Top) < 0) return;  
+            // only fall if we're in the air and not jumping
+            if (Jumping && !Grounded) return;
+            Gravity = 8;
+            Jumping = true;
             Grounded = false;
         }
     }
