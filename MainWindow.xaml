@@ -28,11 +28,11 @@
             HorizontalAlignment="Center" FontSize="100" Foreground="#8CC7E6" 
             UseLayoutRounding="False" OpacityMask="Black" FontFamily="Montserrat">
         </Label>
-        <Button Grid.Column="1" Grid.Row="2" Content="1 PLAYER" Background="#00A2A2A2" Click="OnePlayer" Foreground="#8CC7E6" FontSize="50" BorderBrush="#00707070"  />
-        <Button Grid.Column="1" Grid.Row="3" Content="2 PLAYERS" Background="#00A2A2A2" Click="TwoPlayer" Foreground="#8CC7E6" FontSize="50" BorderBrush="#00707070" />
-        <Button Grid.Row="5" Grid.Column="4" Margin="10,0,0.2,10.4" Click="Open_Highsores" Height="164" VerticalAlignment="Bottom" Background="#00DDDDDD" BorderBrush="#00707070">
+        <Button Grid.Column="1" Grid.Row="2" Content="1 PLAYER" Click="OnePlayer" FontSize="50" Style="{DynamicResource ButtonStyleOne}"  />
+        <Button Grid.Column="1" Grid.Row="3" Content="2 PLAYERS" Click="TwoPlayer" FontSize="50" Style="{DynamicResource ButtonStyleOne}" />
+        <Button Grid.Column="4" Grid.Row="5" Click="Open_Highsores" Height="164" Background="#00DDDDDD" BorderBrush="#00707070">
             <Image Source="Images/Trophy_asset.png"/>
         </Button>
-        <Button Grid.Row="5" Grid.Column="0" Content="EXIT" Click="End_Game" Margin="0,0,10,10" Foreground="#8CC7E6" BorderBrush="#00707070" Background="#00DDDDDD" FontSize="50"/>
+        <Button  Grid.Column="0" Grid.Row="5" Content="EXIT" Click="End_Game" FontSize="50" Style="{DynamicResource ButtonStyleOne}"/>
     </Grid>
 </Window>
