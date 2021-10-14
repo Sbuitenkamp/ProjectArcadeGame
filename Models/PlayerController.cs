@@ -60,8 +60,13 @@ namespace Tron_Mario.Models
                 }
             } else if (Grounded) Gravity = 0;
             // movement and create borders on the edge of the screen
-            if (MoveLeft && Canvas.GetLeft(Player) > 0) Canvas.SetLeft(Player, Canvas.GetLeft(Player) - Speed);
-            else if (MoveRight && Canvas.GetLeft(Player) + Player.Width < Application.Current.MainWindow.Width) Canvas.SetLeft(Player, Canvas.GetLeft(Player) + Speed);
+            if (MoveLeft && Canvas.GetLeft(Player) > 0) {
+                Canvas.SetLeft(Player, Canvas.GetLeft(Player) - Speed);
+                Player.Fill = PlayerSkins[0];
+            } else if (MoveRight && Canvas.GetLeft(Player) + Player.Width < Application.Current.MainWindow.Width) {
+                Canvas.SetLeft(Player, Canvas.GetLeft(Player) + Speed);
+                Player.Fill = PlayerSkins[1];
+            }
         }
 
         // movement
@@ -75,12 +80,10 @@ namespace Tron_Mario.Models
                 case Key.A: //fallthrough
                 case Key.Left:
                     MoveLeft = true;
-                    Player.Fill = PlayerSkins[0];
                     break;
                 case Key.D: //fallthrough
                 case Key.Right:
                     MoveRight = true;
-                    Player.Fill = PlayerSkins[1];
                     break;
                 case Key.W: // fallthrough
                 case Key.Up:
