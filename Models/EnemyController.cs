@@ -14,7 +14,8 @@ namespace Tron_Mario.Models
         private Rectangle Enemy;
         private bool MoveLeft, MoveRight, Grounded;
         private int Speed = 4;
-        
+        private float Gravity = 10;
+
         public Rect Hitbox { get; private set; }
 
 
@@ -38,9 +39,16 @@ namespace Tron_Mario.Models
         /// <summary>
         /// Is called every time the gameEngine is called
         /// </summary>
+        /// <param name="controller">playercontroller object</param>
         public void OnTick(PlayerController controller)
         {
             Hitbox = new Rect(Canvas.GetLeft(Enemy), Canvas.GetTop(Enemy), Enemy.Width, Enemy.Height);
+
+            if (!Grounded) {
+                Gravity += .3f;
+                if (Gravity >= 10) Gravity = 10;
+            } else Gravity = 0;
+            Canvas.SetTop(Enemy, Canvas.GetTop(Enemy) + Gravity);
 
             if (MoveRight && Canvas.GetLeft(Enemy) + Enemy.Width < Application.Current.MainWindow.Width)
             {
@@ -63,7 +71,28 @@ namespace Tron_Mario.Models
                 MoveLeft = false;
             }
         }
+            
+        }
 
+        /// <summary>
+        /// Handles the landing of an individual enemy
+        /// </summary>
+        /// <param name="hitbox">hitbox of the landed platform</param>
+        public void HandleLanding(Rect hitbox)
+        {
+            if (Grounded) return;
+            if (Hitbox.Top + Hitbox.Height >= hitbox.Top + hitbox.Height * 0.5) return;
+            Canvas.SetTop(Enemy, hitbox.Top - Enemy.Height);
+            Grounded = true;
+        }
 
+        /// <summary>
+        /// Handles the falling of an individual enemy
+        /// </summary>
+        public void Fall()
+        {
+            Gravity = 8;
+            Grounded = false;
+        }
     }
 }
