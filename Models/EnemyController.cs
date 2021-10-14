@@ -71,8 +71,6 @@ namespace Tron_Mario.Models
                 MoveLeft = false;
             }
         }
-            
-        }
 
         /// <summary>
         /// Handles the landing of an individual enemy
