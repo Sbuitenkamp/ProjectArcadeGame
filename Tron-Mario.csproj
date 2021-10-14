@@ -55,6 +55,7 @@
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </ApplicationDefinition>
+    <Compile Include="Models\EnemyController.cs" />
     <Compile Include="Two_Player_Screen.xaml.cs">
       <DependentUpon>Two_Player_Screen.xaml</DependentUpon>
     </Compile>
@@ -121,14 +122,27 @@
     <None Include="App.config" />
   </ItemGroup>
   <ItemGroup>
-    <Resource Include="Images\PlayerLeft.png" />
-    <Resource Include="Images\PlayerRight.png" />
+    <Content Include="Images\PlayerLeft.png">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Images\PlayerRight.png">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
   </ItemGroup>
   <ItemGroup>
     <Content Include=".gitignore" />
     <Resource Include="Images\Controls.png" />
     <Resource Include="Images\Controls1.png" />
     <Resource Include="Images\Muis.png" />
+    <Content Include="Images\MeleeEnemyLeft.png">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Images\MeleeEnemyRight.png">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Images\Trophy_Asset.png">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>
