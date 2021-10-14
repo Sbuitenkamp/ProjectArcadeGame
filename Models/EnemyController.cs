@@ -13,7 +13,7 @@ namespace Tron_Mario.Models
         private Dictionary<int, ImageBrush> Skins = new Dictionary<int, ImageBrush>();
         private Rectangle Enemy;
         private bool MoveLeft, MoveRight, Grounded;
-        private int Speed = 5;
+        private int Speed = 4;
         
         public Rect Hitbox { get; private set; }
 
@@ -42,10 +42,28 @@ namespace Tron_Mario.Models
         {
             Hitbox = new Rect(Canvas.GetLeft(Enemy), Canvas.GetTop(Enemy), Enemy.Width, Enemy.Height);
 
-            MoveLeft = true;
-            if (MoveRight && Canvas.GetLeft(Enemy) + Enemy.Width < Application.Current.MainWindow.Width) Canvas.SetLeft(Enemy, Canvas.GetLeft(Enemy) + Speed);
-            if (MoveLeft && Canvas.GetLeft(Enemy) > 0) Canvas.SetLeft(Enemy, Canvas.GetLeft(Enemy) - Speed);
-            
+            if (MoveRight && Canvas.GetLeft(Enemy) + Enemy.Width < Application.Current.MainWindow.Width)
+            {
+                Canvas.SetLeft(Enemy, Canvas.GetLeft(Enemy) + Speed);
+                Enemy.Fill = Skins[1];
+            }
+            if (MoveLeft && Canvas.GetLeft(Enemy) > 0)
+            {
+                Canvas.SetLeft(Enemy, Canvas.GetLeft(Enemy) - Speed);
+                Enemy.Fill = Skins[0];
+            }
+            if (Hitbox.Left > controller.Hitbox.Left)
+            {
+                MoveLeft = true;
+                MoveRight = false;
+            }
+            if (Hitbox.Left < controller.Hitbox.Left)
+            {
+                MoveRight = true;
+                MoveLeft = false;
+            }
         }
+
+
     }
 }
