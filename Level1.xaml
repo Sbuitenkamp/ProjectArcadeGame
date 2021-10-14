@@ -9,7 +9,14 @@
         WindowState="Maximized"
         Title="Level1" Height="1080" Width="1920">
     <Canvas x:Name="GameCanvas" Focusable="true" KeyDown="OnKeyDown" KeyUp="OnKeyUp">
+
+        <TextBlock Canvas.Left="191" Canvas.Top="488" FontFamily="Lane - Narrow"> 
+            Texxxxxxxxxxxxxxt
+        </TextBlock>
         <Button Canvas.Right="0" Width="250" Height="250" Click="Button_Click">QUIT</Button>
+        <Image Source="/Images/Controls1.png" Canvas.Left="64" Canvas.Top="42" />
+        <Image Source="/Images/Controls.png" Canvas.Left="312" Canvas.Top="61" />
+        <Image Source="/Images/Muis.png" Canvas.Left="525" />
         <!-- for some reason we have weird behaviour with the first walkable so you should create a ghostbox at the top of the xaml structure to negate this problem. The ghostbox should be far outside the reach of the player-->
         <Rectangle x:Name="LarryTheGhostBox" Tag="walkable" Fill="Transparent" Height="8" Width="10" RenderTransformOrigin="0.5,0.5" />
         <!-- make sure to allocate a Canvas.Top value to the player (or any moving object subjected to gravity) or gravity won't work -->
@@ -25,4 +32,5 @@
         <Rectangle x:Name="Floor" Tag="walkable" Fill="DarkGreen" Height="287" Width="1918" Canvas.Left="0" Canvas.Top="795" />
         <Label x:Name="Debug" Content="Label" Canvas.Left="64" Canvas.Top="30" Width="537"/>
     </Canvas>
+    
 </Window>

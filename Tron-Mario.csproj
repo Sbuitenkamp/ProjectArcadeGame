@@ -131,6 +131,9 @@
   </ItemGroup>
   <ItemGroup>
     <Content Include=".gitignore" />
+    <Resource Include="Images\Controls.png" />
+    <Resource Include="Images\Controls1.png" />
+    <Resource Include="Images\Muis.png" />
     <Content Include="Images\MeleeEnemyLeft.png">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>
