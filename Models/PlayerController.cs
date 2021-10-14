@@ -6,7 +6,6 @@ using System.Windows.Input;
 using System.Windows.Media;
 using System.Windows.Media.Imaging;
 using System.Windows.Shapes;
-using System.Windows.Threading;
 
 namespace Tron_Mario.Models
 {
@@ -14,25 +13,23 @@ namespace Tron_Mario.Models
     {
         // int = direction; 0=left, 1=right, (potentially 2=up and 3=down)
         private Dictionary<int, ImageBrush> PlayerSkins = new Dictionary<int, ImageBrush>();
-        private Rectangle Player;
         private Canvas GameCanvas;
-        public bool MoveLeft, MoveRight, Jumping, Grounded;
+        private Rectangle Player;
+        private bool MoveLeft, MoveRight, Jumping, Grounded;
         private int Speed = 10;
+        private float Gravity = 10;
 
         private Label Debug;
 
-        public Rect PlayerHitbox { get; private set; }
-        public float Gravity = 10;
+        public Rect Hitbox { get; private set; }
 
         /// <summary>
         /// controller object for the player
         /// </summary>
-        /// <param name="gameCanvas">canvas of the game</param>
         /// <param name="player">player object</param>
-        public PlayerController(Canvas gameCanvas, Rectangle player)
+        public PlayerController(Rectangle player)
         {
             Player = player;
-            GameCanvas = gameCanvas;
 
             ImageBrush playerSkinLeft = new ImageBrush {ImageSource = new BitmapImage(new Uri("pack://application:,,,/Images/PlayerLeft.png"))};
             ImageBrush playerSkinRight = new ImageBrush {ImageSource = new BitmapImage(new Uri("pack://application:,,,/Images/PlayerRight.png"))};
@@ -40,18 +37,17 @@ namespace Tron_Mario.Models
             PlayerSkins.Add(1, playerSkinRight);
             Player.Fill = playerSkinRight;
 
-            GameCanvas.Focus();
         }
 
         /// <summary>
-        /// is called every 16 milliseconds
+        /// Is called every time the gameEngine is called
         /// </summary>
         /// <param name="debug"></param>
         public void OnTick(Label debug)
         {
             Debug = debug;
             // hitbox
-            PlayerHitbox = new Rect(Canvas.GetLeft(Player), Canvas.GetTop(Player), Player.Width, Player.Height);
+            Hitbox = new Rect(Canvas.GetLeft(Player), Canvas.GetTop(Player), Player.Width, Player.Height);
             
             // gravity
             Canvas.SetTop(Player, Canvas.GetTop(Player) + Gravity);
@@ -122,10 +118,10 @@ namespace Tron_Mario.Models
         public void HandleLanding(Rect hitbox)
         {
             if (Grounded) return;
+            Debug.Content = "Playertop: " + (Hitbox.Top + Hitbox.Height) + "\nPlatformTop: " + (hitbox.Top + hitbox.Height * 0.5);
             if (Jumping && Gravity < 0) return;
-            // check if player is within the length of the platform
-//            if (!(PlayerHitbox.Left + PlayerHitbox.Width >= hitbox.Left && PlayerHitbox.Left <= hitbox.Left + hitbox.Width)) return;
-            Debug.Content = "landed";
+            // check if player is at least higher than the platform
+            if (Hitbox.Top + Hitbox.Height >= hitbox.Top + hitbox.Height * 0.5) return;
             Canvas.SetTop(Player, hitbox.Top - Player.Height);
             Grounded = true;
             Jumping = false;
@@ -135,15 +131,11 @@ namespace Tron_Mario.Models
         /// fires when player falls off a platform
         /// </summary>
         /// /// <param name="hitbox">the hitbox of the floor that the player is currently moving on</param>
-        public void Fall(Rect hitbox)
+        public void Fall()
         {
-            // check if we're still on the platform by comparing the player left to the left of the platform and the right (calculated by left + width)
-            if (PlayerHitbox.Left >= hitbox.Left && PlayerHitbox.Left <= hitbox.Left + hitbox.Width) return;
-            // check if on top of the platform
-            if (Math.Abs(PlayerHitbox.Top + PlayerHitbox.Height - hitbox.Top) < 0) return;  
             // only fall if we're in the air and not jumping
-            if (Jumping && !Grounded) return;
-            Gravity = 8;
+            if (Jumping) return;
+            Gravity = 5;
             Jumping = true;
             Grounded = false;
         }
