@@ -133,7 +133,6 @@ namespace Tron_Mario.Models
         /// <summary>
         /// fires when player falls off a platform
         /// </summary>
-        /// /// <param name="hitbox">the hitbox of the floor that the player is currently moving on</param>
         public void Fall()
         {
             // only fall if we're in the air and not jumping

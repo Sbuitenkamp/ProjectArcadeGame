@@ -58,7 +58,20 @@ namespace Tron_Mario
                 } else Controller.Fall();
             }
 
-            foreach (EnemyController enemy in Enemies) enemy.OnTick(Controller);
+            foreach (EnemyController enemy in Enemies) {
+                enemy.OnTick(Controller);
+                
+                foreach (Rectangle x in GameCanvas.Children.OfType<Rectangle>()) {
+                    if ((string) x.Tag != "walkable") continue;
+
+                    Rect floorHitbox = new Rect(Canvas.GetLeft(x), Canvas.GetTop(x), x.Width, x.Height);
+
+                    if (enemy.Hitbox.IntersectsWith(floorHitbox)) {
+                        enemy.HandleLanding(floorHitbox);
+                        break;
+                    } else enemy.Fall();
+                }
+            }
         }
 
         // movement
