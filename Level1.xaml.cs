@@ -1,7 +1,9 @@
 using System;
+using System.Collections.Generic;
 using System.Linq;
 using System.Windows;
 using System.Windows.Controls;
+using System.Windows.Documents;
 using System.Windows.Input;
 using System.Windows.Media;
 using System.Windows.Shapes;
@@ -12,6 +14,7 @@ namespace Tron_Mario
 {
     public partial class Level1 : Window
     {
+        private List<EnemyController> Enemies = new List<EnemyController>();
         private DispatcherTimer GameTimer = new DispatcherTimer();
         private PlayerController Controller;
 
@@ -24,7 +27,14 @@ namespace Tron_Mario
             GameTimer.Start();
             
             // call inside level initializer to create the player controller
-            Controller = new PlayerController(GameCanvas, Player);
+            Controller = new PlayerController(Player);
+
+            foreach (Rectangle x in GameCanvas.Children.OfType<Rectangle>()) {
+                if ((string) x.Tag != "enemy") continue;
+                EnemyController enemy = new EnemyController(x);
+                Enemies.Add(enemy);
+            }
+            
             GameCanvas.Focus();
         }
         
@@ -39,22 +49,16 @@ namespace Tron_Mario
 
             foreach (Rectangle x in GameCanvas.Children.OfType<Rectangle>()) {
                 if ((string) x.Tag != "walkable") continue;
-                
+
                 Rect floorHitbox = new Rect(Canvas.GetLeft(x), Canvas.GetTop(x), x.Width, x.Height);
-                Rect playerHitbox = Controller.PlayerHitbox;
-                
-                if (playerHitbox.IntersectsWith(floorHitbox)) {
+
+                if (Controller.Hitbox.IntersectsWith(floorHitbox)) {
                     Controller.HandleLanding(floorHitbox);
-                    // if player hits the left side of the platform
-//                    if (Controller.Grounded) break;
-//                    Debug.Content = "grounded";
-//                    if (playerHitbox.Left + playerHitbox.Width > floorHitbox.Left && playerHitbox.Top + playerHitbox.Height > floorHitbox.Top) {
-//                        Canvas.SetLeft(Player, floorHitbox.Left - playerHitbox.Width);
-//                        Debug.Content = "left";
-//                    }
                     break;
-                } else Controller.Fall(floorHitbox);
+                } else Controller.Fall();
             }
+
+            foreach (EnemyController enemy in Enemies) enemy.OnTick();
         }
 
         // movement
