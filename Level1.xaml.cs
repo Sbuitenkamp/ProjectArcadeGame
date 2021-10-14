@@ -58,7 +58,7 @@ namespace Tron_Mario
                 } else Controller.Fall();
             }
 
-            foreach (EnemyController enemy in Enemies) enemy.OnTick();
+            foreach (EnemyController enemy in Enemies) enemy.OnTick(Controller);
         }
 
         // movement

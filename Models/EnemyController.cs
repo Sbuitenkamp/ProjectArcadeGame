@@ -12,10 +12,12 @@ namespace Tron_Mario.Models
     {
         private Dictionary<int, ImageBrush> Skins = new Dictionary<int, ImageBrush>();
         private Rectangle Enemy;
-        private bool MoveLeft, MoveRight, Jumping, Grounded;
-        private int Speed = 10;
+        private bool MoveLeft, MoveRight, Grounded;
+        private int Speed = 5;
         
         public Rect Hitbox { get; private set; }
+
+
 
         /// <summary>
         /// controller object for an enemy
@@ -32,11 +34,17 @@ namespace Tron_Mario.Models
             Enemy.Fill = MeleeEnemySkinLeft;
         }
 
+
         /// <summary>
         /// Is called every time the gameEngine is called
         /// </summary>
-        public void OnTick()
+        public void OnTick(PlayerController controller)
         {
+            Hitbox = new Rect(Canvas.GetLeft(Enemy), Canvas.GetTop(Enemy), Enemy.Width, Enemy.Height);
+
+            MoveLeft = true;
+            if (MoveRight && Canvas.GetLeft(Enemy) + Enemy.Width < Application.Current.MainWindow.Width) Canvas.SetLeft(Enemy, Canvas.GetLeft(Enemy) + Speed);
+            if (MoveLeft && Canvas.GetLeft(Enemy) > 0) Canvas.SetLeft(Enemy, Canvas.GetLeft(Enemy) - Speed);
             
         }
     }
