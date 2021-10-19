@@ -1,5 +1,6 @@
 using System;
 using System.Collections.Generic;
+using System.Linq;
 using System.Threading;
 using System.Threading.Tasks;
 using System.Windows;
@@ -19,12 +20,11 @@ namespace Tron_Mario.Models
         private Dictionary<int, ImageBrush> HealthIndicators = new Dictionary<int, ImageBrush>();
         private DispatcherTimer InvincibleTimer = new DispatcherTimer();
         private Brush LastPlayerSkin;
-        private Canvas GameCanvas;
-        private Rectangle Player;
-        private Rectangle HealthIndicator;
-        private bool MoveLeft, MoveRight, Jumping, Grounded, Invincible, Visible = true;
-        private int Speed = 10;
+        private readonly Canvas GameCanvas;
+        private readonly Rectangle Player, HealthIndicator, CameraStopLeft, CameraStopRight;
+        private bool MoveLeft, MoveRight, Jumping, Grounded, Invincible, Visible = true, freeMovement;
         private float Gravity = 10;
+        private const int Speed = 10;
 
         private Label Debug;
 
@@ -36,10 +36,14 @@ namespace Tron_Mario.Models
         /// </summary>
         /// <param name="player">player object</param>
         /// <param name="healthIndicator">health meter object</param>
-        public PlayerController(Rectangle player, Rectangle healthIndicator)
+        /// <param name="gameCanvas">canvas of the game</param>
+        /// <param name="cameraStopLeft">rectangle that holds the camera back</param>
+        public PlayerController(Rectangle player, Rectangle healthIndicator, Canvas gameCanvas, Rectangle cameraStopLeft)
         {
             Player = player;
             HealthIndicator = healthIndicator;
+            GameCanvas = gameCanvas;
+            CameraStopLeft = cameraStopLeft;
 
             // player skin index 
             ImageBrush playerSkinLeft = new ImageBrush {ImageSource = new BitmapImage(new Uri("pack://application:,,,/Images/PlayerLeft.png"))};
@@ -47,7 +51,7 @@ namespace Tron_Mario.Models
             PlayerSkins.Add("left", playerSkinLeft);
             PlayerSkins.Add("right", playerSkinRight);
             Player.Fill = playerSkinRight;
-            
+
             // health meter
             Health = 3;
             ImageBrush oneHp = new ImageBrush {ImageSource = new BitmapImage(new Uri("pack://application:,,,/Images/1hp.png"))};
@@ -57,7 +61,7 @@ namespace Tron_Mario.Models
             HealthIndicators.Add(2, twoHp);
             HealthIndicators.Add(3, threeHp);
             HealthIndicator.Fill = HealthIndicators[Health];
-            
+
             InvincibleTimer.Interval = TimeSpan.FromMilliseconds(100);
             InvincibleTimer.Tick += ShowInvincible;
         }
@@ -71,6 +75,11 @@ namespace Tron_Mario.Models
             Debug = debug;
             // hitbox
             Hitbox = new Rect(Canvas.GetLeft(Player), Canvas.GetTop(Player), Player.Width, Player.Height);
+            Rect CameraStopLeftHitbox = new Rect(Canvas.GetLeft(CameraStopLeft), Canvas.GetTop(CameraStopLeft), CameraStopLeft.Width, CameraStopLeft.Height);
+
+            if (Hitbox.IntersectsWith(CameraStopLeftHitbox)) freeMovement = true;
+            else if (Hitbox.Left <= CameraStopLeftHitbox.Left) freeMovement = true;
+            else freeMovement = false;
 
             // gravity
             Canvas.SetTop(Player, Canvas.GetTop(Player) + Gravity);
@@ -83,12 +92,16 @@ namespace Tron_Mario.Models
                 }
             } else if (Grounded) Gravity = 0;
             // movement and create borders on the edge of the screen
-            if (MoveLeft && Canvas.GetLeft(Player) > 0) {
-                Canvas.SetLeft(Player, Canvas.GetLeft(Player) - Speed);
+            if (MoveLeft) {
                 if (Visible) Player.Fill = PlayerSkins["left"];
-            } else if (MoveRight && Canvas.GetLeft(Player) + Player.Width < Application.Current.MainWindow.Width) {
-                Canvas.SetLeft(Player, Canvas.GetLeft(Player) + Speed);
+                if (freeMovement) {
+                    if (Canvas.GetLeft(Player) > 1) Canvas.SetLeft(Player, Canvas.GetLeft(Player) - Speed);
+                } else Move(Speed);
+            } else if (MoveRight) {
                 if (Visible) Player.Fill = PlayerSkins["right"];
+                if (freeMovement) {
+                    if (Canvas.GetLeft(Player) + Player.Width < Application.Current.MainWindow.Width) Canvas.SetLeft(Player, Canvas.GetLeft(Player) + Speed);
+                } else Move(-Speed);
             }
 
             // feedback to the player that they're invincible for some time
@@ -206,10 +219,25 @@ namespace Tron_Mario.Models
                 Player.Fill = new SolidColorBrush(Colors.Transparent);
                 Visible = false;
             } else {
-                if (MoveLeft) Player.Fill = PlayerSkins["left"];
-                if (MoveRight) Player.Fill = PlayerSkins["right"];
-                else Player.Fill = LastPlayerSkin;
+                Player.Fill = MoveLeft ? PlayerSkins["left"] : MoveRight ? PlayerSkins["right"] : LastPlayerSkin;
                 Visible = true;
+            }
+        }
+
+        /// <summary>
+        /// move the whole canvas to create the illusion of the camera being focussed on the player.
+        /// </summary>
+        /// <param name="speed">movement speed, make it negative to go the other direction</param>
+        private void Move(int speed)
+        {
+            // fuck it, we're moving the whole lot
+            foreach (var x in GameCanvas.Children.OfType<Rectangle>()) {
+                if (x.Name == "Player" || x.Name == "Floor" || x.Name == "HealthMeter") continue;
+                Canvas.SetLeft(x, Canvas.GetLeft(x) + speed);
+            }
+            foreach (var x in GameCanvas.Children.OfType<Image>()) {
+                if ((string) x.Tag != "movable") continue;
+                Canvas.SetLeft(x, Canvas.GetLeft(x) + speed);
             }
         }
     }
