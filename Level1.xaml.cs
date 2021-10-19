@@ -19,15 +19,15 @@ namespace Tron_Mario
         public Level1()
         {
             InitializeComponent();
-            
+
             GameTimer.Interval = TimeSpan.FromMilliseconds(16);
             GameTimer.Tick += GameEngine;
             GameTimer.Start();
             
             // call inside level initializer to create the player controller
-            Controller = new PlayerController(Player, HealthMeter);
+            Controller = new PlayerController(Player, HealthMeter, GameCanvas, CameraStop);
 
-            foreach (Rectangle x in GameCanvas.Children.OfType<Rectangle>()) {
+            foreach (var x in GameCanvas.Children.OfType<Rectangle>()) {
                 if ((string) x.Tag != "enemy") continue;
                 EnemyController enemy = new EnemyController(x);
                 Enemies.Add(enemy);
@@ -46,7 +46,7 @@ namespace Tron_Mario
             Controller.OnTick(Debug);
 
             // platform logic
-            foreach (Rectangle x in GameCanvas.Children.OfType<Rectangle>()) {
+            foreach (var x in GameCanvas.Children.OfType<Rectangle>()) {
                 if ((string) x.Tag != "walkable") continue;
 
                 Rect floorHitbox = new Rect(Canvas.GetLeft(x), Canvas.GetTop(x), x.Width, x.Height);
@@ -58,10 +58,10 @@ namespace Tron_Mario
             }
 
             // enemy handling
-            foreach (EnemyController enemy in Enemies) {
+            foreach (var enemy in Enemies) {
                 enemy.OnTick(Controller);
                 
-                foreach (Rectangle x in GameCanvas.Children.OfType<Rectangle>()) {
+                foreach (var x in GameCanvas.Children.OfType<Rectangle>()) {
                     if ((string) x.Tag != "walkable") continue;
 
                     Rect floorHitbox = new Rect(Canvas.GetLeft(x), Canvas.GetTop(x), x.Width, x.Height);

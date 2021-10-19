@@ -41,11 +41,16 @@ namespace Tron_Mario.Models
         public void OnTick(PlayerController controller)
         {
             Hitbox = new Rect(Canvas.GetLeft(Enemy), Canvas.GetTop(Enemy), Enemy.Width, Enemy.Height);
+            double DistanceToPlayer = controller.Hitbox.Left - Hitbox.Left;
+            if (DistanceToPlayer < 0) DistanceToPlayer *= -1;
 
+            // stop following if the enemy is no longer on screen
+            if (!(DistanceToPlayer <= 960)) return;
             if (!Grounded) {
                 Gravity += .3f;
                 if (Gravity >= 10) Gravity = 10;
             } else Gravity = 0;
+
             Canvas.SetTop(Enemy, Canvas.GetTop(Enemy) + Gravity);
 
             if (MoveRight && Canvas.GetLeft(Enemy) + Enemy.Width < Application.Current.MainWindow.Width) {
