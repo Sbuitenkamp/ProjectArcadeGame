@@ -1,4 +1,4 @@
-﻿<Window x:Class="Tron_Mario.Two_Player_Screen"
+﻿<Window x:Class="Tron_Mario.TwoPlayerScreen"
         xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
         xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
         xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
@@ -48,7 +48,7 @@
                  BorderBrush="#00ABADB3" SelectionBrush="#008CC7E6" Foreground="#4CFFFFFF" 
                  FontSize="35" Margin="0,25,150,0"  Panel.ZIndex="1">NAME_PLAYER2</TextBox>
         <Rectangle Panel.ZIndex="5" Grid.Column="1" VerticalAlignment="Bottom" Margin="0,0,0,30" Grid.Row="3" Height="5" Width="400" Fill="#FF8CC7E6"/>
-        <Button Grid.Column="1" Grid.Row="4" VerticalAlignment="Center" Content="START" Click="Start_game" FontSize="50" Style="{DynamicResource ButtonStyleOne}"/>
-        <Button Grid.Column="0" Grid.Row="5"  Content="BACK" Click="Main_menu" FontSize="50" Style="{DynamicResource ButtonStyleOne}"/>
+        <Button Grid.Column="1" Grid.Row="4" VerticalAlignment="Center" Content="START" Click="StartGame" FontSize="50" Style="{DynamicResource ButtonStyleOne}"/>
+        <Button Grid.Column="0" Grid.Row="5"  Content="BACK" Click="MainMenu" FontSize="50" Style="{DynamicResource ButtonStyleOne}"/>
     </Grid>
 </Window>

@@ -3,11 +3,11 @@
 namespace Tron_Mario
 {
     /// <summary>
-    /// Interaction logic for Death.xaml
+    /// Interaction logic for OnePlayerScreen.xaml
     /// </summary>
-    public partial class Death : Window
+    public partial class OnePlayerScreen : Window
     {
-        public Death()
+        public OnePlayerScreen()
         {
             InitializeComponent();
         }
@@ -17,6 +17,15 @@ namespace Tron_Mario
             var mainWindow = new MainWindow();
             mainWindow.Visibility = Visibility.Visible;
             this.Visibility = Visibility.Hidden;
+
+        }
+
+        private void StartGame(object sender, RoutedEventArgs e)
+        {
+            var level1 = new Level1();
+            level1.Visibility = Visibility.Visible;
+            this.Visibility = Visibility.Hidden;
+
         }
     }
 }
