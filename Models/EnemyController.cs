@@ -18,8 +18,6 @@ namespace Tron_Mario.Models
 
         public Rect Hitbox { get; private set; }
 
-
-
         /// <summary>
         /// controller object for an enemy
         /// </summary>
@@ -50,23 +48,19 @@ namespace Tron_Mario.Models
             } else Gravity = 0;
             Canvas.SetTop(Enemy, Canvas.GetTop(Enemy) + Gravity);
 
-            if (MoveRight && Canvas.GetLeft(Enemy) + Enemy.Width < Application.Current.MainWindow.Width)
-            {
+            if (MoveRight && Canvas.GetLeft(Enemy) + Enemy.Width < Application.Current.MainWindow.Width) {
                 Canvas.SetLeft(Enemy, Canvas.GetLeft(Enemy) + Speed);
                 Enemy.Fill = Skins[1];
             }
-            if (MoveLeft && Canvas.GetLeft(Enemy) > 0)
-            {
+            if (MoveLeft && Canvas.GetLeft(Enemy) > 0) {
                 Canvas.SetLeft(Enemy, Canvas.GetLeft(Enemy) - Speed);
                 Enemy.Fill = Skins[0];
             }
-            if (Hitbox.Left > controller.Hitbox.Left)
-            {
+            if (Hitbox.Left > controller.Hitbox.Left) {
                 MoveLeft = true;
                 MoveRight = false;
             }
-            if (Hitbox.Left < controller.Hitbox.Left)
-            {
+            if (Hitbox.Left < controller.Hitbox.Left) {
                 MoveRight = true;
                 MoveLeft = false;
             }
