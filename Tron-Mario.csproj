@@ -59,14 +59,14 @@
       <DependentUpon>Death.xaml</DependentUpon>
     </Compile>
     <Compile Include="Models\EnemyController.cs" />
-    <Compile Include="Two_Player_Screen.xaml.cs">
-      <DependentUpon>Two_Player_Screen.xaml</DependentUpon>
+    <Compile Include="TwoPlayerScreen.xaml.cs">
+      <DependentUpon>TwoPlayerScreen.xaml</DependentUpon>
     </Compile>
     <Page Include="Death.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
-    <Page Include="Highscore_screen.xaml">
+    <Page Include="HighScoreScreen.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
@@ -79,8 +79,8 @@
       <DependentUpon>App.xaml</DependentUpon>
       <SubType>Code</SubType>
     </Compile>
-    <Compile Include="Highscore_screen.xaml.cs">
-      <DependentUpon>Highscore_screen.xaml</DependentUpon>
+    <Compile Include="HighScoreScreen.xaml.cs">
+      <DependentUpon>HighScoreScreen.xaml</DependentUpon>
     </Compile>
     <Compile Include="Level1.xaml.cs">
       <DependentUpon>Level1.xaml</DependentUpon>
@@ -89,19 +89,19 @@
       <DependentUpon>MainWindow.xaml</DependentUpon>
       <SubType>Code</SubType>
     </Compile>
-    <Page Include="One_player_screen.xaml">
+    <Page Include="OnePlayerScreen.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
-    <Page Include="Two_Player_Screen.xaml">
+    <Page Include="TwoPlayerScreen.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Models\PlayerController.cs" />
-    <Compile Include="One_player_screen.xaml.cs">
-      <DependentUpon>One_player_screen.xaml</DependentUpon>
+    <Compile Include="OnePlayerScreen.xaml.cs">
+      <DependentUpon>OnePlayerScreen.xaml</DependentUpon>
     </Compile>
     <Compile Include="Properties\AssemblyInfo.cs">
       <SubType>Code</SubType>

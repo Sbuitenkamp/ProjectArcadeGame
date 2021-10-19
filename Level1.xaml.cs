@@ -12,9 +12,9 @@ namespace Tron_Mario
 {
     public partial class Level1 : Window
     {
-        private List<EnemyController> Enemies = new List<EnemyController>();
-        private DispatcherTimer GameTimer = new DispatcherTimer();
-        private PlayerController Controller;
+        private readonly List<EnemyController> Enemies = new List<EnemyController>();
+        private readonly DispatcherTimer GameTimer = new DispatcherTimer();
+        private readonly PlayerController Controller;
 
         public Level1()
         {
@@ -29,7 +29,7 @@ namespace Tron_Mario
 
             foreach (var x in GameCanvas.Children.OfType<Rectangle>()) {
                 if ((string) x.Tag != "enemy") continue;
-                EnemyController enemy = new EnemyController(x);
+                var enemy = new EnemyController(x);
                 Enemies.Add(enemy);
             }
             
@@ -40,7 +40,7 @@ namespace Tron_Mario
         /// engine is called every 16 milliseconds
         /// </summary>
         /// <param name="sender">object</param>
-        /// <param name="e">eventargs</param>
+        /// <param name="e">EventArgs</param>
         private void GameEngine(object sender, EventArgs e)
         {
             Controller.OnTick(Debug);
@@ -49,7 +49,7 @@ namespace Tron_Mario
             foreach (var x in GameCanvas.Children.OfType<Rectangle>()) {
                 if ((string) x.Tag != "walkable") continue;
 
-                Rect floorHitbox = new Rect(Canvas.GetLeft(x), Canvas.GetTop(x), x.Width, x.Height);
+                var floorHitbox = new Rect(Canvas.GetLeft(x), Canvas.GetTop(x), x.Width, x.Height);
 
                 if (Controller.Hitbox.IntersectsWith(floorHitbox)) {
                     Controller.HandleLanding(floorHitbox);
@@ -64,7 +64,7 @@ namespace Tron_Mario
                 foreach (var x in GameCanvas.Children.OfType<Rectangle>()) {
                     if ((string) x.Tag != "walkable") continue;
 
-                    Rect floorHitbox = new Rect(Canvas.GetLeft(x), Canvas.GetTop(x), x.Width, x.Height);
+                    var floorHitbox = new Rect(Canvas.GetLeft(x), Canvas.GetTop(x), x.Width, x.Height);
 
                     // damage player
                     if (Controller.Hitbox.IntersectsWith(enemy.Hitbox)) Controller.TakeDamage();
@@ -82,7 +82,7 @@ namespace Tron_Mario
         /// fires when key is pressed
         /// </summary>
         /// <param name="sender">object</param>
-        /// <param name="e">keyeventargs</param>
+        /// <param name="e">KeyEventArgs</param>
         private void OnKeyDown(object sender, KeyEventArgs e)
         {
             Controller.OnKeyDown(e);
@@ -92,27 +92,24 @@ namespace Tron_Mario
         /// fires when key is let loose
         /// </summary>
         /// <param name="sender">object</param>
-        /// <param name="e">keyeventargs</param>
+        /// <param name="e">KeyEventArgs</param>
         private void OnKeyUp(object sender, KeyEventArgs e)
         {
             Controller.OnKeyUp(e);
         }
 
-        private void Button_Click(object sender, RoutedEventArgs e)
+        private void CloseButtonClick(object sender, RoutedEventArgs e)
         {
-            MainWindow mainWindow = new MainWindow();
+            var mainWindow = new MainWindow();
             mainWindow.Visibility = Visibility.Visible;
             this.Visibility = Visibility.Hidden;
         }
 
-        private void DIE_BUTTON(object sender, RoutedEventArgs e)
+        private void Die(object sender, RoutedEventArgs e)
         {
-            Death Death = new Death();
-            Death.Visibility = Visibility.Visible;
+            var death = new Death();
+            death.Visibility = Visibility.Visible;
             this.Visibility = Visibility.Hidden;
         }
-
-        
-
     }
 }

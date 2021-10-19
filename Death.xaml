@@ -30,7 +30,7 @@
         </Label>
         <Label Grid.Column="1" Grid.Row="2" HorizontalContentAlignment="Center" VerticalContentAlignment="Center" FontSize="50" OpacityMask="#8CC7E6" Foreground="Black" >SCORE: 69420</Label>
         <Button Grid.Column="1" Grid.Row="3" Margin="25">Respawn</Button>
-        <Button Grid.Column="1" Grid.Row="4" Margin="25" Click="Main_menu">Title Screen</Button>
-        <Button Grid.Column="0" Grid.Row="5"  Content="BACK" Click="Main_menu" FontSize="50" Style="{DynamicResource ButtonStyleOne}"/>
+        <Button Grid.Column="1" Grid.Row="4" Margin="25" Click="MainMenu">Title Screen</Button>
+        <Button Grid.Column="0" Grid.Row="5"  Content="BACK" Click="MainMenu" FontSize="50" Style="{DynamicResource ButtonStyleOne}"/>
     </Grid>
 </Window>

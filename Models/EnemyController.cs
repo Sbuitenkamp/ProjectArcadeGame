@@ -33,7 +33,6 @@ namespace Tron_Mario.Models
             Enemy.Fill = MeleeEnemySkinLeft;
         }
 
-
         /// <summary>
         /// Is called every time the gameEngine is called
         /// </summary>

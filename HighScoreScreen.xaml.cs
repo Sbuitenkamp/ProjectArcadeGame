@@ -3,19 +3,19 @@
 namespace Tron_Mario
 {
     /// <summary>
-    /// Interaction logic for Death.xaml
+    /// Interaction logic for HighScoreScreen.xaml
     /// </summary>
-    public partial class Death : Window
+    public partial class HighScoreScreen : Window
     {
-        public Death()
+        public HighScoreScreen()
         {
             InitializeComponent();
         }
 
         private void MainMenu(object sender, RoutedEventArgs e)
         {
-            var mainWindow = new MainWindow();
-            mainWindow.Visibility = Visibility.Visible;
+            var mainMenu = new MainWindow();
+            mainMenu.Visibility = Visibility.Visible;
             this.Visibility = Visibility.Hidden;
         }
     }

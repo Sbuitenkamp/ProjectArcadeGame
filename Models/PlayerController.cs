@@ -15,21 +15,20 @@ namespace Tron_Mario.Models
 {
     public class PlayerController
     {
-        // int = direction; 0=left, 1=right, (potentially 2=up and 3=down)
-        private Dictionary<string, ImageBrush> PlayerSkins = new Dictionary<string, ImageBrush>();
-        private Dictionary<int, ImageBrush> HealthIndicators = new Dictionary<int, ImageBrush>();
-        private DispatcherTimer InvincibleTimer = new DispatcherTimer();
+        private readonly Dictionary<string, ImageBrush> PlayerSkins = new Dictionary<string, ImageBrush>();
+        private readonly Dictionary<int, ImageBrush> HealthIndicators = new Dictionary<int, ImageBrush>();
+        private readonly DispatcherTimer InvincibleTimer = new DispatcherTimer();
         private Brush LastPlayerSkin;
         private readonly Canvas GameCanvas;
         private readonly Rectangle Player, HealthIndicator, CameraStopLeft, CameraStopRight;
-        private bool MoveLeft, MoveRight, Jumping, Grounded, Invincible, Visible = true, freeMovement;
+        private bool MoveLeft, MoveRight, Jumping, Grounded, Invincible, Visible = true, FreeMovement;
         private float Gravity = 10;
         private const int Speed = 10;
+        private int Health;
 
         private Label Debug;
 
         public Rect Hitbox { get; private set; }
-        public int Health { get; set; }
 
         /// <summary>
         /// controller object for the player
@@ -46,17 +45,17 @@ namespace Tron_Mario.Models
             CameraStopLeft = cameraStopLeft;
 
             // player skin index 
-            ImageBrush playerSkinLeft = new ImageBrush {ImageSource = new BitmapImage(new Uri("pack://application:,,,/Images/PlayerLeft.png"))};
-            ImageBrush playerSkinRight = new ImageBrush {ImageSource = new BitmapImage(new Uri("pack://application:,,,/Images/PlayerRight.png"))};
+            var playerSkinLeft = new ImageBrush {ImageSource = new BitmapImage(new Uri("pack://application:,,,/Images/PlayerLeft.png"))};
+            var playerSkinRight = new ImageBrush {ImageSource = new BitmapImage(new Uri("pack://application:,,,/Images/PlayerRight.png"))};
             PlayerSkins.Add("left", playerSkinLeft);
             PlayerSkins.Add("right", playerSkinRight);
             Player.Fill = playerSkinRight;
 
             // health meter
             Health = 3;
-            ImageBrush oneHp = new ImageBrush {ImageSource = new BitmapImage(new Uri("pack://application:,,,/Images/1hp.png"))};
-            ImageBrush twoHp = new ImageBrush {ImageSource = new BitmapImage(new Uri("pack://application:,,,/Images/2hp.png"))};
-            ImageBrush threeHp = new ImageBrush {ImageSource = new BitmapImage(new Uri("pack://application:,,,/Images/3hp.png"))};
+            var oneHp = new ImageBrush {ImageSource = new BitmapImage(new Uri("pack://application:,,,/Images/1hp.png"))};
+            var twoHp = new ImageBrush {ImageSource = new BitmapImage(new Uri("pack://application:,,,/Images/2hp.png"))};
+            var threeHp = new ImageBrush {ImageSource = new BitmapImage(new Uri("pack://application:,,,/Images/3hp.png"))};
             HealthIndicators.Add(1, oneHp);
             HealthIndicators.Add(2, twoHp);
             HealthIndicators.Add(3, threeHp);
@@ -75,11 +74,12 @@ namespace Tron_Mario.Models
             Debug = debug;
             // hitbox
             Hitbox = new Rect(Canvas.GetLeft(Player), Canvas.GetTop(Player), Player.Width, Player.Height);
-            Rect CameraStopLeftHitbox = new Rect(Canvas.GetLeft(CameraStopLeft), Canvas.GetTop(CameraStopLeft), CameraStopLeft.Width, CameraStopLeft.Height);
+            var cameraStopLeftHitbox = new Rect(Canvas.GetLeft(CameraStopLeft), Canvas.GetTop(CameraStopLeft), CameraStopLeft.Width, CameraStopLeft.Height);
 
-            if (Hitbox.IntersectsWith(CameraStopLeftHitbox)) freeMovement = true;
-            else if (Hitbox.Left <= CameraStopLeftHitbox.Left) freeMovement = true;
-            else freeMovement = false;
+            // free the camera
+            if (Hitbox.IntersectsWith(cameraStopLeftHitbox)) FreeMovement = true;
+            else if (Hitbox.Left <= cameraStopLeftHitbox.Left) FreeMovement = true;
+            else FreeMovement = false;
 
             // gravity
             Canvas.SetTop(Player, Canvas.GetTop(Player) + Gravity);
@@ -94,12 +94,12 @@ namespace Tron_Mario.Models
             // movement and create borders on the edge of the screen
             if (MoveLeft) {
                 if (Visible) Player.Fill = PlayerSkins["left"];
-                if (freeMovement) {
+                if (FreeMovement) {
                     if (Canvas.GetLeft(Player) > 1) Canvas.SetLeft(Player, Canvas.GetLeft(Player) - Speed);
                 } else Move(Speed);
             } else if (MoveRight) {
                 if (Visible) Player.Fill = PlayerSkins["right"];
-                if (freeMovement) {
+                if (FreeMovement) {
                     if (Canvas.GetLeft(Player) + Player.Width < Application.Current.MainWindow.Width) Canvas.SetLeft(Player, Canvas.GetLeft(Player) + Speed);
                 } else Move(-Speed);
             }
@@ -120,7 +120,7 @@ namespace Tron_Mario.Models
         /// <summary>
         /// fires when key is pressed
         /// </summary>
-        /// <param name="e">keyeventargs</param>
+        /// <param name="e">KeyEventArgs</param>
         public void OnKeyDown(KeyEventArgs e)
         {
             switch (e.Key) {
@@ -148,7 +148,7 @@ namespace Tron_Mario.Models
         /// <summary>
         /// fires when key is let loose
         /// </summary>
-        /// <param name="e">keyeventargs</param>
+        /// <param name="e">KeyEventArgs</param>
         public void OnKeyUp(KeyEventArgs e)
         {
             switch (e.Key) {
@@ -209,7 +209,10 @@ namespace Tron_Mario.Models
             // set timeout to lift invincibility
             var cancellationTokenSource = new CancellationTokenSource();
             var cancellationToken = cancellationTokenSource.Token;
-            Task.Delay(3000).ContinueWith(async (t) => Invincible = false, cancellationToken);
+            Task.Delay(3000, cancellationToken).ContinueWith( (t) => {
+                Visible = true;
+                Invincible = false;
+            }, cancellationToken);
         }
 
         private void ShowInvincible(object sender, EventArgs e)

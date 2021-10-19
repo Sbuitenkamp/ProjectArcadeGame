@@ -1,17 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using System.Windows;
-using System.Windows.Controls;
-using System.Windows.Data;
-using System.Windows.Documents;
-using System.Windows.Input;
-using System.Windows.Media;
-using System.Windows.Media.Imaging;
-using System.Windows.Navigation;
-using System.Windows.Shapes;
+﻿using System.Windows;
 
 namespace Tron_Mario 
 {
@@ -23,36 +10,31 @@ namespace Tron_Mario
         public MainWindow() 
         {
             InitializeComponent();
-            //Level1 level1 = new Level1();
-            //level1.Visibility = Visibility.Visible;
-            //this.Visibility = Visibility.Hidden;
         }
-
-
 
         private void OnePlayer(object sender, RoutedEventArgs e)
         {
-            One_player_screen one_Player_Screen = new One_player_screen();
-            one_Player_Screen.Visibility = Visibility.Visible;
+            var onePlayerScreen = new OnePlayerScreen();
+            onePlayerScreen.Visibility = Visibility.Visible;
             this.Visibility = Visibility.Hidden;
         }
 
         private void TwoPlayer(object sender, RoutedEventArgs e)
         {
-            Two_Player_Screen Two_Player_Screen = new Two_Player_Screen();
-            Two_Player_Screen.Visibility = Visibility.Visible;
+            var twoPlayerScreen = new TwoPlayerScreen();
+            twoPlayerScreen.Visibility = Visibility.Visible;
             this.Visibility = Visibility.Hidden;
         }
 
-        private void End_Game(object sender, RoutedEventArgs e)
+        private void EndGame(object sender, RoutedEventArgs e)
         {
             System.Windows.Application.Current.Shutdown();
         }
 
-        private void Open_Highsores(object sender, RoutedEventArgs e)
+        private void OpenHighScores(object sender, RoutedEventArgs e)
         {
-            Highscore_screen Highscore_screen = new Highscore_screen();
-            Highscore_screen.Visibility = Visibility.Visible;
+            var highscoreScreen = new HighScoreScreen();
+            highscoreScreen.Visibility = Visibility.Visible;
             this.Visibility = Visibility.Hidden;
 
         }

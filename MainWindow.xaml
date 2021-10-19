@@ -7,7 +7,7 @@
         mc:Ignorable="d"
         WindowStyle="None"
         WindowState="Maximized"
-        Title="Main_Menu" Height="1080" Width="1920">
+        Title="MainMenu" Height="1080" Width="1920">
     <Grid Background="#222222">
         <Grid.RowDefinitions>
             <RowDefinition/>
@@ -30,9 +30,9 @@
         </Label>
         <Button Grid.Column="1" Grid.Row="2" Content="1 PLAYER" Click="OnePlayer" FontSize="50" Style="{DynamicResource ButtonStyleOne}"  />
         <Button Grid.Column="1" Grid.Row="3" Content="2 PLAYERS" Click="TwoPlayer" FontSize="50" Style="{DynamicResource ButtonStyleOne}" />
-        <Button Grid.Column="4" Grid.Row="5" Click="Open_Highsores" Height="164" Background="#00DDDDDD" BorderBrush="#00707070">
+        <Button Grid.Column="4" Grid.Row="5" Click="OpenHighScores" Height="164" Background="#00DDDDDD" BorderBrush="#00707070">
             <Image Source="Images/Trophy_asset.png"/>
         </Button>
-        <Button  Grid.Column="0" Grid.Row="5" Content="EXIT" Click="End_Game" FontSize="50" Style="{DynamicResource ButtonStyleOne}"/>
+        <Button  Grid.Column="0" Grid.Row="5" Content="EXIT" Click="EndGame" FontSize="50" Style="{DynamicResource ButtonStyleOne}"/>
     </Grid>
 </Window>
