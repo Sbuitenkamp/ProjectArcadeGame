@@ -101,5 +101,15 @@ namespace Tron_Mario
             mainWindow.Visibility = Visibility.Visible;
             this.Visibility = Visibility.Hidden;
         }
+
+        private void DIE_BUTTON(object sender, RoutedEventArgs e)
+        {
+            Death Death = new Death();
+            Death.Visibility = Visibility.Visible;
+            this.Visibility = Visibility.Hidden;
+        }
+
+        
+
     }
 }
