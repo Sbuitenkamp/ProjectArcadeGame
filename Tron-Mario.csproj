@@ -55,10 +55,17 @@
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </ApplicationDefinition>
+    <Compile Include="Death.xaml.cs">
+      <DependentUpon>Death.xaml</DependentUpon>
+    </Compile>
     <Compile Include="Models\EnemyController.cs" />
     <Compile Include="Two_Player_Screen.xaml.cs">
       <DependentUpon>Two_Player_Screen.xaml</DependentUpon>
     </Compile>
+    <Page Include="Death.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
     <Page Include="Highscore_screen.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
