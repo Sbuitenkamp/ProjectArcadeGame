@@ -3,9 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Windows;
 using System.Windows.Controls;
-using System.Windows.Documents;
 using System.Windows.Input;
-using System.Windows.Media;
 using System.Windows.Shapes;
 using System.Windows.Threading;
 using Tron_Mario.Models;
@@ -27,7 +25,7 @@ namespace Tron_Mario
             GameTimer.Start();
             
             // call inside level initializer to create the player controller
-            Controller = new PlayerController(Player);
+            Controller = new PlayerController(Player, HealthMeter);
 
             foreach (Rectangle x in GameCanvas.Children.OfType<Rectangle>()) {
                 if ((string) x.Tag != "enemy") continue;
@@ -47,6 +45,7 @@ namespace Tron_Mario
         {
             Controller.OnTick(Debug);
 
+            // platform logic
             foreach (Rectangle x in GameCanvas.Children.OfType<Rectangle>()) {
                 if ((string) x.Tag != "walkable") continue;
 
@@ -58,6 +57,7 @@ namespace Tron_Mario
                 } else Controller.Fall();
             }
 
+            // enemy handling
             foreach (EnemyController enemy in Enemies) {
                 enemy.OnTick(Controller);
                 
@@ -66,6 +66,9 @@ namespace Tron_Mario
 
                     Rect floorHitbox = new Rect(Canvas.GetLeft(x), Canvas.GetTop(x), x.Width, x.Height);
 
+                    // damage player
+                    if (Controller.Hitbox.IntersectsWith(enemy.Hitbox)) Controller.TakeDamage();
+                    // handle landing and falling on/off platforms
                     if (enemy.Hitbox.IntersectsWith(floorHitbox)) {
                         enemy.HandleLanding(floorHitbox);
                         break;
