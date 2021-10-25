@@ -13,26 +13,27 @@
         <TextBlock Canvas.Left="191" Canvas.Top="488" FontFamily="Lane - Narrow"> 
             Texxxxxxxxxxxxxxt
         </TextBlock>
-        <Button Canvas.Right="0" Width="250" Height="250" Click="CloseButtonClick">QUIT</Button>
+        <Button Focusable="False" Canvas.Right="0" Width="250" Height="250" Click="CloseButtonClick">QUIT</Button>
         <!-- make sure to tag all moveable images as "movable" -->
         <Image Tag="movable" Source="/Images/Controls1.png" Canvas.Left="64" Canvas.Top="42" />
         <Image Tag="movable" Source="/Images/Controls.png" Canvas.Left="312" Canvas.Top="61" />
         <Image Tag="movable" Source="/Images/Muis.png" Canvas.Left="525" />
-        <Button Canvas.Right="260" Width="250" Height="250" Click="Die">YOU DIED</Button>
+        <Button Focusable="False" Canvas.Right="260" Width="250" Height="250" Click="Die">YOU DIED</Button>
         <!-- for some reason we have weird behaviour with the first walkable so you should create a ghostbox at the top of the xaml structure to negate this problem. The ghostbox should be far outside the reach of the player-->
         <Rectangle x:Name="LarryTheGhostBox" Tag="walkable" Fill="Transparent" Height="8" Width="10" RenderTransformOrigin="0.5,0.5" />
         <!-- make sure to allocate a Canvas.Top value to the player (or any moving object subjected to gravity) or gravity won't work -->
         <Rectangle x:Name="Player" Fill="DarkMagenta" Height="46" Width="42" Canvas.Left="939" Canvas.Top="532" />
-        <Rectangle x:Name="CameraStop" Fill="Transparent" Height="795" Width="34" Canvas.Left="905" RenderTransformOrigin="0.5,0.5" />
-        <Rectangle x:Name="MeleeEnemy1" Tag="enemy" Fill="DarkMagenta" Height="49" Width="64" Canvas.Left="1643" Canvas.Top="658" />
+        <Rectangle x:Name="CameraStopLeft" Fill="Transparent" Height="795" Width="34" Canvas.Left="905" RenderTransformOrigin="0.5,0.5" />
+        <Rectangle x:Name="CameraStopRight" Fill="Transparent" Height="0" Width="0" Canvas.Left="0" RenderTransformOrigin="0.5,0.5" />
+        <!-- <Rectangle x:Name="MeleeEnemy1" Tag="enemy" Fill="DarkMagenta" Height="49" Width="64" Canvas.Left="1502" Canvas.Top="658" /> -->
         <!-- platforms height should be no less than 15 or we will have fallthrough issues -->
-        <Image Source="/Images/flag_icon.jpg" Canvas.Left="1250" Canvas.Top="550" Height="75"></Image>
-        <Rectangle Tag="walkable" Fill="DarkGreen" Height="15" Width="222" Canvas.Left="1184" Canvas.Top="638" />
-        <Rectangle Tag="walkable" Fill="DarkGreen" Height="15" Width="210" Canvas.Left="869" Canvas.Top="704" />
-        <Rectangle Tag="walkable" Fill="DarkGreen" Height="15" Width="210" Canvas.Left="869" Canvas.Top="578" />
-        <Rectangle Tag="walkable" Fill="DarkGreen" Height="15" Width="210" Canvas.Left="559" Canvas.Top="638" />
-        <Rectangle Tag="walkable" Fill="DarkGreen" Height="15" Width="210" Canvas.Left="1493" Canvas.Top="704" />
-        <Rectangle Tag="walkable" Fill="DarkGreen" Height="15" Width="185" Canvas.Left="240" Canvas.Top="704" />
+        <Image Tag="movable" Source="/Images/flag_icon.jpg" Canvas.Left="1109" Canvas.Top="550" Height="75"></Image>
+        <Rectangle Tag="walkable" Fill="DarkGreen" Height="15" Width="222" Canvas.Left="1043" Canvas.Top="638" />
+        <Rectangle Tag="walkable" Fill="DarkGreen" Height="15" Width="210" Canvas.Left="1662" Canvas.Top="578" />
+        <Rectangle Tag="walkable" Fill="DarkGreen" Height="15" Width="210" Canvas.Left="728" Canvas.Top="578" />
+        <Rectangle Tag="walkable" Fill="DarkGreen" Height="15" Width="210" Canvas.Left="418" Canvas.Top="638" />
+        <Rectangle Tag="walkable" Fill="DarkGreen" Height="15" Width="210" Canvas.Left="1352" Canvas.Top="704" />
+        <Rectangle Tag="walkable" Fill="DarkGreen" Height="15" Width="185" Canvas.Left="99" Canvas.Top="704" />
         <Rectangle x:Name="Floor" Tag="walkable" Fill="DarkGreen" Height="287" Width="1918" Canvas.Left="0" Canvas.Top="795" />
         <Label x:Name="Debug" Content="Label" Canvas.Left="64" Canvas.Top="61" Width="537"/>
         <Rectangle x:Name="HealthMeter" Fill="DarkGreen" Height="25" Canvas.Left="64" Canvas.Top="34" Width="86"/>
