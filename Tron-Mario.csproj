@@ -163,7 +163,9 @@
     <None Include="App.config" />
   </ItemGroup>
   <ItemGroup>
-    <Resource Include="Images\Platform1.png" />
+    <Resource Include="Images\Platform1.png">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Resource>
     <Resource Include="Images\EnemyRight.png" />
     <Resource Include="Images\EnemyLeft.png" />
     <Content Include="Images\1hp.png">
@@ -184,7 +186,9 @@
     <Content Include="Images\PlayerRight.png">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
-    <Resource Include="Images\VectorBackground.png" />
+    <Resource Include="Images\VectorBackground.png">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Resource>
   </ItemGroup>
   <ItemGroup>
     <Content Include=".gitignore" />
