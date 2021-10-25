@@ -18,8 +18,6 @@ namespace Tron_Mario.Models
 
         public Rect Hitbox { get; private set; }
 
-
-
         /// <summary>
         /// controller object for an enemy
         /// </summary>
@@ -35,7 +33,6 @@ namespace Tron_Mario.Models
             Enemy.Fill = MeleeEnemySkinLeft;
         }
 
-
         /// <summary>
         /// Is called every time the gameEngine is called
         /// </summary>
@@ -43,30 +40,31 @@ namespace Tron_Mario.Models
         public void OnTick(PlayerController controller)
         {
             Hitbox = new Rect(Canvas.GetLeft(Enemy), Canvas.GetTop(Enemy), Enemy.Width, Enemy.Height);
+            double DistanceToPlayer = controller.Hitbox.Left - Hitbox.Left;
+            if (DistanceToPlayer < 0) DistanceToPlayer *= -1;
 
+            // stop following if the enemy is no longer on screen
+            if (!(DistanceToPlayer <= 960)) return;
             if (!Grounded) {
                 Gravity += .3f;
                 if (Gravity >= 10) Gravity = 10;
             } else Gravity = 0;
+
             Canvas.SetTop(Enemy, Canvas.GetTop(Enemy) + Gravity);
 
-            if (MoveRight && Canvas.GetLeft(Enemy) + Enemy.Width < Application.Current.MainWindow.Width)
-            {
+            if (MoveRight && Canvas.GetLeft(Enemy) + Enemy.Width < Application.Current.MainWindow.Width) {
                 Canvas.SetLeft(Enemy, Canvas.GetLeft(Enemy) + Speed);
                 Enemy.Fill = Skins[1];
             }
-            if (MoveLeft && Canvas.GetLeft(Enemy) > 0)
-            {
+            if (MoveLeft && Canvas.GetLeft(Enemy) > 0) {
                 Canvas.SetLeft(Enemy, Canvas.GetLeft(Enemy) - Speed);
                 Enemy.Fill = Skins[0];
             }
-            if (Hitbox.Left > controller.Hitbox.Left)
-            {
+            if (Hitbox.Left > controller.Hitbox.Left) {
                 MoveLeft = true;
                 MoveRight = false;
             }
-            if (Hitbox.Left < controller.Hitbox.Left)
-            {
+            if (Hitbox.Left < controller.Hitbox.Left) {
                 MoveRight = true;
                 MoveLeft = false;
             }

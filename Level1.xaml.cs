@@ -3,9 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Windows;
 using System.Windows.Controls;
-using System.Windows.Documents;
 using System.Windows.Input;
-using System.Windows.Media;
 using System.Windows.Shapes;
 using System.Windows.Threading;
 using Tron_Mario.Models;
@@ -14,24 +12,30 @@ namespace Tron_Mario
 {
     public partial class Level1 : Window
     {
-        private List<EnemyController> Enemies = new List<EnemyController>();
-        private DispatcherTimer GameTimer = new DispatcherTimer();
-        private PlayerController Controller;
+        private readonly List<EnemyController> Enemies = new List<EnemyController>();
+        private readonly DispatcherTimer GameTimer = new DispatcherTimer();
+        private readonly PlayerController PlayerController;
+        private readonly PlatformHandler PlatformHandler;
 
         public Level1()
         {
             InitializeComponent();
-            
+
             GameTimer.Interval = TimeSpan.FromMilliseconds(16);
             GameTimer.Tick += GameEngine;
             GameTimer.Start();
             
             // call inside level initializer to create the player controller
-            Controller = new PlayerController(Player);
+            PlayerController = new PlayerController(Player, HealthMeter, GameCanvas, CameraStopLeft, CameraStopRight);
 
-            foreach (Rectangle x in GameCanvas.Children.OfType<Rectangle>()) {
+            // a list of height coordinates for the platform generation
+            var platformHeights = new List<double> { 700, 640, 580, 680, 620, 560 };
+            // call inside level initializer to create the platform controller
+            PlatformHandler = new PlatformHandler(GameCanvas, PlayerController, platformHeights);
+            
+            foreach (var x in GameCanvas.Children.OfType<Rectangle>()) {
                 if ((string) x.Tag != "enemy") continue;
-                EnemyController enemy = new EnemyController(x);
+                var enemy = new EnemyController(x);
                 Enemies.Add(enemy);
             }
             
@@ -42,30 +46,24 @@ namespace Tron_Mario
         /// engine is called every 16 milliseconds
         /// </summary>
         /// <param name="sender">object</param>
-        /// <param name="e">eventargs</param>
+        /// <param name="e">EventArgs</param>
         private void GameEngine(object sender, EventArgs e)
         {
-            Controller.OnTick(Debug);
+            PlayerController.OnTick(Debug);
+            PlatformHandler.OnTick(Debug);
 
-            foreach (Rectangle x in GameCanvas.Children.OfType<Rectangle>()) {
-                if ((string) x.Tag != "walkable") continue;
-
-                Rect floorHitbox = new Rect(Canvas.GetLeft(x), Canvas.GetTop(x), x.Width, x.Height);
-
-                if (Controller.Hitbox.IntersectsWith(floorHitbox)) {
-                    Controller.HandleLanding(floorHitbox);
-                    break;
-                } else Controller.Fall();
-            }
-
-            foreach (EnemyController enemy in Enemies) {
-                enemy.OnTick(Controller);
+            // enemy handling
+            foreach (var enemy in Enemies) {
+                enemy.OnTick(PlayerController);
                 
-                foreach (Rectangle x in GameCanvas.Children.OfType<Rectangle>()) {
+                foreach (var x in GameCanvas.Children.OfType<Rectangle>()) {
                     if ((string) x.Tag != "walkable") continue;
 
-                    Rect floorHitbox = new Rect(Canvas.GetLeft(x), Canvas.GetTop(x), x.Width, x.Height);
+                    var floorHitbox = new Rect(Canvas.GetLeft(x), Canvas.GetTop(x), x.Width, x.Height);
 
+                    // damage player
+                    if (PlayerController.Hitbox.IntersectsWith(enemy.Hitbox)) PlayerController.TakeDamage();
+                    // handle landing and falling on/off platforms
                     if (enemy.Hitbox.IntersectsWith(floorHitbox)) {
                         enemy.HandleLanding(floorHitbox);
                         break;
@@ -79,26 +77,33 @@ namespace Tron_Mario
         /// fires when key is pressed
         /// </summary>
         /// <param name="sender">object</param>
-        /// <param name="e">keyeventargs</param>
+        /// <param name="e">KeyEventArgs</param>
         private void OnKeyDown(object sender, KeyEventArgs e)
         {
-            Controller.OnKeyDown(e);
+            PlayerController.OnKeyDown(e);
         }
         
         /// <summary>
         /// fires when key is let loose
         /// </summary>
         /// <param name="sender">object</param>
-        /// <param name="e">keyeventargs</param>
+        /// <param name="e">KeyEventArgs</param>
         private void OnKeyUp(object sender, KeyEventArgs e)
         {
-            Controller.OnKeyUp(e);
+            PlayerController.OnKeyUp(e);
         }
 
-        private void Button_Click(object sender, RoutedEventArgs e)
+        private void CloseButtonClick(object sender, RoutedEventArgs e)
         {
-            MainWindow mainWindow = new MainWindow();
+            var mainWindow = new MainWindow();
             mainWindow.Visibility = Visibility.Visible;
+            this.Visibility = Visibility.Hidden;
+        }
+
+        private void Die(object sender, RoutedEventArgs e)
+        {
+            var death = new Death();
+            death.Visibility = Visibility.Visible;
             this.Visibility = Visibility.Hidden;
         }
     }
