@@ -122,12 +122,16 @@
     <None Include="App.config" />
   </ItemGroup>
   <ItemGroup>
+    <Resource Include="Images\Platform1.png" />
+    <Resource Include="Images\EnemyRight.png" />
+    <Resource Include="Images\EnemyLeft.png" />
     <Content Include="Images\PlayerLeft.png">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>
     <Content Include="Images\PlayerRight.png">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>
+    <Resource Include="Images\VectorBackground.png" />
   </ItemGroup>
   <ItemGroup>
     <Content Include=".gitignore" />
