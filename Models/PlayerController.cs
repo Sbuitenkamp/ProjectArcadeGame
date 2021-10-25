@@ -102,7 +102,7 @@ namespace Tron_Mario.Models
             Canvas.SetTop(Player, Canvas.GetTop(Player) + Gravity);
 
             if (Jumping) {
-                Gravity += .5f;
+                Gravity += .3f;
                 if (Gravity >= 10) {
                     Jumping = false;
                     Gravity = 10;
