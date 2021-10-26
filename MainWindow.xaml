@@ -26,7 +26,7 @@
             Grid.Column="1" Grid.Row="1" 
             Content="NAME GAME" VerticalAlignment="center" 
             HorizontalAlignment="Center" FontSize="100" Foreground="#8CC7E6" 
-            UseLayoutRounding="False" OpacityMask="Black" FontFamily="Montserrat">
+            UseLayoutRounding="False" OpacityMask="Black" FontFamily="{StaticResource MyFont}">
         </Label>
         <Button Grid.Column="1" Grid.Row="2" Content="1 PLAYER" Click="OnePlayer" FontSize="50" Style="{DynamicResource ButtonStyleOne}"  />
         <Button Grid.Column="1" Grid.Row="3" Content="2 PLAYERS" Click="TwoPlayer" FontSize="50" Style="{DynamicResource ButtonStyleOne}" />

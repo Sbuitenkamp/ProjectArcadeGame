@@ -17,6 +17,7 @@ namespace Tron_Mario.Models
         private float Gravity = 10;
 
         public Rect Hitbox { get; private set; }
+        public bool Dead;
 
         /// <summary>
         /// controller object for an enemy
@@ -37,7 +38,7 @@ namespace Tron_Mario.Models
         /// Is called every time the gameEngine is called
         /// </summary>
         /// <param name="controller">playercontroller object</param>
-        public void OnTick(PlayerController controller)
+        public void OnTick(PlayerController controller, Canvas gameCanvas)
         {
             Hitbox = new Rect(Canvas.GetLeft(Enemy), Canvas.GetTop(Enemy), Enemy.Width, Enemy.Height);
             double DistanceToPlayer = controller.Hitbox.Left - Hitbox.Left;
@@ -67,6 +68,20 @@ namespace Tron_Mario.Models
             if (Hitbox.Left < controller.Hitbox.Left) {
                 MoveRight = true;
                 MoveLeft = false;
+            }
+            
+            for (var i = 0; i < controller.PlayerProjecticles.Count; i++)
+            {
+                var x = controller.PlayerProjecticles[i];
+                var bulletHitbox = new Rect(Canvas.GetLeft(x.Projectile), Canvas.GetTop(x.Projectile), x.Projectile.Width, x.Projectile.Height);
+                if (Hitbox.IntersectsWith(bulletHitbox))
+                {
+                    gameCanvas.Children.Remove(Enemy);
+                    gameCanvas.Children.Remove(x.Projectile);
+                    controller.PlayerProjecticles.Remove(x);
+                    Dead = true;
+                    break;
+                }
             }
         }
 

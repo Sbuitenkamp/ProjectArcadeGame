@@ -58,6 +58,7 @@
     <Compile Include="Death.xaml.cs">
       <DependentUpon>Death.xaml</DependentUpon>
     </Compile>
+    <Compile Include="Models\Bullet.cs" />
     <Compile Include="Models\EnemyController.cs" />
     <Compile Include="TwoPlayerScreen.xaml.cs">
       <DependentUpon>TwoPlayerScreen.xaml</DependentUpon>
@@ -129,6 +130,9 @@
     <None Include="App.config" />
   </ItemGroup>
   <ItemGroup>
+    <Resource Include="Fonts\LoveloLineLight.ttf">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Resource>
     <Content Include="Images\1hp.png">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>
@@ -157,7 +161,7 @@
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>
     <Content Include="Images\Trophy_Asset.png">
-      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />

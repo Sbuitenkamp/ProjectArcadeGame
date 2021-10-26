@@ -58,8 +58,16 @@ namespace Tron_Mario
             }
 
             // enemy handling
-            foreach (var enemy in Enemies) {
-                enemy.OnTick(Controller);
+            for (var i = 0; i <= Enemies.Count - 1; i++) {
+                var enemy = Enemies[i];
+                Debug.Content = "Dead";
+                if (enemy.Dead) {
+                    Enemies.Remove(enemy);
+                    i--;
+                    continue;
+                }
+                
+                enemy.OnTick(Controller, GameCanvas);
                 
                 foreach (var x in GameCanvas.Children.OfType<Rectangle>()) {
                     if ((string) x.Tag != "walkable") continue;
