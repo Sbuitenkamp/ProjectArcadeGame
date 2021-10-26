@@ -14,7 +14,8 @@ namespace Tron_Mario
     {
         private readonly List<EnemyController> Enemies = new List<EnemyController>();
         private readonly DispatcherTimer GameTimer = new DispatcherTimer();
-        private readonly PlayerController Controller;
+        private readonly PlayerController PlayerController;
+        private readonly PlatformHandler PlatformHandler;
 
         public Level1()
         {
@@ -25,8 +26,13 @@ namespace Tron_Mario
             GameTimer.Start();
             
             // call inside level initializer to create the player controller
-            Controller = new PlayerController(Player, HealthMeter, GameCanvas, CameraStop);
+            PlayerController = new PlayerController(Player, HealthMeter, GameCanvas, CameraStopLeft, CameraStopRight);
 
+            // a list of height coordinates for the platform generation
+            var platformHeights = new List<double> { 700, 640, 580, 680, 620, 560 };
+            // call inside level initializer to create the platform controller
+            PlatformHandler = new PlatformHandler(GameCanvas, PlayerController, platformHeights);
+            
             foreach (var x in GameCanvas.Children.OfType<Rectangle>()) {
                 if ((string) x.Tag != "enemy") continue;
                 var enemy = new EnemyController(x);
@@ -43,19 +49,8 @@ namespace Tron_Mario
         /// <param name="e">EventArgs</param>
         private void GameEngine(object sender, EventArgs e)
         {
-            Controller.OnTick(Debug);
-
-            // platform logic
-            foreach (var x in GameCanvas.Children.OfType<Rectangle>()) {
-                if ((string) x.Tag != "walkable") continue;
-
-                var floorHitbox = new Rect(Canvas.GetLeft(x), Canvas.GetTop(x), x.Width, x.Height);
-
-                if (Controller.Hitbox.IntersectsWith(floorHitbox)) {
-                    Controller.HandleLanding(floorHitbox);
-                    break;
-                } else Controller.Fall();
-            }
+            PlayerController.OnTick(Debug);
+            PlatformHandler.OnTick(Debug);
 
             // enemy handling
             for (var i = 0; i <= Enemies.Count - 1; i++) {
@@ -67,7 +62,7 @@ namespace Tron_Mario
                     continue;
                 }
                 
-                enemy.OnTick(Controller, GameCanvas);
+                enemy.OnTick(PlayerController, GameCanvas);
                 
                 foreach (var x in GameCanvas.Children.OfType<Rectangle>()) {
                     if ((string) x.Tag != "walkable") continue;
@@ -75,7 +70,7 @@ namespace Tron_Mario
                     var floorHitbox = new Rect(Canvas.GetLeft(x), Canvas.GetTop(x), x.Width, x.Height);
 
                     // damage player
-                    if (Controller.Hitbox.IntersectsWith(enemy.Hitbox)) Controller.TakeDamage();
+                    if (PlayerController.Hitbox.IntersectsWith(enemy.Hitbox)) PlayerController.TakeDamage();
                     // handle landing and falling on/off platforms
                     if (enemy.Hitbox.IntersectsWith(floorHitbox)) {
                         enemy.HandleLanding(floorHitbox);
@@ -93,7 +88,7 @@ namespace Tron_Mario
         /// <param name="e">KeyEventArgs</param>
         private void OnKeyDown(object sender, KeyEventArgs e)
         {
-            Controller.OnKeyDown(e);
+            PlayerController.OnKeyDown(e);
         }
         
         /// <summary>
@@ -103,7 +98,7 @@ namespace Tron_Mario
         /// <param name="e">KeyEventArgs</param>
         private void OnKeyUp(object sender, KeyEventArgs e)
         {
-            Controller.OnKeyUp(e);
+            PlayerController.OnKeyUp(e);
         }
 
         private void CloseButtonClick(object sender, RoutedEventArgs e)

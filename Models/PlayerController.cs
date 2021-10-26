@@ -21,7 +21,7 @@ namespace Tron_Mario.Models
         private Brush LastPlayerSkin;
         private readonly Canvas GameCanvas;
         private readonly Rectangle Player, HealthIndicator, CameraStopLeft, CameraStopRight;
-        private bool MoveLeft, MoveRight, Jumping, Grounded, Invincible, Visible = true, FreeMovement, Shooting, FacingRight = true;
+        private bool MoveLeft, MoveRight, Jumping, Grounded, Invincible, Visible = true, FreeMovement, LeftStopSpawned, RightStopSpawned, Shooting, FacingRight = true;
         private float Gravity = 10;
         private const int Speed = 10;
         private int Health;
@@ -37,13 +37,15 @@ namespace Tron_Mario.Models
         /// <param name="player">player object</param>
         /// <param name="healthIndicator">health meter object</param>
         /// <param name="gameCanvas">canvas of the game</param>
-        /// <param name="cameraStopLeft">rectangle that holds the camera back</param>
-        public PlayerController(Rectangle player, Rectangle healthIndicator, Canvas gameCanvas, Rectangle cameraStopLeft)
+        /// <param name="cameraStopLeft">rectangle that notifies when the camera is to stop following</param>
+        /// <param name="cameraStopRight">rectangle that notifies when the camera is to stop following</param>
+        public PlayerController(Rectangle player, Rectangle healthIndicator, Canvas gameCanvas, Rectangle cameraStopLeft, Rectangle cameraStopRight)
         {
             Player = player;
             HealthIndicator = healthIndicator;
             GameCanvas = gameCanvas;
             CameraStopLeft = cameraStopLeft;
+            CameraStopRight = cameraStopRight;
 
             // player skin index 
             var playerSkinLeft = new ImageBrush {ImageSource = new BitmapImage(new Uri("pack://application:,,,/Images/PlayerLeft.png"))};
@@ -76,17 +78,32 @@ namespace Tron_Mario.Models
             // hitbox
             Hitbox = new Rect(Canvas.GetLeft(Player), Canvas.GetTop(Player), Player.Width, Player.Height);
             var cameraStopLeftHitbox = new Rect(Canvas.GetLeft(CameraStopLeft), Canvas.GetTop(CameraStopLeft), CameraStopLeft.Width, CameraStopLeft.Height);
+            var cameraStopRightHitbox = new Rect(Canvas.GetLeft(CameraStopRight), Canvas.GetTop(CameraStopRight), CameraStopRight.Width, CameraStopRight.Height);
+
+            var leftOfStop = LeftStopSpawned && Hitbox.Left <= cameraStopLeftHitbox.Left;
+            var rightOfStop = RightStopSpawned && Hitbox.Left + Hitbox.Width >= cameraStopRightHitbox.Left;
+
+            Debug.Content = "Player: " + (Hitbox.Left + Hitbox.Width) + "\nRight: " + cameraStopRightHitbox.Left;
 
             // free the camera
-            if (Hitbox.IntersectsWith(cameraStopLeftHitbox)) FreeMovement = true;
-            else if (Hitbox.Left <= cameraStopLeftHitbox.Left) FreeMovement = true;
-            else FreeMovement = false;
-
+            if (Hitbox.IntersectsWith(cameraStopLeftHitbox) || Hitbox.IntersectsWith(cameraStopRightHitbox) || (leftOfStop && !rightOfStop) || (!leftOfStop && rightOfStop)) FreeMovement = true;
+            else {
+                FreeMovement = false;
+//                if (!RightStopSpawned) Canvas.SetLeft(CameraStopRight, 982);
+                if (RightStopSpawned || LeftStopSpawned) {
+                    LeftStopSpawned = false;
+                    RightStopSpawned = false;
+                    if (RightStopSpawned) Canvas.SetLeft(CameraStopRight, 1080 - CameraStopRight.Width);
+                    if (LeftStopSpawned) Canvas.SetLeft(CameraStopLeft, 0);
+                }
+                Canvas.SetLeft(Player, 939);
+            }
+            
             // gravity
             Canvas.SetTop(Player, Canvas.GetTop(Player) + Gravity);
 
             if (Jumping) {
-                Gravity += .5f;
+                Gravity += .3f;
                 if (Gravity >= 10) {
                     Jumping = false;
                     Gravity = 10;
@@ -100,9 +117,8 @@ namespace Tron_Mario.Models
                 } else Move(Speed);
             } else if (MoveRight) {
                 if (Visible) Player.Fill = PlayerSkins["right"];
-                if (FreeMovement) {
-                    if (Canvas.GetLeft(Player) + Player.Width < Application.Current.MainWindow.Width) Canvas.SetLeft(Player, Canvas.GetLeft(Player) + Speed);
-                } else Move(-Speed);
+                if (Canvas.GetLeft(Player) + Player.Width < Application.Current.MainWindow.Width && FreeMovement) Canvas.SetLeft(Player, Canvas.GetLeft(Player) + Speed);
+                else Move(-Speed);
             }
 
             for (var i = 0; i < PlayerProjecticles.Count; i++)
@@ -235,10 +251,28 @@ namespace Tron_Mario.Models
             // set timeout to lift invincibility
             var cancellationTokenSource = new CancellationTokenSource();
             var cancellationToken = cancellationTokenSource.Token;
-            Task.Delay(3000, cancellationToken).ContinueWith( (t) => {
+            Task.Delay(3000, cancellationToken).ContinueWith( t => {
                 Visible = true;
                 Invincible = false;
             }, cancellationToken);
+        }
+
+        public void MoveFree(bool goRight)
+        {
+            // create the camera stops
+            if (goRight) {
+                CameraStopRight.Height = 795;
+                CameraStopRight.Width = 34;
+                Canvas.SetLeft(CameraStopRight, 981);
+                Canvas.SetTop(CameraStopRight, 0);
+                RightStopSpawned = true;
+            } else {
+                CameraStopLeft.Height = 795;
+                CameraStopLeft.Width = 34;
+                Canvas.SetLeft(CameraStopLeft, 905);
+                Canvas.SetTop(CameraStopLeft, 0);
+                LeftStopSpawned = true;
+            }
         }
 
         private void ShowInvincible(object sender, EventArgs e)

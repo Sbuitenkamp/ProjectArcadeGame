@@ -27,8 +27,8 @@ namespace Tron_Mario.Models
         {
             Enemy = enemy;
             
-            ImageBrush MeleeEnemySkinLeft = new ImageBrush {ImageSource = new BitmapImage(new Uri("pack://application:,,,/Images/MeleeEnemyLeft.png"))};
-            ImageBrush MeleeEnemySkinRight = new ImageBrush {ImageSource = new BitmapImage(new Uri("pack://application:,,,/Images/MeleeEnemyRight.png"))};
+            ImageBrush MeleeEnemySkinLeft = new ImageBrush {ImageSource = new BitmapImage(new Uri("pack://application:,,,/Images/EnemyLeft.png"))};
+            ImageBrush MeleeEnemySkinRight = new ImageBrush {ImageSource = new BitmapImage(new Uri("pack://application:,,,/Images/EnemyRight.png"))};
             Skins.Add(0, MeleeEnemySkinLeft);
             Skins.Add(1, MeleeEnemySkinRight);
             Enemy.Fill = MeleeEnemySkinLeft;
