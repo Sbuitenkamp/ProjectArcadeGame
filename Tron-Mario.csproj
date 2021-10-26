@@ -89,6 +89,7 @@
     <Compile Include="Death.xaml.cs">
       <DependentUpon>Death.xaml</DependentUpon>
     </Compile>
+    <Compile Include="Models\Bullet.cs" />
     <Compile Include="Models\DatabaseHandler.cs" />
     <Compile Include="Models\EnemyController.cs" />
     <Compile Include="Models\PlatformHandler.cs" />
@@ -163,6 +164,9 @@
     <None Include="App.config" />
   </ItemGroup>
   <ItemGroup>
+    <Resource Include="Fonts\LoveloLineLight.ttf">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Resource>
     <Resource Include="Images\Platform1.png">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Resource>
