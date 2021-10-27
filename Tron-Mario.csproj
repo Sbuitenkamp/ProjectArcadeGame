@@ -93,6 +93,9 @@
     <Compile Include="Models\DatabaseHandler.cs" />
     <Compile Include="Models\EnemyController.cs" />
     <Compile Include="Models\PlatformHandler.cs" />
+    <Compile Include="TwoPlayerDeathScreen.xaml.cs">
+      <DependentUpon>TwoPlayerDeathScreen.xaml</DependentUpon>
+    </Compile>
     <Compile Include="TwoPlayerScreen.xaml.cs">
       <DependentUpon>TwoPlayerScreen.xaml</DependentUpon>
     </Compile>
@@ -124,6 +127,10 @@
       <SubType>Code</SubType>
     </Compile>
     <Page Include="OnePlayerScreen.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="TwoPlayerDeathScreen.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>

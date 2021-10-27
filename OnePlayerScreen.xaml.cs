@@ -22,7 +22,7 @@ namespace Tron_Mario
 
         private void StartGame(object sender, RoutedEventArgs e)
         {
-            var level1 = new Level1();
+            var level1 = new Level1(false);
             level1.Visibility = Visibility.Visible;
             this.Visibility = Visibility.Hidden;
 
