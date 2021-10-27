@@ -253,8 +253,8 @@ namespace Tron_Mario.Models
                     twoPlayerDeathScreen.Visibility = Visibility.Visible;
                     
                 } else {
-                    Death death = new Death(playerInformation);
-                    death.Visibility = Visibility.Visible;
+                    OnePlayerDeathScreen onePlayerDeathScreen = new OnePlayerDeathScreen(playerInformation);
+                    onePlayerDeathScreen.Visibility = Visibility.Visible;
                 }
                 return;
             }

@@ -6,11 +6,12 @@ namespace Tron_Mario
     /// <summary>
     /// Interaction logic for Death.xaml
     /// </summary>
-    public partial class Death : Window
+    public partial class OnePlayerDeathScreen : Window
     {
         private PlayerInformation PlayerInformation;
+        private DatabaseHandler DatabaseHandler = new DatabaseHandler();
 
-        public Death(PlayerInformation playerInformation)
+        public OnePlayerDeathScreen(PlayerInformation playerInformation)
         {
             InitializeComponent();
             PlayerInformation = playerInformation;
@@ -19,6 +20,7 @@ namespace Tron_Mario
 
         private void MainMenu(object sender, RoutedEventArgs e)
         {
+            DatabaseHandler.SetHighScoreSinglePlayer(PlayerInformation.PlayerNameOne, PlayerInformation.Score);
             MainWindow mainWindow = new MainWindow();
             mainWindow.Visibility = Visibility.Visible;
             this.Close();
