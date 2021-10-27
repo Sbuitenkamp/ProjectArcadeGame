@@ -89,9 +89,13 @@
     <Compile Include="Death.xaml.cs">
       <DependentUpon>Death.xaml</DependentUpon>
     </Compile>
+    <Compile Include="Models\Bullet.cs" />
     <Compile Include="Models\DatabaseHandler.cs" />
     <Compile Include="Models\EnemyController.cs" />
     <Compile Include="Models\PlatformHandler.cs" />
+    <Compile Include="TwoPlayerDeathScreen.xaml.cs">
+      <DependentUpon>TwoPlayerDeathScreen.xaml</DependentUpon>
+    </Compile>
     <Compile Include="TwoPlayerScreen.xaml.cs">
       <DependentUpon>TwoPlayerScreen.xaml</DependentUpon>
     </Compile>
@@ -123,6 +127,10 @@
       <SubType>Code</SubType>
     </Compile>
     <Page Include="OnePlayerScreen.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="TwoPlayerDeathScreen.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
@@ -163,6 +171,9 @@
     <None Include="App.config" />
   </ItemGroup>
   <ItemGroup>
+    <Resource Include="Fonts\LoveloLineLight.ttf">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Resource>
     <Resource Include="Images\Platform1.png">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Resource>

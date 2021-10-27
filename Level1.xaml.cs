@@ -16,10 +16,13 @@ namespace Tron_Mario
         private readonly DispatcherTimer GameTimer = new DispatcherTimer();
         private readonly PlayerController PlayerController;
         private readonly PlatformHandler PlatformHandler;
+        private bool MultiPlayer;
 
-        public Level1()
+        public Level1(bool multiPlayer)
         {
             InitializeComponent();
+
+            MultiPlayer = multiPlayer;
 
             GameTimer.Interval = TimeSpan.FromMilliseconds(16);
             GameTimer.Tick += GameEngine;
@@ -53,8 +56,16 @@ namespace Tron_Mario
             PlatformHandler.OnTick(Debug);
 
             // enemy handling
-            foreach (var enemy in Enemies) {
-                enemy.OnTick(PlayerController);
+            for (var i = 0; i <= Enemies.Count - 1; i++) {
+                var enemy = Enemies[i];
+                Debug.Content = "Dead";
+                if (enemy.Dead) {
+                    Enemies.Remove(enemy);
+                    i--;
+                    continue;
+                }
+                
+                enemy.OnTick(PlayerController, GameCanvas);
                 
                 foreach (var x in GameCanvas.Children.OfType<Rectangle>()) {
                     if ((string) x.Tag != "walkable") continue;
@@ -62,7 +73,7 @@ namespace Tron_Mario
                     var floorHitbox = new Rect(Canvas.GetLeft(x), Canvas.GetTop(x), x.Width, x.Height);
 
                     // damage player
-                    if (PlayerController.Hitbox.IntersectsWith(enemy.Hitbox)) PlayerController.TakeDamage();
+                    if (PlayerController.Hitbox.IntersectsWith(enemy.Hitbox)) PlayerController.TakeDamage(MultiPlayer);
                     // handle landing and falling on/off platforms
                     if (enemy.Hitbox.IntersectsWith(floorHitbox)) {
                         enemy.HandleLanding(floorHitbox);
@@ -102,7 +113,7 @@ namespace Tron_Mario
 
         private void Die(object sender, RoutedEventArgs e)
         {
-            var death = new Death();
+            var death = new Death(MultiPlayer);
             death.Visibility = Visibility.Visible;
             this.Visibility = Visibility.Hidden;
         }

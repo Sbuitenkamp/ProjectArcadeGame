@@ -21,13 +21,15 @@ namespace Tron_Mario.Models
         private Brush LastPlayerSkin;
         private readonly Canvas GameCanvas;
         private readonly Rectangle Player, HealthIndicator, CameraStopLeft, CameraStopRight;
-        private bool MoveLeft, MoveRight, Jumping, Grounded, Invincible, Visible = true, FreeMovement, LeftStopSpawned, RightStopSpawned;
+        private bool MoveLeft, MoveRight, Jumping, Grounded, Invincible, Visible = true, FreeMovement, LeftStopSpawned, RightStopSpawned, Shooting, FacingRight = true;
         private float Gravity = 15;
         private const int Speed = 15;
         private int Health;
 
         private Label Debug;
 
+        public bool TwoPlayer;
+        public readonly List<Bullet> PlayerProjecticles = new List<Bullet>();
         public Rect Hitbox { get; private set; }
 
         /// <summary>
@@ -123,6 +125,20 @@ namespace Tron_Mario.Models
                 else Move(-Speed);
             }
 
+            for (var i = 0; i < PlayerProjecticles.Count; i++)
+            {
+                var x = PlayerProjecticles[i];
+                var speed = x.FacingRight ? 15 : -15;
+                Canvas.SetLeft(x.Projectile, Canvas.GetLeft(x.Projectile) + speed);
+                var bulletLeft = Canvas.GetLeft(x.Projectile);
+                if (bulletLeft < 0 || bulletLeft > Application.Current.MainWindow.Width)
+                {
+                    GameCanvas.Children.Remove(x.Projectile);
+                    PlayerProjecticles.Remove(x);
+                    i--; // i - 1 to compensate the removal of the object from the collection of bullets
+                }
+            }
+
             // feedback to the player that they're invincible for some time
             switch (Invincible) {
                 case true when !InvincibleTimer.IsEnabled:
@@ -147,11 +163,13 @@ namespace Tron_Mario.Models
                 case Key.Left:
                     MoveLeft = true;
                     MoveRight = false;
+                    FacingRight = false;
                     break;
                 case Key.D: //fallthrough
                 case Key.Right:
                     MoveRight = true;
                     MoveLeft = false;
+                    FacingRight = true;
                     break;
                 case Key.W: // fallthrough
                 case Key.Up:
@@ -160,6 +178,10 @@ namespace Tron_Mario.Models
                     Gravity = -15;
                     Jumping = true;
                     Grounded = false;
+                    break;
+                case Key.F:
+                    Shoot();
+                    Shooting = true;
                     break;
             }
         }
@@ -178,6 +200,11 @@ namespace Tron_Mario.Models
                 case Key.D: //fallthrough
                 case Key.Right:
                     MoveRight = false;
+                    break;
+                case Key.F:
+                    var cancellationTokenSource = new CancellationTokenSource();
+                    var cancellationToken = cancellationTokenSource.Token;
+                    Task.Delay(500, cancellationToken).ContinueWith( t => Shooting = false, cancellationToken);
                     break;
             }
         }
@@ -213,13 +240,28 @@ namespace Tron_Mario.Models
         /// <summary>
         /// fires when the player takes damage
         /// </summary>
-        public void TakeDamage()
+        public void TakeDamage(bool multiPlayer)
         {
+            //This is just a test bool 
+            //twoPlayer = true;
             if (Invincible) return;
             Health--;
             Invincible = true;
             if (Health <= 0) {
-                // TODO: death logic here
+                if (multiPlayer)
+                {
+                    TwoPlayerDeathScreen twoPlayerDeathScreen = new TwoPlayerDeathScreen();
+                    twoPlayerDeathScreen.Visibility = Visibility.Visible;
+                    
+                }
+                else
+                {
+                    Death death = new Death(multiPlayer);
+                    death.Visibility = Visibility.Visible;
+                }
+
+
+
                 return;
             }
             HealthIndicator.Width -= 29;
@@ -279,6 +321,35 @@ namespace Tron_Mario.Models
                 if ((string) x.Tag != "movable") continue;
                 Canvas.SetLeft(x, Canvas.GetLeft(x) + speed);
             }
+        }
+        
+        private void InitiateBullet()
+        {
+            Rectangle newBullet = new Rectangle
+            {
+                Tag = "bullet",
+                Height = 5,
+                Width = 20,
+                Fill = Brushes.WhiteSmoke,
+                Stroke = Brushes.Red
+            };
+            
+            Canvas.SetLeft(newBullet, Canvas.GetLeft(Player) + Player.Width / 2);
+            Canvas.SetTop(newBullet, Canvas.GetTop(Player) + Player.Height / 2);
+
+            GameCanvas.Children.Add(newBullet);
+            var bullet = new Bullet()
+            {
+                FacingRight = FacingRight,
+                Projectile = newBullet
+            };
+            PlayerProjecticles.Add(bullet);
+        }
+         // if left is kleiner dan 0 / left of width > current main window
+        private void Shoot()
+        {
+            if (Shooting) return;
+            InitiateBullet();
         }
     }
 }

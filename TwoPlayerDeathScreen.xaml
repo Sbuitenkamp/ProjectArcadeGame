@@ -1,4 +1,4 @@
-﻿<Window x:Class="Tron_Mario.Death"
+﻿<Window x:Class="Tron_Mario.TwoPlayerDeathScreen"
         xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
         xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
         xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
@@ -28,7 +28,11 @@
             HorizontalAlignment="Center" FontSize="75" Foreground="Red" 
             UseLayoutRounding="False" OpacityMask="Black" FontFamily="Montserrat" Background="#00000000">
         </Label>
-        <Label Grid.Column="1" Grid.Row="2" HorizontalContentAlignment="Center" VerticalContentAlignment="Center" FontSize="50" OpacityMask="#8CC7E6" Foreground="Black" >SCORE: 69420</Label>
+        <Label  Grid.Column="1" Grid.Row="2" 
+            Content="Give control to player two" VerticalAlignment="top" 
+            HorizontalAlignment="Center" FontSize="40" Foreground="white" 
+            UseLayoutRounding="False" OpacityMask="Black" FontFamily="Montserrat" Background="#00000000"></Label>
+        <Label Grid.Column="1" Grid.Row="2" HorizontalContentAlignment="Center" VerticalContentAlignment="Bottom" FontSize="50" OpacityMask="#8CC7E6" Foreground="Black" >SCORE: 69420</Label>
         <Button Grid.Column="1" Grid.Row="3" Margin="25" Click="Respawn">Respawn</Button>
         <Button Grid.Column="1" Grid.Row="4" Margin="25" Click="MainMenu">Title Screen</Button>
         <Button Grid.Column="0" Grid.Row="5"  Content="BACK" Click="MainMenu" FontSize="50" Style="{DynamicResource ButtonStyleOne}"/>
