@@ -25,11 +25,11 @@ namespace Tron_Mario
         {
             SinglePlayerHighScoresPanel.Children.Clear();
             MultiPlayerHighScoresPanel.Children.Clear();
-            var sortedHighScoresSinglePlayer = from score in DatabaseHandler.HighScoresSinglePlayer select score;
-            var sortedHighScoresMultiPlayer = from score in DatabaseHandler.HighScoresMultiPlayer select score;
-            foreach (var highScoreSinglePlayer in sortedHighScoresSinglePlayer)
+            IEnumerable<KeyValuePair<string, int>> sortedHighScoresSinglePlayer = from score in DatabaseHandler.HighScoresSinglePlayer select score;
+            IEnumerable<KeyValuePair<string, int>> sortedHighScoresMultiPlayer = from score in DatabaseHandler.HighScoresMultiPlayer select score;
+            foreach (KeyValuePair<string, int> highScoreSinglePlayer in sortedHighScoresSinglePlayer)
             {
-                var label = new Label
+                Label label = new Label
                 {
                     Content = highScoreSinglePlayer.Key + " scored " + highScoreSinglePlayer.Value,
                     Background = Brushes.White,
@@ -37,9 +37,9 @@ namespace Tron_Mario
                 };
                 SinglePlayerHighScoresPanel.Children.Add(label);
             }
-            foreach (var highScoreMultiPlayer in sortedHighScoresMultiPlayer)
+            foreach (KeyValuePair<string, int> highScoreMultiPlayer in sortedHighScoresMultiPlayer)
             {
-                var labels = new Label
+                Label labels = new Label
                 {
                     Content = highScoreMultiPlayer.Key + " scored " + highScoreMultiPlayer.Value,
                     Background = Brushes.White,
@@ -53,7 +53,7 @@ namespace Tron_Mario
 
         private void MainMenu(object sender, RoutedEventArgs e)
         {
-            var mainMenu = new MainWindow();
+            MainWindow mainMenu = new MainWindow();
             mainMenu.Visibility = Visibility.Visible;
             this.Visibility = Visibility.Hidden;
         }
