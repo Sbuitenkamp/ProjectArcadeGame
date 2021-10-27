@@ -28,6 +28,7 @@ namespace Tron_Mario.Models
 
         private Label Debug;
 
+        public bool TwoPlayer;
         public readonly List<Bullet> PlayerProjecticles = new List<Bullet>();
         public Rect Hitbox { get; private set; }
 
@@ -236,13 +237,28 @@ namespace Tron_Mario.Models
         /// <summary>
         /// fires when the player takes damage
         /// </summary>
-        public void TakeDamage()
+        public void TakeDamage(bool multiPlayer)
         {
+            //This is just a test bool 
+            //twoPlayer = true;
             if (Invincible) return;
             Health--;
             Invincible = true;
             if (Health <= 0) {
-                // TODO: death logic here
+                if (multiPlayer)
+                {
+                    TwoPlayerDeathScreen twoPlayerDeathScreen = new TwoPlayerDeathScreen();
+                    twoPlayerDeathScreen.Visibility = Visibility.Visible;
+                    
+                }
+                else
+                {
+                    Death death = new Death(multiPlayer);
+                    death.Visibility = Visibility.Visible;
+                }
+
+
+
                 return;
             }
             HealthIndicator.Width -= 29;
