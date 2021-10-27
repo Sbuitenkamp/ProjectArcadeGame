@@ -23,8 +23,8 @@ namespace Tron_Mario.Models
             PlayerController = playerController;
             PlatformHeightsRight = platformHeights;
             
-            var platformSkin = new ImageBrush {ImageSource = new BitmapImage(new Uri("pack://application:,,,/Images/Platform1.png"))};
-            foreach (var x in GameCanvas.Children.OfType<Rectangle>()) {
+            ImageBrush platformSkin = new ImageBrush {ImageSource = new BitmapImage(new Uri("pack://application:,,,/Images/Platform1.png"))};
+            foreach (Rectangle x in GameCanvas.Children.OfType<Rectangle>()) {
                 if (x.Name == "LarryTheGhostBox" || x.Name == "Floor") continue;
                 if ((string) x.Tag != "walkable") continue;
                 x.Fill = platformSkin;
@@ -35,10 +35,10 @@ namespace Tron_Mario.Models
         {
 //            debug.Content = "Lefts: " + string.Join(",", PlatformHeightsLeft) + "\nRights: " + string.Join(",", PlatformHeightsRight);
             // platform logic
-            foreach (var x in GameCanvas.Children.OfType<Rectangle>()) {
+            foreach (Rectangle x in GameCanvas.Children.OfType<Rectangle>()) {
                 if ((string) x.Tag != "walkable") continue;
 
-                var floorHitbox = new Rect(Canvas.GetLeft(x), Canvas.GetTop(x), x.Width, x.Height);
+                Rect floorHitbox = new Rect(Canvas.GetLeft(x), Canvas.GetTop(x), x.Width, x.Height);
 
                 if (PlayerController.Hitbox.IntersectsWith(floorHitbox)) {
                     PlayerController.HandleLanding(floorHitbox);
@@ -50,7 +50,7 @@ namespace Tron_Mario.Models
 
                 if (x.Name == "LarryTheGhostBox") continue;
 
-                var windowWith = Application.Current.MainWindow.Width;
+                double windowWith = Application.Current.MainWindow.Width;
 
                 if (floorHitbox.Left > windowWith) { // player going left
                     if (!HasLeftCoordinates) PlayerController.MoveFree(false); // stop the camera

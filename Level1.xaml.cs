@@ -32,13 +32,13 @@ namespace Tron_Mario
             PlayerController = new PlayerController(Player, HealthMeter, GameCanvas, CameraStopLeft, CameraStopRight);
 
             // a list of height coordinates for the platform generation
-            var platformHeights = new List<double> { 700, 640, 580, 680, 620, 560 };
+            List<double> platformHeights = new List<double> { 700, 640, 580, 680, 620, 560 };
             // call inside level initializer to create the platform controller
             PlatformHandler = new PlatformHandler(GameCanvas, PlayerController, platformHeights);
             
-            foreach (var x in GameCanvas.Children.OfType<Rectangle>()) {
+            foreach (Rectangle x in GameCanvas.Children.OfType<Rectangle>()) {
                 if ((string) x.Tag != "enemy") continue;
-                var enemy = new EnemyController(x);
+                EnemyController enemy = new EnemyController(x);
                 Enemies.Add(enemy);
             }
             
@@ -56,8 +56,8 @@ namespace Tron_Mario
             PlatformHandler.OnTick(Debug);
 
             // enemy handling
-            for (var i = 0; i <= Enemies.Count - 1; i++) {
-                var enemy = Enemies[i];
+            for (int i = 0; i <= Enemies.Count - 1; i++) {
+                EnemyController enemy = Enemies[i];
                 Debug.Content = "Dead";
                 if (enemy.Dead) {
                     Enemies.Remove(enemy);
@@ -67,10 +67,10 @@ namespace Tron_Mario
                 
                 enemy.OnTick(PlayerController, GameCanvas);
                 
-                foreach (var x in GameCanvas.Children.OfType<Rectangle>()) {
+                foreach (Rectangle x in GameCanvas.Children.OfType<Rectangle>()) {
                     if ((string) x.Tag != "walkable") continue;
 
-                    var floorHitbox = new Rect(Canvas.GetLeft(x), Canvas.GetTop(x), x.Width, x.Height);
+                    Rect floorHitbox = new Rect(Canvas.GetLeft(x), Canvas.GetTop(x), x.Width, x.Height);
 
                     // damage player
                     if (PlayerController.Hitbox.IntersectsWith(enemy.Hitbox)) PlayerController.TakeDamage(MultiPlayer);
@@ -106,14 +106,14 @@ namespace Tron_Mario
 
         private void CloseButtonClick(object sender, RoutedEventArgs e)
         {
-            var mainWindow = new MainWindow();
+            MainWindow mainWindow = new MainWindow();
             mainWindow.Visibility = Visibility.Visible;
             this.Visibility = Visibility.Hidden;
         }
 
         private void Die(object sender, RoutedEventArgs e)
         {
-            var death = new Death(MultiPlayer);
+            Death death = new Death(MultiPlayer);
             death.Visibility = Visibility.Visible;
             this.Visibility = Visibility.Hidden;
         }

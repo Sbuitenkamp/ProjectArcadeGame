@@ -35,14 +35,14 @@ namespace Tron_Mario.Models
         /// </summary>
         public void GetHighScoresSinglePlayer()
         {
-            var connection = new MySqlConnection();
+            MySqlConnection connection = new MySqlConnection();
             connection.ConnectionString = connectionString;
             connection.Open();
             // MessageBox.Show("Connected to database succesfully");
 
-            var query = "Select * FROM singleplayer ORDER BY score DESC, name LIMIT 5";
-            var command = new MySqlCommand(query, connection);
-            var dataReader = command.ExecuteReader();
+            string query = "Select * FROM singleplayer ORDER BY score DESC, name LIMIT 5";
+            MySqlCommand command = new MySqlCommand(query, connection);
+            MySqlDataReader dataReader = command.ExecuteReader();
             try {
                 // var dataAdapter = new MySqlDataAdapter(command);
                 // var dataTable = new DataTable("singleplayer");
@@ -65,14 +65,14 @@ namespace Tron_Mario.Models
         /// </summary>
         public void GetHighScoresMultiPlayer()
         {
-            var connection = new MySqlConnection();
+            MySqlConnection connection = new MySqlConnection();
             connection.ConnectionString = connectionString;
             connection.Open();
             // MessageBox.Show("Connected to database succesfully");
 
-            var query = "SELECT * FROM multiplayer ORDER BY score DESC, name_player_one,name_player_two DESC LIMIT 5;";
-            var command = new MySqlCommand(query, connection);
-            var dataReader = command.ExecuteReader();
+            string query = "SELECT * FROM multiplayer ORDER BY score DESC, name_player_one,name_player_two DESC LIMIT 5;";
+            MySqlCommand command = new MySqlCommand(query, connection);
+            MySqlDataReader dataReader = command.ExecuteReader();
             
             try {
                 while (dataReader.Read()) {

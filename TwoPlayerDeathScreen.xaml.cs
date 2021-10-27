@@ -26,14 +26,14 @@ namespace Tron_Mario
 
         private void MainMenu(object sender, RoutedEventArgs e)
         {
-            var mainWindow = new MainWindow();
+            MainWindow mainWindow = new MainWindow();
             mainWindow.Visibility = Visibility.Visible;
             this.Close();
         }
 
         private void Respawn(object sender, RoutedEventArgs e)
         {
-            var level1 = new Level1(true);
+            Level1 level1 = new Level1(true);
             level1.Visibility = Visibility.Visible;
             this.Close();
         }

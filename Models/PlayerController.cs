@@ -49,17 +49,17 @@ namespace Tron_Mario.Models
             CameraStopRight = cameraStopRight;
 
             // player skin index 
-            var playerSkinLeft = new ImageBrush {ImageSource = new BitmapImage(new Uri("pack://application:,,,/Images/PlayerLeft.png"))};
-            var playerSkinRight = new ImageBrush {ImageSource = new BitmapImage(new Uri("pack://application:,,,/Images/PlayerRight.png"))};
+            ImageBrush playerSkinLeft = new ImageBrush {ImageSource = new BitmapImage(new Uri("pack://application:,,,/Images/PlayerLeft.png"))};
+            ImageBrush playerSkinRight = new ImageBrush {ImageSource = new BitmapImage(new Uri("pack://application:,,,/Images/PlayerRight.png"))};
             PlayerSkins.Add("left", playerSkinLeft);
             PlayerSkins.Add("right", playerSkinRight);
             Player.Fill = playerSkinRight;
 
             // health meter
             Health = 3;
-            var oneHp = new ImageBrush {ImageSource = new BitmapImage(new Uri("pack://application:,,,/Images/1hp.png"))};
-            var twoHp = new ImageBrush {ImageSource = new BitmapImage(new Uri("pack://application:,,,/Images/2hp.png"))};
-            var threeHp = new ImageBrush {ImageSource = new BitmapImage(new Uri("pack://application:,,,/Images/3hp.png"))};
+            ImageBrush oneHp = new ImageBrush {ImageSource = new BitmapImage(new Uri("pack://application:,,,/Images/1hp.png"))};
+            ImageBrush twoHp = new ImageBrush {ImageSource = new BitmapImage(new Uri("pack://application:,,,/Images/2hp.png"))};
+            ImageBrush threeHp = new ImageBrush {ImageSource = new BitmapImage(new Uri("pack://application:,,,/Images/3hp.png"))};
             HealthIndicators.Add(1, oneHp);
             HealthIndicators.Add(2, twoHp);
             HealthIndicators.Add(3, threeHp);
@@ -78,11 +78,11 @@ namespace Tron_Mario.Models
             Debug = debug;
             // hitbox
             Hitbox = new Rect(Canvas.GetLeft(Player), Canvas.GetTop(Player), Player.Width, Player.Height);
-            var cameraStopLeftHitbox = new Rect(Canvas.GetLeft(CameraStopLeft), Canvas.GetTop(CameraStopLeft), CameraStopLeft.Width, CameraStopLeft.Height);
-            var cameraStopRightHitbox = new Rect(Canvas.GetLeft(CameraStopRight), Canvas.GetTop(CameraStopRight), CameraStopRight.Width, CameraStopRight.Height);
+            Rect cameraStopLeftHitbox = new Rect(Canvas.GetLeft(CameraStopLeft), Canvas.GetTop(CameraStopLeft), CameraStopLeft.Width, CameraStopLeft.Height);
+            Rect cameraStopRightHitbox = new Rect(Canvas.GetLeft(CameraStopRight), Canvas.GetTop(CameraStopRight), CameraStopRight.Width, CameraStopRight.Height);
 
-            var leftOfStop = LeftStopSpawned && Hitbox.Left <= cameraStopLeftHitbox.Left;
-            var rightOfStop = RightStopSpawned && Hitbox.Left + Hitbox.Width >= cameraStopRightHitbox.Left;
+            bool leftOfStop = LeftStopSpawned && Hitbox.Left <= cameraStopLeftHitbox.Left;
+            bool rightOfStop = RightStopSpawned && Hitbox.Left + Hitbox.Width >= cameraStopRightHitbox.Left;
 
             Debug.Content = "Left: " + cameraStopLeftHitbox.Left + "\nRight: " + cameraStopRightHitbox.Left;
 
@@ -125,12 +125,12 @@ namespace Tron_Mario.Models
                 else Move(-Speed);
             }
 
-            for (var i = 0; i < PlayerProjecticles.Count; i++)
+            for (int i = 0; i < PlayerProjecticles.Count; i++)
             {
-                var x = PlayerProjecticles[i];
-                var speed = x.FacingRight ? 15 : -15;
+                Bullet x = PlayerProjecticles[i];
+                int speed = x.FacingRight ? 15 : -15;
                 Canvas.SetLeft(x.Projectile, Canvas.GetLeft(x.Projectile) + speed);
-                var bulletLeft = Canvas.GetLeft(x.Projectile);
+                double bulletLeft = Canvas.GetLeft(x.Projectile);
                 if (bulletLeft < 0 || bulletLeft > Application.Current.MainWindow.Width)
                 {
                     GameCanvas.Children.Remove(x.Projectile);
@@ -202,8 +202,8 @@ namespace Tron_Mario.Models
                     MoveRight = false;
                     break;
                 case Key.F:
-                    var cancellationTokenSource = new CancellationTokenSource();
-                    var cancellationToken = cancellationTokenSource.Token;
+                    CancellationTokenSource cancellationTokenSource = new CancellationTokenSource();
+                    CancellationToken cancellationToken = cancellationTokenSource.Token;
                     Task.Delay(500, cancellationToken).ContinueWith( t => Shooting = false, cancellationToken);
                     break;
             }
@@ -248,28 +248,22 @@ namespace Tron_Mario.Models
             Health--;
             Invincible = true;
             if (Health <= 0) {
-                if (multiPlayer)
-                {
+                if (multiPlayer) {
                     TwoPlayerDeathScreen twoPlayerDeathScreen = new TwoPlayerDeathScreen();
                     twoPlayerDeathScreen.Visibility = Visibility.Visible;
                     
-                }
-                else
-                {
+                } else {
                     Death death = new Death(multiPlayer);
                     death.Visibility = Visibility.Visible;
                 }
-
-
-
                 return;
             }
             HealthIndicator.Width -= 29;
             HealthIndicator.Fill = HealthIndicators[Health];
 
             // set timeout to lift invincibility
-            var cancellationTokenSource = new CancellationTokenSource();
-            var cancellationToken = cancellationTokenSource.Token;
+            CancellationTokenSource cancellationTokenSource = new CancellationTokenSource();
+            CancellationToken cancellationToken = cancellationTokenSource.Token;
             Task.Delay(3000, cancellationToken).ContinueWith( t => {
                 Visible = true;
                 Invincible = false;
@@ -313,11 +307,11 @@ namespace Tron_Mario.Models
         private void Move(int speed)
         {
             // fuck it, we're moving the whole lot
-            foreach (var x in GameCanvas.Children.OfType<Rectangle>()) {
+            foreach (Rectangle x in GameCanvas.Children.OfType<Rectangle>()) {
                 if (x.Name == "Player" || x.Name == "Floor" || x.Name == "HealthMeter") continue;
                 Canvas.SetLeft(x, Canvas.GetLeft(x) + speed);
             }
-            foreach (var x in GameCanvas.Children.OfType<Image>()) {
+            foreach (Image x in GameCanvas.Children.OfType<Image>()) {
                 if ((string) x.Tag != "movable") continue;
                 Canvas.SetLeft(x, Canvas.GetLeft(x) + speed);
             }
@@ -338,7 +332,7 @@ namespace Tron_Mario.Models
             Canvas.SetTop(newBullet, Canvas.GetTop(Player) + Player.Height / 2);
 
             GameCanvas.Children.Add(newBullet);
-            var bullet = new Bullet()
+            Bullet bullet = new Bullet()
             {
                 FacingRight = FacingRight,
                 Projectile = newBullet

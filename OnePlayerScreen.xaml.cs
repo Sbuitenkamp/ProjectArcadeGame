@@ -14,7 +14,7 @@ namespace Tron_Mario
 
         private void MainMenu(object sender, RoutedEventArgs e)
         {
-            var mainWindow = new MainWindow();
+            MainWindow mainWindow = new MainWindow();
             mainWindow.Visibility = Visibility.Visible;
             this.Visibility = Visibility.Hidden;
 
@@ -22,7 +22,7 @@ namespace Tron_Mario
 
         private void StartGame(object sender, RoutedEventArgs e)
         {
-            var level1 = new Level1(false);
+            Level1 level1 = new Level1(false);
             level1.Visibility = Visibility.Visible;
             this.Visibility = Visibility.Hidden;
 

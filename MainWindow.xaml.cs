@@ -15,14 +15,14 @@ namespace Tron_Mario
 
         private void OnePlayer(object sender, RoutedEventArgs e)
         {
-            var onePlayerScreen = new OnePlayerScreen();
+            OnePlayerScreen onePlayerScreen = new OnePlayerScreen();
             onePlayerScreen.Visibility = Visibility.Visible;
             this.Visibility = Visibility.Hidden;
         }
 
         private void TwoPlayer(object sender, RoutedEventArgs e)
         {
-            var twoPlayerScreen = new TwoPlayerScreen();
+            TwoPlayerScreen twoPlayerScreen = new TwoPlayerScreen();
             twoPlayerScreen.Visibility = Visibility.Visible;
             this.Visibility = Visibility.Hidden;
         }
@@ -34,7 +34,7 @@ namespace Tron_Mario
 
         private void OpenHighScores(object sender, RoutedEventArgs e)
         {
-            var highscoreScreen = new HighScoreScreen();
+            HighScoreScreen highscoreScreen = new HighScoreScreen();
             highscoreScreen.Visibility = Visibility.Visible;
             this.Visibility = Visibility.Hidden;
 

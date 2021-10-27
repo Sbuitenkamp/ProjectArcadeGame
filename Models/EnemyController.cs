@@ -26,8 +26,8 @@ namespace Tron_Mario.Models
         public EnemyController(Rectangle enemy)
         {
             Enemy = enemy;
-            var MeleeEnemySkinLeft = new ImageBrush {ImageSource = new BitmapImage(new Uri("pack://application:,,,/Images/EnemyLeft.png"))};
-            var MeleeEnemySkinRight = new ImageBrush {ImageSource = new BitmapImage(new Uri("pack://application:,,,/Images/EnemyRight.png"))};
+            ImageBrush MeleeEnemySkinLeft = new ImageBrush {ImageSource = new BitmapImage(new Uri("pack://application:,,,/Images/EnemyLeft.png"))};
+            ImageBrush MeleeEnemySkinRight = new ImageBrush {ImageSource = new BitmapImage(new Uri("pack://application:,,,/Images/EnemyRight.png"))};
             Skins.Add(0, MeleeEnemySkinLeft);
             Skins.Add(1, MeleeEnemySkinRight);
             Enemy.Fill = MeleeEnemySkinLeft;
@@ -67,10 +67,10 @@ namespace Tron_Mario.Models
                 MoveLeft = false;
             }
             
-            for (var i = 0; i < controller.PlayerProjecticles.Count; i++)
+            for (int i = 0; i < controller.PlayerProjecticles.Count; i++)
             {
-                var x = controller.PlayerProjecticles[i];
-                var bulletHitbox = new Rect(Canvas.GetLeft(x.Projectile), Canvas.GetTop(x.Projectile), x.Projectile.Width, x.Projectile.Height);
+                Bullet x = controller.PlayerProjecticles[i];
+                Rect bulletHitbox = new Rect(Canvas.GetLeft(x.Projectile), Canvas.GetTop(x.Projectile), x.Projectile.Width, x.Projectile.Height);
                 if (Hitbox.IntersectsWith(bulletHitbox))
                 {
                     gameCanvas.Children.Remove(Enemy);
