@@ -86,8 +86,8 @@
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </ApplicationDefinition>
-    <Compile Include="Death.xaml.cs">
-      <DependentUpon>Death.xaml</DependentUpon>
+    <Compile Include="OnePlayerDeathScreen.xaml.cs">
+      <DependentUpon>OnePlayerDeathScreen.xaml</DependentUpon>
     </Compile>
     <Compile Include="Models\Bullet.cs" />
     <Compile Include="Models\DatabaseHandler.cs" />
@@ -100,7 +100,7 @@
     <Compile Include="TwoPlayerScreen.xaml.cs">
       <DependentUpon>TwoPlayerScreen.xaml</DependentUpon>
     </Compile>
-    <Page Include="Death.xaml">
+    <Page Include="OnePlayerDeathScreen.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>

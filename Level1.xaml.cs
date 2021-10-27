@@ -116,9 +116,15 @@ namespace Tron_Mario
 
         private void Die(object sender, RoutedEventArgs e)
         {
-            Death death = new Death(PlayerInformation);
-            death.Visibility = Visibility.Visible;
-            this.Visibility = Visibility.Hidden;
+            if (PlayerInformation.Multiplayer) {
+                TwoPlayerDeathScreen death = new TwoPlayerDeathScreen(PlayerInformation);
+                death.Visibility = Visibility.Visible;
+                this.Close();
+            } else {
+                OnePlayerDeathScreen onePlayerDeathScreen = new OnePlayerDeathScreen(PlayerInformation);
+                onePlayerDeathScreen.Visibility = Visibility.Visible;
+                this.Close();   
+            }
         }
     }
 }
