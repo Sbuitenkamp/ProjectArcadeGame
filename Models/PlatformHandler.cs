@@ -1,7 +1,10 @@
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Windows;
 using System.Windows.Controls;
+using System.Windows.Media;
+using System.Windows.Media.Imaging;
 using System.Windows.Shapes;
 
 namespace Tron_Mario.Models
@@ -19,6 +22,13 @@ namespace Tron_Mario.Models
             GameCanvas = gameCanvas;
             PlayerController = playerController;
             PlatformHeightsRight = platformHeights;
+            
+            var platformSkin = new ImageBrush {ImageSource = new BitmapImage(new Uri("pack://application:,,,/Images/Platform1.png"))};
+            foreach (var x in GameCanvas.Children.OfType<Rectangle>()) {
+                if (x.Name == "LarryTheGhostBox" || x.Name == "Floor") continue;
+                if ((string) x.Tag != "walkable") continue;
+                x.Fill = platformSkin;
+            }
         }
 
         public void OnTick(Label debug)
