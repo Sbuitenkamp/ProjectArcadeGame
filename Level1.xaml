@@ -21,7 +21,8 @@
         <!-- make sure to tag all moveable images as "movable" -->
         <Image Tag="movable" Source="/Images/Controls1.png" Canvas.Left="64" Canvas.Top="42" />
         <Image Tag="movable" Source="/Images/Controls.png" Canvas.Left="312" Canvas.Top="61" />
-        <Image Tag="movable" Source="/Images/Muis.png" Canvas.Left="525" />
+        <Image Tag="movable" Source="/Images/Line-02.png" Canvas.Top="776"/>
+        <Image Tag="movable" Source="/Images/F.png" Canvas.Left="581" Canvas.Top="184"/>
         <Button Focusable="False" Canvas.Right="260" Width="250" Height="250" Click="Die">YOU DIED</Button>
         <!-- for some reason we have weird behaviour with the first walkable so you should create a ghostbox at the top of the xaml structure to negate this problem. The ghostbox should be far outside the reach of the player-->
         <Rectangle x:Name="LarryTheGhostBox" Tag="walkable" Fill="Transparent" Height="8" Width="10" RenderTransformOrigin="0.5,0.5" />
