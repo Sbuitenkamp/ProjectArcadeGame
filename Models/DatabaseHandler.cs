@@ -83,7 +83,7 @@ namespace Tron_Mario.Models
                 connection.Open();
                 command.ExecuteNonQuery();
                 connection.Close();
-                MessageBox.Show("Succesfully added to database");
+                // MessageBox.Show("Succesfully added to database");
             }
             catch (Exception exception) {
                 MessageBox.Show(exception.Message);
@@ -106,7 +106,7 @@ namespace Tron_Mario.Models
                 connection.Open();
                 command.ExecuteNonQuery();
                 connection.Close();
-                MessageBox.Show("Succesfully added to database");
+                // MessageBox.Show("Succesfully added to database");
             }
             catch (Exception exception) {
                 MessageBox.Show(exception.Message);

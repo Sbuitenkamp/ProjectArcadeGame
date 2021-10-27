@@ -9,6 +9,7 @@ namespace Tron_Mario
     public partial class TwoPlayerDeathScreen : Window
     {
         private PlayerInformation PlayerInformation;
+        private DatabaseHandler DatabaseHandler = new DatabaseHandler();
         public TwoPlayerDeathScreen(PlayerInformation playerInformation)
         {
             InitializeComponent();
@@ -20,6 +21,7 @@ namespace Tron_Mario
 
         private void MainMenu(object sender, RoutedEventArgs e)
         {
+            DatabaseHandler.SetHighScoreMultiPlayer(PlayerInformation.PlayerNameOne, PlayerInformation.PlayerNameTwo, PlayerInformation.Score);
             MainWindow mainWindow = new MainWindow();
             mainWindow.Visibility = Visibility.Visible;
             this.Close();
