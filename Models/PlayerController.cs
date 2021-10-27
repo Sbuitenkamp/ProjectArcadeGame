@@ -21,16 +21,18 @@ namespace Tron_Mario.Models
         private Brush LastPlayerSkin;
         private readonly Canvas GameCanvas;
         private readonly Rectangle Player, HealthIndicator, CameraStopLeft, CameraStopRight;
-        private bool MoveLeft, MoveRight, Jumping, Grounded, Invincible, Visible = true, FreeMovement, LeftStopSpawned, RightStopSpawned, Shooting, FacingRight = true;
+        private Rectangle EndPortal;
+        private bool MoveLeft, MoveRight, Jumping, Grounded, Invincible, Visible = true, FreeMovement, LeftStopSpawned, RightStopSpawned, Shooting, FacingRight = true, EndPortalSpawned;
         private float Gravity = 15;
         private const int Speed = 15;
         private int Health;
 
         private Label Debug;
 
-        public bool TwoPlayer;
         public readonly List<Bullet> PlayerProjecticles = new List<Bullet>();
         public Rect Hitbox { get; private set; }
+        public bool Dead { get; private set; }
+        public bool LevelFinished { get; private set; }
 
         /// <summary>
         /// controller object for the player
@@ -86,9 +88,16 @@ namespace Tron_Mario.Models
 
             Debug.Content = "Left: " + cameraStopLeftHitbox.Left + "\nRight: " + cameraStopRightHitbox.Left;
 
+            if (EndPortalSpawned) {
+                Rect endPortalHitbox = new Rect(Canvas.GetLeft(EndPortal), Canvas.GetTop(EndPortal), EndPortal.Width, EndPortal.Height);
+                if (Hitbox.IntersectsWith(endPortalHitbox)) LevelFinished = true;
+            }
+
             // free the camera
-            if (Hitbox.IntersectsWith(cameraStopLeftHitbox) || Hitbox.IntersectsWith(cameraStopRightHitbox) || (leftOfStop && !rightOfStop) || (!leftOfStop && rightOfStop)) FreeMovement = true;
-            else {
+            if (Hitbox.IntersectsWith(cameraStopLeftHitbox) || Hitbox.IntersectsWith(cameraStopRightHitbox) || (leftOfStop && !rightOfStop) || (!leftOfStop && rightOfStop)) {
+                FreeMovement = true;
+                if (rightOfStop || Hitbox.IntersectsWith(cameraStopRightHitbox)) SpawnEndPortal();
+            } else {
                 FreeMovement = false;
                 if (RightStopSpawned) {
                     Canvas.SetLeft(CameraStopRight, 1100);
@@ -131,8 +140,7 @@ namespace Tron_Mario.Models
                 int speed = x.FacingRight ? 25 : -25;
                 Canvas.SetLeft(x.Projectile, Canvas.GetLeft(x.Projectile) + speed);
                 double bulletLeft = Canvas.GetLeft(x.Projectile);
-                if (bulletLeft < 0 || bulletLeft > Application.Current.MainWindow.Width)
-                {
+                if (bulletLeft < 0 || bulletLeft > Application.Current.MainWindow.Width) {
                     GameCanvas.Children.Remove(x.Projectile);
                     PlayerProjecticles.Remove(x);
                     i--; // i - 1 to compensate the removal of the object from the collection of bullets
@@ -240,7 +248,7 @@ namespace Tron_Mario.Models
         /// <summary>
         /// fires when the player takes damage
         /// </summary>
-        public void TakeDamage(PlayerInformation playerInformation)
+        public void TakeDamage()
         {
             //This is just a test bool 
             //twoPlayer = true;
@@ -248,14 +256,7 @@ namespace Tron_Mario.Models
             Health--;
             Invincible = true;
             if (Health <= 0) {
-                if (playerInformation.Multiplayer) {
-                    TwoPlayerDeathScreen twoPlayerDeathScreen = new TwoPlayerDeathScreen(playerInformation);
-                    twoPlayerDeathScreen.Visibility = Visibility.Visible;
-                    
-                } else {
-                    OnePlayerDeathScreen onePlayerDeathScreen = new OnePlayerDeathScreen(playerInformation);
-                    onePlayerDeathScreen.Visibility = Visibility.Visible;
-                }
+                Dead = true;
                 return;
             }
             HealthIndicator.Width -= 29;
@@ -331,18 +332,35 @@ namespace Tron_Mario.Models
             Canvas.SetTop(newBullet, Canvas.GetTop(Player) + Player.Height / 2);
 
             GameCanvas.Children.Add(newBullet);
-            Bullet bullet = new Bullet()
+            Bullet bullet = new Bullet
             {
                 FacingRight = FacingRight,
                 Projectile = newBullet
             };
             PlayerProjecticles.Add(bullet);
         }
-         // if left is kleiner dan 0 / left of width > current main window
+        
         private void Shoot()
         {
             if (Shooting) return;
             InitiateBullet();
+        }
+
+        private void SpawnEndPortal()
+        {
+            if (EndPortalSpawned) return;
+            
+            EndPortal = new Rectangle {
+                Height = 160,
+                Width = 100,
+                Fill = Brushes.Black
+            };
+            
+            Canvas.SetLeft(EndPortal, Application.Current.MainWindow.Width - EndPortal.Width);
+            Canvas.SetTop(EndPortal, Hitbox.Top + Hitbox.Height - EndPortal.Height);
+
+            GameCanvas.Children.Add(EndPortal);
+            EndPortalSpawned = true;
         }
     }
 }
