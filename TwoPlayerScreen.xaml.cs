@@ -23,14 +23,13 @@ namespace Tron_Mario
 
         private void StartGame(object sender, RoutedEventArgs e)
         {
-            var playerInformation = new PlayerInformation()
+            PlayerInformation playerInformation = new PlayerInformation
             {
                 PlayerNameOne = PlayerNameOne.Text,
                 PlayerNameTwo = PlayerNameTwo.Text,
-                Multiplayer = true,
-                Score = 0
+                Multiplayer = true
             };
-            Level1 level1 = new Level1(true);
+            Level1 level1 = new Level1(playerInformation);
             level1.Visibility = Visibility.Visible;
             this.Visibility = Visibility.Hidden;
 

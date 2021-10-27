@@ -16,13 +16,15 @@ namespace Tron_Mario
         private readonly DispatcherTimer GameTimer = new DispatcherTimer();
         private readonly PlayerController PlayerController;
         private readonly PlatformHandler PlatformHandler;
+        private PlayerInformation PlayerInformation;
         private bool MultiPlayer;
 
-        public Level1(bool multiPlayer)
+        public Level1(PlayerInformation playerInformation)
         {
             InitializeComponent();
 
-            MultiPlayer = multiPlayer;
+            PlayerInformation = playerInformation;
+            PlayerInformation.Score = 0;
 
             GameTimer.Interval = TimeSpan.FromMilliseconds(16);
             GameTimer.Tick += GameEngine;
@@ -61,6 +63,7 @@ namespace Tron_Mario
                 Debug.Content = "Dead";
                 if (enemy.Dead) {
                     Enemies.Remove(enemy);
+                    PlayerInformation.Score += 500;
                     i--;
                     continue;
                 }
@@ -73,7 +76,7 @@ namespace Tron_Mario
                     Rect floorHitbox = new Rect(Canvas.GetLeft(x), Canvas.GetTop(x), x.Width, x.Height);
 
                     // damage player
-                    if (PlayerController.Hitbox.IntersectsWith(enemy.Hitbox)) PlayerController.TakeDamage(MultiPlayer);
+                    if (PlayerController.Hitbox.IntersectsWith(enemy.Hitbox)) PlayerController.TakeDamage(PlayerInformation);
                     // handle landing and falling on/off platforms
                     if (enemy.Hitbox.IntersectsWith(floorHitbox)) {
                         enemy.HandleLanding(floorHitbox);
@@ -113,7 +116,7 @@ namespace Tron_Mario
 
         private void Die(object sender, RoutedEventArgs e)
         {
-            Death death = new Death(MultiPlayer);
+            Death death = new Death(PlayerInformation);
             death.Visibility = Visibility.Visible;
             this.Visibility = Visibility.Hidden;
         }

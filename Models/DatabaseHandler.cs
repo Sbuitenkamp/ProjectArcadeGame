@@ -8,32 +8,28 @@ namespace Tron_Mario.Models
 {
     public class DatabaseHandler
     {
+        private const string ConnectionString = "SERVER=localhost;DATABASE=project_arcade_game;user=root;PASSWORD=;SSL Mode=None;";
+
         public readonly List<KeyValuePair<string, int>> HighScoresSinglePlayer = new List<KeyValuePair<string, int>>();
         public readonly List<KeyValuePair<string, int>> HighScoresMultiPlayer = new List<KeyValuePair<string, int>>();
-        private readonly string connectionString =
-            "SERVER=localhost;DATABASE=project_arcade_game;user=root;PASSWORD=;SSL Mode=None;";
 
         /// <summary>
         /// Connects to database and retrives everything from the table singleplayer
         /// </summary>
         public void GetHighScoresSinglePlayer()
         {
-            var connection = new MySqlConnection();
-            connection.ConnectionString = connectionString;
+            MySqlConnection connection = new MySqlConnection();
+            connection.ConnectionString = ConnectionString;
             connection.Open();
             // MessageBox.Show("Connected to database succesfully");
 
-            var query = "Select * FROM singleplayer ORDER BY score DESC, name LIMIT 5";
-            var command = new MySqlCommand(query, connection);
-            var dataReader = command.ExecuteReader();
+            string query = "Select * FROM singleplayer ORDER BY score DESC, name LIMIT 5";
+            MySqlCommand command = new MySqlCommand(query, connection);
+            MySqlDataReader dataReader = command.ExecuteReader();
+            
             try {
-                while (dataReader.Read()) {
-                    HighScoresSinglePlayer.Add(new KeyValuePair<string, int>((string)dataReader[1], (int)dataReader[2]));
-                }
+                while (dataReader.Read()) HighScoresSinglePlayer.Add(new KeyValuePair<string, int>((string)dataReader[1], (int)dataReader[2]));
                 connection.Close();
-
-
-
             }catch (Exception exception) {
                 MessageBox.Show(exception.Message);
                 connection.Close();
@@ -45,14 +41,14 @@ namespace Tron_Mario.Models
         /// </summary>
         public void GetHighScoresMultiPlayer()
         {
-            var connection = new MySqlConnection();
-            connection.ConnectionString = connectionString;
+            MySqlConnection connection = new MySqlConnection();
+            connection.ConnectionString = ConnectionString;
             connection.Open();
             // MessageBox.Show("Connected to database succesfully");
 
-            var query = "SELECT * FROM multiplayer ORDER BY score DESC, name_player_one,name_player_two DESC LIMIT 5;";
-            var command = new MySqlCommand(query, connection);
-            var dataReader = command.ExecuteReader();
+            string query = "SELECT * FROM multiplayer ORDER BY score DESC, name_player_one,name_player_two DESC LIMIT 5;";
+            MySqlCommand command = new MySqlCommand(query, connection);
+            MySqlDataReader dataReader = command.ExecuteReader();
             
             try {
                 while (dataReader.Read()) {
@@ -74,11 +70,11 @@ namespace Tron_Mario.Models
         public void SetHighScoreSinglePlayer(object name, object score)
         {
             MySqlConnection connection = new MySqlConnection();
-            connection.ConnectionString = connectionString;
+            connection.ConnectionString = ConnectionString;
         
             MySqlCommand command = new MySqlCommand();
             
-            var query = "INSERT INTO `singleplayer` (`name`, `score`) VALUES ('"+name+"','"+score+"');";
+            string query = "INSERT INTO `singleplayer` (`name`, `score`) VALUES ('"+name+"','"+score+"');";
         
             try {
                 command.CommandText = query;
@@ -98,11 +94,11 @@ namespace Tron_Mario.Models
         public void SetHighScoreMultiPlayer(object namePlayerOne, object namePlayerTwo, object score)
         {
             MySqlConnection connection = new MySqlConnection();
-            connection.ConnectionString = connectionString;
+            connection.ConnectionString = ConnectionString;
         
             MySqlCommand command = new MySqlCommand();
             
-            var query = "INSERT INTO `multiplayer` (`name_player_one`, `name_player_two`, `score`) VALUES ('" +namePlayerOne+"','"+namePlayerTwo+"', '"+score+"');";
+            string query = "INSERT INTO `multiplayer` (`name_player_one`, `name_player_two`, `score`) VALUES ('" +namePlayerOne+"','"+namePlayerTwo+"', '"+score+"');";
             try {
                 command.CommandText = query;
                 command.CommandType = CommandType.Text;

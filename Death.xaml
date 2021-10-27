@@ -28,7 +28,7 @@
             HorizontalAlignment="Center" FontSize="75" Foreground="Red" 
             UseLayoutRounding="False" OpacityMask="Black" FontFamily="Montserrat" Background="#00000000">
         </Label>
-        <Label Grid.Column="1" Grid.Row="2" HorizontalContentAlignment="Center" VerticalContentAlignment="Center" FontSize="50" OpacityMask="#8CC7E6" Foreground="Black" >SCORE: 69420</Label>
+        <Label x:Name="Score" Grid.Column="1" Grid.Row="2" HorizontalContentAlignment="Center" VerticalContentAlignment="Center" FontSize="50" OpacityMask="#8CC7E6" Foreground="Black" >SCORE: 69420</Label>
         <Button Grid.Column="1" Grid.Row="3" Margin="25" Click="Respawn">Respawn</Button>
         <Button Grid.Column="1" Grid.Row="4" Margin="25" Click="MainMenu">Title Screen</Button>
         <Button Grid.Column="0" Grid.Row="5"  Content="BACK" Click="MainMenu" FontSize="50" Style="{DynamicResource ButtonStyleOne}"/>
