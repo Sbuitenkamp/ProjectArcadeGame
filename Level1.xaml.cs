@@ -17,7 +17,7 @@ namespace Tron_Mario
         private readonly PlayerController PlayerController;
         private readonly PlatformHandler PlatformHandler;
         private PlayerInformation PlayerInformation;
-        private bool MultiPlayer;
+        private bool GameOver;
 
         public Level1(PlayerInformation playerInformation)
         {
@@ -54,8 +54,33 @@ namespace Tron_Mario
         /// <param name="e">EventArgs</param>
         private void GameEngine(object sender, EventArgs e)
         {
+            if (GameOver) {
+                this.Close();
+                return;
+            }
+            
+            // PlayerController and PlatformController have their own methods for game engine
             PlayerController.OnTick(Debug);
             PlatformHandler.OnTick(Debug);
+
+            // end level
+            if (PlayerController.LevelFinished) {
+                VictoryScreen victoryScreen = new VictoryScreen(PlayerInformation);
+                victoryScreen.Visibility = Visibility.Visible;
+                GameOver = true;
+                return;
+            }
+            if (PlayerController.Dead) {
+                if (PlayerInformation.Multiplayer) {
+                    TwoPlayerDeathScreen twoPlayerDeathScreen = new TwoPlayerDeathScreen(PlayerInformation);
+                    twoPlayerDeathScreen.Visibility = Visibility.Visible;
+                } else {
+                    Death death = new Death(PlayerInformation);
+                    death.Visibility = Visibility.Visible;
+                }
+                GameOver = true;
+                return;
+            }
 
             // enemy handling
             for (int i = 0; i <= Enemies.Count - 1; i++) {
@@ -68,6 +93,7 @@ namespace Tron_Mario
                     continue;
                 }
                 
+                // Enemies have their own method for game engine
                 enemy.OnTick(PlayerController, GameCanvas);
                 
                 foreach (Rectangle x in GameCanvas.Children.OfType<Rectangle>()) {
@@ -76,7 +102,7 @@ namespace Tron_Mario
                     Rect floorHitbox = new Rect(Canvas.GetLeft(x), Canvas.GetTop(x), x.Width, x.Height);
 
                     // damage player
-                    if (PlayerController.Hitbox.IntersectsWith(enemy.Hitbox)) PlayerController.TakeDamage(PlayerInformation);
+                    if (PlayerController.Hitbox.IntersectsWith(enemy.Hitbox)) PlayerController.TakeDamage();
                     // handle landing and falling on/off platforms
                     if (enemy.Hitbox.IntersectsWith(floorHitbox)) {
                         enemy.HandleLanding(floorHitbox);

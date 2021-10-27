@@ -27,7 +27,9 @@
         <Rectangle x:Name="LarryTheGhostBox" Tag="walkable" Fill="Transparent" Height="8" Width="10" RenderTransformOrigin="0.5,0.5" />
         <!-- make sure to allocate a Canvas.Top value to the player (or any moving object subjected to gravity) or gravity won't work -->
         <Rectangle x:Name="Player" Fill="DarkMagenta" Height="133" Width="96" Canvas.Left="626" Canvas.Top="505" />
-        <Rectangle x:Name="MeleeEnemy1" Tag="enemy" Fill="DarkMagenta" Height="133" Width="96" Canvas.Left="1643" Canvas.Top="658" />
+        <Rectangle Tag="enemy" Fill="DarkMagenta" Height="133" Width="96" Canvas.Left="1643" Canvas.Top="658" />
+        <Rectangle Tag="enemy" Fill="DarkMagenta" Height="133" Width="96" Canvas.Left="2243" Canvas.Top="658" />
+        <Rectangle Tag="enemy" Fill="DarkMagenta" Height="133" Width="96" Canvas.Left="2943" Canvas.Top="658" />
         <Rectangle x:Name="CameraStopLeft" Fill="Transparent" Height="795" Width="34" Canvas.Left="905" RenderTransformOrigin="0.5,0.5" />
         <Rectangle x:Name="CameraStopRight" Fill="Transparent" Height="0" Width="0" Canvas.Left="0" RenderTransformOrigin="0.5,0.5" />
         <!-- <Rectangle x:Name="MeleeEnemy1" Tag="enemy" Fill="DarkMagenta" Height="49" Width="64" Canvas.Left="1502" Canvas.Top="658" /> -->

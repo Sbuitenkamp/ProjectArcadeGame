@@ -100,6 +100,9 @@
     <Compile Include="TwoPlayerScreen.xaml.cs">
       <DependentUpon>TwoPlayerScreen.xaml</DependentUpon>
     </Compile>
+    <Compile Include="VictoryScreen.xaml.cs">
+      <DependentUpon>VictoryScreen.xaml</DependentUpon>
+    </Compile>
     <Page Include="Death.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
@@ -139,6 +142,7 @@
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
+    <Page Include="VictoryScreen.xaml" />
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Models\PlayerController.cs" />
