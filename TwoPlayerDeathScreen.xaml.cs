@@ -1,16 +1,5 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using System.Windows;
-using System.Windows.Controls;
-using System.Windows.Data;
-using System.Windows.Documents;
-using System.Windows.Input;
-using System.Windows.Media;
-using System.Windows.Media.Imaging;
-using System.Windows.Shapes;
+﻿using System.Windows;
+using Tron_Mario.Models;
 
 namespace Tron_Mario
 {
@@ -19,9 +8,14 @@ namespace Tron_Mario
     /// </summary>
     public partial class TwoPlayerDeathScreen : Window
     {
-        public TwoPlayerDeathScreen()
+        private PlayerInformation PlayerInformation;
+        public TwoPlayerDeathScreen(PlayerInformation playerInformation)
         {
             InitializeComponent();
+            PlayerInformation = playerInformation;
+            playerInformation.PlayerOneHasPlayed = !playerInformation.PlayerOneHasPlayed; // invert the boolean that checks if player one has played
+            PlayerToPlay.Content = (playerInformation.PlayerOneHasPlayed ? playerInformation.PlayerNameTwo : playerInformation.PlayerNameOne) + " is nu aan de beurt.";
+            Score.Content = "Score: " + playerInformation.Score;
         }
 
         private void MainMenu(object sender, RoutedEventArgs e)
@@ -33,7 +27,7 @@ namespace Tron_Mario
 
         private void Respawn(object sender, RoutedEventArgs e)
         {
-            Level1 level1 = new Level1(true);
+            Level1 level1 = new Level1(PlayerInformation);
             level1.Visibility = Visibility.Visible;
             this.Close();
         }

@@ -71,6 +71,7 @@ namespace Tron_Mario.Models
             {
                 Bullet x = controller.PlayerProjecticles[i];
                 Rect bulletHitbox = new Rect(Canvas.GetLeft(x.Projectile), Canvas.GetTop(x.Projectile), x.Projectile.Width, x.Projectile.Height);
+                
                 if (Hitbox.IntersectsWith(bulletHitbox))
                 {
                     gameCanvas.Children.Remove(Enemy);

@@ -240,7 +240,7 @@ namespace Tron_Mario.Models
         /// <summary>
         /// fires when the player takes damage
         /// </summary>
-        public void TakeDamage(bool multiPlayer)
+        public void TakeDamage(PlayerInformation playerInformation)
         {
             //This is just a test bool 
             //twoPlayer = true;
@@ -248,12 +248,12 @@ namespace Tron_Mario.Models
             Health--;
             Invincible = true;
             if (Health <= 0) {
-                if (multiPlayer) {
-                    TwoPlayerDeathScreen twoPlayerDeathScreen = new TwoPlayerDeathScreen();
+                if (playerInformation.Multiplayer) {
+                    TwoPlayerDeathScreen twoPlayerDeathScreen = new TwoPlayerDeathScreen(playerInformation);
                     twoPlayerDeathScreen.Visibility = Visibility.Visible;
                     
                 } else {
-                    Death death = new Death(multiPlayer);
+                    Death death = new Death(playerInformation);
                     death.Visibility = Visibility.Visible;
                 }
                 return;

@@ -32,13 +32,13 @@
                    Foreground="#8CC7E6" 
                    FontSize="40" 
                    VerticalAlignment="Top" HorizontalAlignment="Center">PLAYER 1</TextBlock>
-        <TextBox Grid.Column="1" Grid.Row="2"
+        <TextBox x:Name="PlayerNameOne" Grid.Column="1" Grid.Row="2"
                  Background="#00976666"
                  VerticalAlignment="Center" HorizontalAlignment="Center" 
                  BorderBrush="#00ABADB3" SelectionBrush="#008CC7E6" Foreground="#4CFFFFFF" 
                  FontSize="35" Margin="0,25,150,0"  Panel.ZIndex="1">JOHNDOE1234</TextBox>
         <Rectangle Panel.ZIndex="5" Grid.Column="1" VerticalAlignment="Bottom" Margin="0,0,0,30" Grid.Row="2" Height="5" Width="400" Fill="#FF8CC7E6"/>
-        <TextBlock x:Name="PlayerNameOne" Grid.Column="1" Grid.Row="3" 
+        <TextBlock Grid.Column="1" Grid.Row="3" 
                    Foreground="#8CC7E6" 
                    FontSize="40" 
                    VerticalAlignment="Top" HorizontalAlignment="Center">PLAYER 2</TextBlock>
@@ -46,7 +46,7 @@
                  Background="#00976666"
                  VerticalAlignment="Center" HorizontalAlignment="Center" 
                  BorderBrush="#00ABADB3" SelectionBrush="#008CC7E6" Foreground="#4CFFFFFF" 
-                 FontSize="35" Margin="0,25,150,0"  Panel.ZIndex="1">NAME_PLAYER2</TextBox>
+                 FontSize="35" Margin="0,25,150,0"  Panel.ZIndex="1">NAMEPLAYER4</TextBox>
         <Rectangle Panel.ZIndex="5" Grid.Column="1" VerticalAlignment="Bottom" Margin="0,0,0,30" Grid.Row="3" Height="5" Width="400" Fill="#FF8CC7E6"/>
         <Button Grid.Column="1" Grid.Row="4" VerticalAlignment="Center" Content="START" Click="StartGame" FontSize="50" Style="{DynamicResource ButtonStyleOne}"/>
         <Button Grid.Column="0" Grid.Row="5"  Content="BACK" Click="MainMenu" FontSize="50" Style="{DynamicResource ButtonStyleOne}"/>
