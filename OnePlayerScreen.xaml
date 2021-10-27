@@ -32,7 +32,7 @@
                    Foreground="#8CC7E6" 
                    FontSize="40" 
                    VerticalAlignment="Bottom" HorizontalAlignment="Center">PLAYER 1</TextBlock>
-        <TextBox Grid.Column="1" Grid.Row="3"
+        <TextBox x:Name="PlayerName" Grid.Column="1" Grid.Row="3"
                  Background="#00976666"
                  VerticalAlignment="Top" HorizontalAlignment="Center" 
                  BorderBrush="#00ABADB3" SelectionBrush="#8CC7E6" Foreground="#4CFFFFFF" 

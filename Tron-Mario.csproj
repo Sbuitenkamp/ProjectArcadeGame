@@ -93,6 +93,7 @@
     <Compile Include="Models\DatabaseHandler.cs" />
     <Compile Include="Models\EnemyController.cs" />
     <Compile Include="Models\PlatformHandler.cs" />
+    <Compile Include="Models\PlayerInformation.cs" />
     <Compile Include="TwoPlayerDeathScreen.xaml.cs">
       <DependentUpon>TwoPlayerDeathScreen.xaml</DependentUpon>
     </Compile>
