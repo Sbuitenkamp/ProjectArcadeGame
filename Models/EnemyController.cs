@@ -10,11 +10,11 @@ namespace Tron_Mario.Models
 {
     public class EnemyController
     {
-        private Dictionary<int, ImageBrush> Skins = new Dictionary<int, ImageBrush>();
-        private Rectangle Enemy;
+        private readonly Dictionary<int, ImageBrush> Skins = new Dictionary<int, ImageBrush>();
+        private readonly Rectangle Enemy;
         private bool MoveLeft, MoveRight, Grounded;
-        private int Speed = 4;
-        private float Gravity = 10;
+        private const int Speed = 8;
+        private float Gravity = 15;
 
         public Rect Hitbox { get; private set; }
         public bool Dead;
@@ -26,9 +26,8 @@ namespace Tron_Mario.Models
         public EnemyController(Rectangle enemy)
         {
             Enemy = enemy;
-            
-            ImageBrush MeleeEnemySkinLeft = new ImageBrush {ImageSource = new BitmapImage(new Uri("pack://application:,,,/Images/EnemyLeft.png"))};
-            ImageBrush MeleeEnemySkinRight = new ImageBrush {ImageSource = new BitmapImage(new Uri("pack://application:,,,/Images/EnemyRight.png"))};
+            var MeleeEnemySkinLeft = new ImageBrush {ImageSource = new BitmapImage(new Uri("pack://application:,,,/Images/EnemyLeft.png"))};
+            var MeleeEnemySkinRight = new ImageBrush {ImageSource = new BitmapImage(new Uri("pack://application:,,,/Images/EnemyRight.png"))};
             Skins.Add(0, MeleeEnemySkinLeft);
             Skins.Add(1, MeleeEnemySkinRight);
             Enemy.Fill = MeleeEnemySkinLeft;
@@ -37,18 +36,16 @@ namespace Tron_Mario.Models
         /// <summary>
         /// Is called every time the gameEngine is called
         /// </summary>
-        /// <param name="controller">playercontroller object</param>
+        /// <param name="controller">player controller object</param>
+        /// <param name="gameCanvas">game canvas object</param>
         public void OnTick(PlayerController controller, Canvas gameCanvas)
         {
             Hitbox = new Rect(Canvas.GetLeft(Enemy), Canvas.GetTop(Enemy), Enemy.Width, Enemy.Height);
-            double DistanceToPlayer = controller.Hitbox.Left - Hitbox.Left;
-            if (DistanceToPlayer < 0) DistanceToPlayer *= -1;
-
             // stop following if the enemy is no longer on screen
-            if (!(DistanceToPlayer <= 960)) return;
+            if (Canvas.GetLeft(Enemy) + Enemy.Width > Application.Current.MainWindow.Width || Canvas.GetLeft(Enemy) < 0) return;
             if (!Grounded) {
                 Gravity += .3f;
-                if (Gravity >= 10) Gravity = 10;
+                if (Gravity >= 15) Gravity = 15;
             } else Gravity = 0;
 
             Canvas.SetTop(Enemy, Canvas.GetTop(Enemy) + Gravity);

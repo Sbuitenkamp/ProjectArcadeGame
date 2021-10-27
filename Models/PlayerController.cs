@@ -22,8 +22,8 @@ namespace Tron_Mario.Models
         private readonly Canvas GameCanvas;
         private readonly Rectangle Player, HealthIndicator, CameraStopLeft, CameraStopRight;
         private bool MoveLeft, MoveRight, Jumping, Grounded, Invincible, Visible = true, FreeMovement, LeftStopSpawned, RightStopSpawned, Shooting, FacingRight = true;
-        private float Gravity = 10;
-        private const int Speed = 10;
+        private float Gravity = 15;
+        private const int Speed = 15;
         private int Health;
 
         private Label Debug;
@@ -84,18 +84,19 @@ namespace Tron_Mario.Models
             var leftOfStop = LeftStopSpawned && Hitbox.Left <= cameraStopLeftHitbox.Left;
             var rightOfStop = RightStopSpawned && Hitbox.Left + Hitbox.Width >= cameraStopRightHitbox.Left;
 
-            Debug.Content = "Player: " + (Hitbox.Left + Hitbox.Width) + "\nRight: " + cameraStopRightHitbox.Left;
+            Debug.Content = "Left: " + cameraStopLeftHitbox.Left + "\nRight: " + cameraStopRightHitbox.Left;
 
             // free the camera
             if (Hitbox.IntersectsWith(cameraStopLeftHitbox) || Hitbox.IntersectsWith(cameraStopRightHitbox) || (leftOfStop && !rightOfStop) || (!leftOfStop && rightOfStop)) FreeMovement = true;
             else {
                 FreeMovement = false;
-//                if (!RightStopSpawned) Canvas.SetLeft(CameraStopRight, 982);
-                if (RightStopSpawned || LeftStopSpawned) {
-                    LeftStopSpawned = false;
+                if (RightStopSpawned) {
+                    Canvas.SetLeft(CameraStopRight, 1100);
                     RightStopSpawned = false;
-                    if (RightStopSpawned) Canvas.SetLeft(CameraStopRight, 1080 - CameraStopRight.Width);
-                    if (LeftStopSpawned) Canvas.SetLeft(CameraStopLeft, 0);
+                }
+                if (LeftStopSpawned) {
+                    Canvas.SetLeft(CameraStopLeft, 0 - CameraStopLeft.Width);
+                    LeftStopSpawned = false;
                 }
                 Canvas.SetLeft(Player, 939);
             }
@@ -104,10 +105,10 @@ namespace Tron_Mario.Models
             Canvas.SetTop(Player, Canvas.GetTop(Player) + Gravity);
 
             if (Jumping) {
-                Gravity += .3f;
+                Gravity += .5f;
                 if (Gravity >= 10) {
                     Jumping = false;
-                    Gravity = 10;
+                    Gravity = 20;
                 }
             } else if (Grounded) Gravity = 0;
             // movement and create borders on the edge of the screen
@@ -118,7 +119,9 @@ namespace Tron_Mario.Models
                 } else Move(Speed);
             } else if (MoveRight) {
                 if (Visible) Player.Fill = PlayerSkins["right"];
-                if (Canvas.GetLeft(Player) + Player.Width < Application.Current.MainWindow.Width && FreeMovement) Canvas.SetLeft(Player, Canvas.GetLeft(Player) + Speed);
+                if (FreeMovement) {
+                    if (Canvas.GetLeft(Player) + Player.Width < Application.Current.MainWindow.Width ) Canvas.SetLeft(Player, Canvas.GetLeft(Player) + Speed);
+                }
                 else Move(-Speed);
             }
 
@@ -172,7 +175,7 @@ namespace Tron_Mario.Models
                 case Key.Up:
                 case Key.Space:
                     if (Jumping || !Grounded) break;
-                    Gravity = -10;
+                    Gravity = -15;
                     Jumping = true;
                     Grounded = false;
                     break;

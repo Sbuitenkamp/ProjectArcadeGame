@@ -38,7 +38,7 @@ namespace Tron_Mario.Models
             var connection = new MySqlConnection();
             connection.ConnectionString = connectionString;
             connection.Open();
-            MessageBox.Show("Connected to database succesfully");
+            // MessageBox.Show("Connected to database succesfully");
 
             var query = "Select * FROM singleplayer ORDER BY score DESC, name LIMIT 5";
             var command = new MySqlCommand(query, connection);
@@ -53,8 +53,6 @@ namespace Tron_Mario.Models
                     HighScoresSinglePlayer.Add((string)dataReader[1], (int)dataReader[2]);
                 }
                 connection.Close();
-
-
 
             }catch (Exception exception) {
                 MessageBox.Show(exception.Message);
