@@ -128,7 +128,7 @@ namespace Tron_Mario.Models
             for (int i = 0; i < PlayerProjecticles.Count; i++)
             {
                 Bullet x = PlayerProjecticles[i];
-                int speed = x.FacingRight ? 15 : -15;
+                int speed = x.FacingRight ? 25 : -25;
                 Canvas.SetLeft(x.Projectile, Canvas.GetLeft(x.Projectile) + speed);
                 double bulletLeft = Canvas.GetLeft(x.Projectile);
                 if (bulletLeft < 0 || bulletLeft > Application.Current.MainWindow.Width)
@@ -327,8 +327,7 @@ namespace Tron_Mario.Models
                 Fill = Brushes.WhiteSmoke,
                 Stroke = Brushes.Red
             };
-            
-            Canvas.SetLeft(newBullet, Canvas.GetLeft(Player) + Player.Width / 2);
+            Canvas.SetLeft(newBullet, FacingRight ? Hitbox.Left + Hitbox.Width : Hitbox.Left - 20);
             Canvas.SetTop(newBullet, Canvas.GetTop(Player) + Player.Height / 2);
 
             GameCanvas.Children.Add(newBullet);
