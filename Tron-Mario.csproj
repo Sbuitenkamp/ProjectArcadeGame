@@ -171,6 +171,7 @@
     <None Include="App.config" />
   </ItemGroup>
   <ItemGroup>
+    <Resource Include="Images\VectorBackground2-02-02.png" />
     <Resource Include="Fonts\LoveloLineLight.ttf">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Resource>
@@ -214,6 +215,7 @@
     <Resource Include="Images\Muis.png">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Resource>
+    <Resource Include="Images\Spatie.png" />
     <Content Include="Images\Trophy_Asset.png">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
