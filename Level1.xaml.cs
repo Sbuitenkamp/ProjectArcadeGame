@@ -60,10 +60,10 @@ namespace Tron_Mario
             }
             
             // PlayerController and PlatformController have their own methods for game engine
-            PlayerController.OnTick(Debug);
-            PlatformHandler.OnTick(Debug);
+            PlayerController.OnTick();
+            PlatformHandler.OnTick();
 
-            // end level
+            // end level if the player dies or walks through the final gate
             if (PlayerController.LevelFinished) {
                 VictoryScreen victoryScreen = new VictoryScreen(PlayerInformation);
                 victoryScreen.Visibility = Visibility.Visible;
@@ -75,7 +75,7 @@ namespace Tron_Mario
                     TwoPlayerDeathScreen twoPlayerDeathScreen = new TwoPlayerDeathScreen(PlayerInformation);
                     twoPlayerDeathScreen.Visibility = Visibility.Visible;
                 } else {
-                    Death death = new Death(PlayerInformation);
+                    OnePlayerDeathScreen death = new OnePlayerDeathScreen(PlayerInformation);
                     death.Visibility = Visibility.Visible;
                 }
                 GameOver = true;
@@ -85,7 +85,6 @@ namespace Tron_Mario
             // enemy handling
             for (int i = 0; i <= Enemies.Count - 1; i++) {
                 EnemyController enemy = Enemies[i];
-                Debug.Content = "Dead";
                 if (enemy.Dead) {
                     Enemies.Remove(enemy);
                     PlayerInformation.Score += 500;

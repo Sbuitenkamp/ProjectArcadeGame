@@ -31,9 +31,8 @@ namespace Tron_Mario.Models
             }
         }
 
-        public void OnTick(Label debug)
+        public void OnTick()
         {
-//            debug.Content = "Lefts: " + string.Join(",", PlatformHeightsLeft) + "\nRights: " + string.Join(",", PlatformHeightsRight);
             // platform logic
             foreach (Rectangle x in GameCanvas.Children.OfType<Rectangle>()) {
                 if ((string) x.Tag != "walkable") continue;
@@ -48,6 +47,7 @@ namespace Tron_Mario.Models
                 HasLeftCoordinates = PlatformHeightsLeft.Count > 0;
                 HasRightCoordinates = PlatformHeightsRight.Count > 0;
 
+                // larry the ghost box helps us get rid of a wacky glitch with the jumping logic
                 if (x.Name == "LarryTheGhostBox") continue;
 
                 double windowWith = Application.Current.MainWindow.Width;
