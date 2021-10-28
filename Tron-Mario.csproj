@@ -86,20 +86,24 @@
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </ApplicationDefinition>
-    <Compile Include="Death.xaml.cs">
-      <DependentUpon>Death.xaml</DependentUpon>
+    <Compile Include="OnePlayerDeathScreen.xaml.cs">
+      <DependentUpon>OnePlayerDeathScreen.xaml</DependentUpon>
     </Compile>
     <Compile Include="Models\Bullet.cs" />
     <Compile Include="Models\DatabaseHandler.cs" />
     <Compile Include="Models\EnemyController.cs" />
     <Compile Include="Models\PlatformHandler.cs" />
+    <Compile Include="Models\PlayerInformation.cs" />
     <Compile Include="TwoPlayerDeathScreen.xaml.cs">
       <DependentUpon>TwoPlayerDeathScreen.xaml</DependentUpon>
     </Compile>
     <Compile Include="TwoPlayerScreen.xaml.cs">
       <DependentUpon>TwoPlayerScreen.xaml</DependentUpon>
     </Compile>
-    <Page Include="Death.xaml">
+    <Compile Include="VictoryScreen.xaml.cs">
+      <DependentUpon>VictoryScreen.xaml</DependentUpon>
+    </Compile>
+    <Page Include="OnePlayerDeathScreen.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
@@ -138,6 +142,7 @@
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
+    <Page Include="VictoryScreen.xaml" />
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Models\PlayerController.cs" />
@@ -180,6 +185,9 @@
     </Resource>
     <Resource Include="Images\EnemyRight.png" />
     <Resource Include="Images\EnemyLeft.png" />
+    <Resource Include="Fonts\Montserrat-Regular.ttf">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Resource>
     <Content Include="Images\1hp.png">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>

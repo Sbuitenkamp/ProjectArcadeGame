@@ -1,4 +1,5 @@
 ﻿using System.Windows;
+using Tron_Mario.Models;
 
 namespace Tron_Mario
 {
@@ -22,7 +23,13 @@ namespace Tron_Mario
 
         private void StartGame(object sender, RoutedEventArgs e)
         {
-            Level1 level1 = new Level1(true);
+            PlayerInformation playerInformation = new PlayerInformation
+            {
+                PlayerNameOne = PlayerNameOne.Text,
+                PlayerNameTwo = PlayerNameTwo.Text,
+                Multiplayer = true
+            };
+            Level1 level1 = new Level1(playerInformation);
             level1.Visibility = Visibility.Visible;
             this.Visibility = Visibility.Hidden;
 

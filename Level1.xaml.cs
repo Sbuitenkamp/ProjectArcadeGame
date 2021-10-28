@@ -16,13 +16,15 @@ namespace Tron_Mario
         private readonly DispatcherTimer GameTimer = new DispatcherTimer();
         private readonly PlayerController PlayerController;
         private readonly PlatformHandler PlatformHandler;
-        private bool MultiPlayer;
+        private PlayerInformation PlayerInformation;
+        private bool GameOver;
 
-        public Level1(bool multiPlayer)
+        public Level1(PlayerInformation playerInformation)
         {
             InitializeComponent();
 
-            MultiPlayer = multiPlayer;
+            PlayerInformation = playerInformation;
+            PlayerInformation.Score = 0;
 
             GameTimer.Interval = TimeSpan.FromMilliseconds(16);
             GameTimer.Tick += GameEngine;
@@ -52,19 +54,45 @@ namespace Tron_Mario
         /// <param name="e">EventArgs</param>
         private void GameEngine(object sender, EventArgs e)
         {
-            PlayerController.OnTick(Debug);
-            PlatformHandler.OnTick(Debug);
+            if (GameOver) {
+                this.Close();
+                return;
+            }
+            
+            // PlayerController and PlatformController have their own methods for game engine
+            PlayerController.OnTick();
+            PlatformHandler.OnTick();
+
+            // end level if the player dies or walks through the final gate
+            if (PlayerController.LevelFinished) {
+                VictoryScreen victoryScreen = new VictoryScreen(PlayerInformation);
+                victoryScreen.Visibility = Visibility.Visible;
+                GameOver = true;
+                return;
+            }
+            if (PlayerController.Dead) {
+                if (PlayerInformation.Multiplayer) {
+                    TwoPlayerDeathScreen twoPlayerDeathScreen = new TwoPlayerDeathScreen(PlayerInformation);
+                    twoPlayerDeathScreen.Visibility = Visibility.Visible;
+                } else {
+                    OnePlayerDeathScreen death = new OnePlayerDeathScreen(PlayerInformation);
+                    death.Visibility = Visibility.Visible;
+                }
+                GameOver = true;
+                return;
+            }
 
             // enemy handling
             for (int i = 0; i <= Enemies.Count - 1; i++) {
                 EnemyController enemy = Enemies[i];
-                Debug.Content = "Dead";
                 if (enemy.Dead) {
                     Enemies.Remove(enemy);
+                    PlayerInformation.Score += enemy.Boss ? 1000 : 500;
                     i--;
                     continue;
                 }
                 
+                // Enemies have their own method for game engine
                 enemy.OnTick(PlayerController, GameCanvas);
                 
                 foreach (Rectangle x in GameCanvas.Children.OfType<Rectangle>()) {
@@ -73,12 +101,15 @@ namespace Tron_Mario
                     Rect floorHitbox = new Rect(Canvas.GetLeft(x), Canvas.GetTop(x), x.Width, x.Height);
 
                     // damage player
-                    if (PlayerController.Hitbox.IntersectsWith(enemy.Hitbox)) PlayerController.TakeDamage(MultiPlayer);
+                    if (PlayerController.Hitbox.IntersectsWith(enemy.Hitbox)) PlayerController.TakeDamage();
                     // handle landing and falling on/off platforms
                     if (enemy.Hitbox.IntersectsWith(floorHitbox)) {
                         enemy.HandleLanding(floorHitbox);
                         break;
-                    } else enemy.Fall();
+                    } else {
+                        if (enemy.Boss && x.Name != "Floor") continue; // prevent the boss from having weird colliding issues due to it's size
+                        enemy.Fall();
+                    }
                 }
             }
         }
@@ -113,9 +144,15 @@ namespace Tron_Mario
 
         private void Die(object sender, RoutedEventArgs e)
         {
-            Death death = new Death(MultiPlayer);
-            death.Visibility = Visibility.Visible;
-            this.Visibility = Visibility.Hidden;
+            if (PlayerInformation.Multiplayer) {
+                TwoPlayerDeathScreen death = new TwoPlayerDeathScreen(PlayerInformation);
+                death.Visibility = Visibility.Visible;
+                this.Close();
+            } else {
+                OnePlayerDeathScreen onePlayerDeathScreen = new OnePlayerDeathScreen(PlayerInformation);
+                onePlayerDeathScreen.Visibility = Visibility.Visible;
+                this.Close();   
+            }
         }
     }
 }

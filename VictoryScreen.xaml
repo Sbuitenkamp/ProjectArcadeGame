@@ -1,4 +1,4 @@
-﻿<Window x:Class="Tron_Mario.TwoPlayerDeathScreen"
+<Window x:Class="Tron_Mario.VictoryScreen"
         xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
         xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
         xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
@@ -25,16 +25,15 @@
         </Grid.ColumnDefinitions>
         <Label 
             Grid.Column="1" Grid.Row="1" 
-            Content="YOU DIED!" VerticalAlignment="center" 
-            HorizontalAlignment="Center" FontSize="75" Foreground="Red" 
+            Content="CONGRATULATIONS!" VerticalAlignment="center" 
+            HorizontalAlignment="Center" FontSize="75" Foreground="Green" 
             UseLayoutRounding="False" OpacityMask="Black" Background="#00000000">
         </Label>
-        <Label x:Name="PlayerToPlay" Grid.Column="1" Grid.Row="2" 
-            Content="ITS PLAYER TWO'S TURN NOW" VerticalAlignment="top" 
-            HorizontalAlignment="Center" FontSize="40" Foreground="LightSkyBlue" 
-            UseLayoutRounding="False" OpacityMask="Black" FontFamily="Montserrat" Background="#00000000"></Label>
-        <Label x:Name="Score" Grid.Column="1" Grid.Row="2" HorizontalContentAlignment="Center" VerticalContentAlignment="Bottom" FontSize="50" OpacityMask="#8CC7E6" Foreground="LightSkyBlue" >SCORE: 69420</Label>
-        <Button Grid.Column="1" Grid.Row="3" Margin="25" Click="Respawn" Style="{DynamicResource ButtonStyleOne}" FontSize="50">RESPAWN</Button>
-        <Button Grid.Column="1" Grid.Row="4" Margin="25" Click="MainMenu" Style="{DynamicResource ButtonStyleOne}" FontSize="50">BACK TO MAIN MENU</Button>
+        <Label x:Name="PlayerName" Grid.Column="1" Grid.Row="2" 
+               Content="Johndoe1234" VerticalAlignment="top" 
+               HorizontalAlignment="Center" FontSize="40"
+               UseLayoutRounding="False" OpacityMask="Black" FontFamily="{StaticResource SecondaryFont}" Foreground="LightSkyBlue" Background="#00000000"></Label>
+        <Label x:Name="Score" Grid.Column="1" Grid.Row="2" HorizontalContentAlignment="Center" VerticalContentAlignment="Center" FontSize="50" OpacityMask="#8CC7E6" Foreground="LightSkyBlue" >SCORE: 69420</Label>
+        <Button Grid.Column="1" Grid.Row="3" Margin="25" Click="MainMenu" Style="{DynamicResource ButtonStyleOne}" FontSize="50">BACK TO MAIN MENU</Button>
     </Grid>
 </Window>

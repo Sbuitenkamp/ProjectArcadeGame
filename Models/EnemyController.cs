@@ -1,5 +1,7 @@
 using System;
 using System.Collections.Generic;
+using System.Threading;
+using System.Threading.Tasks;
 using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Media;
@@ -11,13 +13,15 @@ namespace Tron_Mario.Models
     public class EnemyController
     {
         private readonly Dictionary<int, ImageBrush> Skins = new Dictionary<int, ImageBrush>();
-        private readonly Rectangle Enemy;
-        private bool MoveLeft, MoveRight, Grounded;
+        private Rectangle Enemy;
+        private bool MoveLeft, MoveRight, Grounded, Invincible;
         private const int Speed = 8;
+        private int Health = 1;
         private float Gravity = 15;
 
         public Rect Hitbox { get; private set; }
-        public bool Dead;
+        public bool Dead { get; private set; }
+        public bool Boss { get; }
 
         /// <summary>
         /// controller object for an enemy
@@ -31,6 +35,11 @@ namespace Tron_Mario.Models
             Skins.Add(0, MeleeEnemySkinLeft);
             Skins.Add(1, MeleeEnemySkinRight);
             Enemy.Fill = MeleeEnemySkinLeft;
+            // the boss is a bit beefier
+            if (enemy.Name == "Boss") {
+                Health = 2;
+                Boss = true;
+            }
         }
 
         /// <summary>
@@ -71,12 +80,25 @@ namespace Tron_Mario.Models
             {
                 Bullet x = controller.PlayerProjecticles[i];
                 Rect bulletHitbox = new Rect(Canvas.GetLeft(x.Projectile), Canvas.GetTop(x.Projectile), x.Projectile.Width, x.Projectile.Height);
-                if (Hitbox.IntersectsWith(bulletHitbox))
-                {
-                    gameCanvas.Children.Remove(Enemy);
-                    gameCanvas.Children.Remove(x.Projectile);
+                
+                if (Hitbox.IntersectsWith(bulletHitbox)) {
+                    if (Invincible) return;
+                    Health--;
                     controller.PlayerProjecticles.Remove(x);
+                    gameCanvas.Children.Remove(x.Projectile);
+                    if (Health > 0) {
+                        Invincible = true;
+                        // set timeout to lift invincibility
+                        CancellationTokenSource cancellationTokenSource = new CancellationTokenSource();
+                        CancellationToken cancellationToken = cancellationTokenSource.Token;
+                        Task.Delay(300, cancellationToken).ContinueWith( t => {
+                            Invincible = false;
+                        }, cancellationToken);
+                        return;
+                    } 
+                    gameCanvas.Children.Remove(Enemy);
                     Dead = true;
+                    if (Boss) controller.BossKilled = true;
                     break;
                 }
             }
