@@ -7,6 +7,7 @@
         mc:Ignorable="d"
         WindowStyle="None"
         WindowState="Maximized"
+        FontFamily="{StaticResource PrimaryFont}"
         Title="One_player_screen" Height="1080" Width="1920">
     <Grid Background="#222222">
         <Grid.RowDefinitions>
@@ -26,7 +27,7 @@
             Grid.Column="1" Grid.Row="1" 
             Content="NAME GAME" VerticalAlignment="center" 
             HorizontalAlignment="Center" FontSize="100" Foreground="#8CC7E6" 
-            UseLayoutRounding="False" OpacityMask="Black" FontFamily="Montserrat">
+            UseLayoutRounding="False" OpacityMask="Black">
         </Label>
         <TextBlock Grid.Column="1" Grid.Row="2" 
                    Foreground="#8CC7E6" 
@@ -36,6 +37,7 @@
                  Background="#00976666"
                  VerticalAlignment="Top" HorizontalAlignment="Center" 
                  BorderBrush="#00ABADB3" SelectionBrush="#8CC7E6" Foreground="#4CFFFFFF" 
+                 FontFamily="Montserrat"
                  FontSize="35" Margin="0,25,150,0">JOHNDOE1234</TextBox>
         <Rectangle Fill="#8CC7E6" Grid.Column="1" Grid.Row="3" Height="5" Width="400"/>
 

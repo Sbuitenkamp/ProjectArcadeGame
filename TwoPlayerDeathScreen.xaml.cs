@@ -15,7 +15,7 @@ namespace Tron_Mario
             InitializeComponent();
             PlayerInformation = playerInformation;
             playerInformation.PlayerOneHasPlayed = !playerInformation.PlayerOneHasPlayed; // invert the boolean that checks if player one has played
-            PlayerToPlay.Content = (playerInformation.PlayerOneHasPlayed ? playerInformation.PlayerNameTwo : playerInformation.PlayerNameOne) + " is nu aan de beurt.";
+            PlayerToPlay.Content = (playerInformation.PlayerOneHasPlayed ? playerInformation.PlayerNameTwo : playerInformation.PlayerNameOne) + "'s TURN";
             Score.Content = "Score: " + playerInformation.Score;
         }
 

@@ -7,6 +7,7 @@
         mc:Ignorable="d"
         WindowStyle="None"
         WindowState="Maximized"
+        FontFamily="{StaticResource PrimaryFont}"
         Title="MainMenu" Height="1080" Width="1920">
     <Grid Background="#222222">
         <Grid.RowDefinitions>
@@ -26,13 +27,13 @@
             Grid.Column="1" Grid.Row="1" 
             Content="LEADERBOARD" VerticalAlignment="center" 
             HorizontalAlignment="Center" FontSize="75" Foreground="#8CC7E6" 
-            UseLayoutRounding="False" OpacityMask="Black" FontFamily="Montserrat">
+            UseLayoutRounding="False" OpacityMask="Black" FontFamily="{StaticResource PrimaryFont}">
         </Label>
-        
-        <StackPanel Grid.Row="2" Grid.RowSpan="2" Grid.Column="1" x:Name="SinglePlayerHighScoresPanel" >
+
+        <StackPanel Grid.Row="2" Grid.RowSpan="2" Grid.Column="1" Background="#222222" x:Name="SinglePlayerHighScoresPanel" >
             <Label></Label>
         </StackPanel>
-        <StackPanel Grid.Row="4" Grid.RowSpan="2" Grid.Column="1" x:Name="MultiPlayerHighScoresPanel" >
+        <StackPanel Grid.Row="4" Grid.RowSpan="2" Grid.Column="1" Background="Transparent" x:Name="MultiPlayerHighScoresPanel" >
         </StackPanel>
 
         <Button Grid.Column="0" Grid.Row="5"  Content="BACK" Click="MainMenu" FontSize="50" Style="{DynamicResource ButtonStyleOne}"/>
