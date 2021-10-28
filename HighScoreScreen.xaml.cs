@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Media;
@@ -34,8 +35,11 @@ namespace Tron_Mario
                 Label label = new Label
                 {
                     Content = highScoreSinglePlayer.Key + " scored " + highScoreSinglePlayer.Value,
-                    Background = Brushes.White,
-                    HorizontalAlignment = HorizontalAlignment.Center
+                    Background = Brushes.Transparent,
+                    Foreground = Brushes.LightSkyBlue,
+                    HorizontalAlignment = HorizontalAlignment.Center,
+                    FontSize = 25,
+                    FontFamily = new FontFamily(new Uri("pack://application:,,,/Fonts/Montserrat-Regular.ttf"), "Montserrat")
                 };
                 // The single player panel is automatically filled with the player names and their score
                 SinglePlayerHighScoresPanel.Children.Add(label);
@@ -48,8 +52,11 @@ namespace Tron_Mario
                 Label labels = new Label
                 {
                     Content = highScoreMultiPlayer.Key + " scored " + highScoreMultiPlayer.Value,
-                    Background = Brushes.White,
-                    HorizontalAlignment = HorizontalAlignment.Center
+                    Background = Brushes.Transparent,
+                    Foreground = Brushes.LightSkyBlue,
+                    HorizontalAlignment = HorizontalAlignment.Center,
+                    FontSize = 25,
+                    FontFamily = new FontFamily(new Uri("pack://application:,,,/Fonts/Montserrat-Regular.ttf"), "Montserrat")
                 };                
                 // The multiplayer panel is automatically filled with the player names and their score
                 MultiPlayerHighScoresPanel.Children.Add(labels);

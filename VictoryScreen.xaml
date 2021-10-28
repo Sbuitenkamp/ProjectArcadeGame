@@ -7,6 +7,7 @@
         mc:Ignorable="d"
         WindowStyle="None"
         WindowState="Maximized"
+        FontFamily="{StaticResource PrimaryFont}"
         Title="Death_Screen" Height="1080" Width="1920">
     <Grid Background="#FF292828">
         <Grid.RowDefinitions>
@@ -26,14 +27,13 @@
             Grid.Column="1" Grid.Row="1" 
             Content="CONGRATULATIONS!" VerticalAlignment="center" 
             HorizontalAlignment="Center" FontSize="75" Foreground="Green" 
-            UseLayoutRounding="False" OpacityMask="Black" FontFamily="Montserrat" Background="#00000000">
+            UseLayoutRounding="False" OpacityMask="Black" Background="#00000000">
         </Label>
         <Label x:Name="PlayerName" Grid.Column="1" Grid.Row="2" 
                Content="Johndoe1234" VerticalAlignment="top" 
-               HorizontalAlignment="Center" FontSize="40" Foreground="white" 
-               UseLayoutRounding="False" OpacityMask="Black" FontFamily="Montserrat" Background="#00000000"></Label>
-        <Label x:Name="Score" Grid.Column="1" Grid.Row="2" HorizontalContentAlignment="Center" VerticalContentAlignment="Center" FontSize="50" OpacityMask="#8CC7E6" Foreground="Black" >SCORE: 69420</Label>
-        <Button Grid.Column="1" Grid.Row="3" Margin="25" Click="MainMenu">Title Screen</Button>
-        <Button Grid.Column="0" Grid.Row="5"  Content="BACK" Click="MainMenu" FontSize="50" Style="{DynamicResource ButtonStyleOne}"/>
+               HorizontalAlignment="Center" FontSize="40"
+               UseLayoutRounding="False" OpacityMask="Black" FontFamily="{StaticResource SecondaryFont}" Foreground="LightSkyBlue" Background="#00000000"></Label>
+        <Label x:Name="Score" Grid.Column="1" Grid.Row="2" HorizontalContentAlignment="Center" VerticalContentAlignment="Center" FontSize="50" OpacityMask="#8CC7E6" Foreground="LightSkyBlue" >SCORE: 69420</Label>
+        <Button Grid.Column="1" Grid.Row="3" Margin="25" Click="MainMenu" Style="{DynamicResource ButtonStyleOne}" FontSize="50">BACK TO MAIN MENU</Button>
     </Grid>
 </Window>

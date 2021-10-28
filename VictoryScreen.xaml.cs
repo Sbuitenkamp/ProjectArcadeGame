@@ -13,7 +13,7 @@ namespace Tron_Mario
             InitializeComponent();
             PlayerInformation = playerInformation;
             Score.Content = "Score: " + playerInformation.Score;
-            PlayerName.Content = "Gefeliciteerd " + playerInformation.PlayerNameOne + (playerInformation.Multiplayer ? "&" + playerInformation.PlayerNameTwo : "") + "!";
+            PlayerName.Content = playerInformation.PlayerNameOne + (playerInformation.Multiplayer ? "&" + playerInformation.PlayerNameTwo : "") + "!";
         }
         
         private void MainMenu(object sender, RoutedEventArgs e)

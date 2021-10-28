@@ -184,6 +184,9 @@
     </Resource>
     <Resource Include="Images\EnemyRight.png" />
     <Resource Include="Images\EnemyLeft.png" />
+    <Resource Include="Fonts\Montserrat-Regular.ttf">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Resource>
     <Content Include="Images\1hp.png">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
