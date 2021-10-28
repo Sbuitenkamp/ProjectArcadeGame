@@ -345,6 +345,7 @@ namespace Tron_Mario.Models
         private void Shoot()
         {
             if (Shooting) return;
+            if (PlayerProjecticles.Count >= 5) return; // limit to 5 projectiles at a time
             InitiateBullet();
         }
 

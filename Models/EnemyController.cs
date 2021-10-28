@@ -52,10 +52,8 @@ namespace Tron_Mario.Models
             Hitbox = new Rect(Canvas.GetLeft(Enemy), Canvas.GetTop(Enemy), Enemy.Width, Enemy.Height);
             // stop following if the enemy is no longer on screen
             if (Canvas.GetLeft(Enemy) + Enemy.Width > Application.Current.MainWindow.Width || Canvas.GetLeft(Enemy) < 0) return;
-            if (!Grounded) {
-                Gravity += .3f;
-                if (Gravity >= 15) Gravity = 15;
-            } else Gravity = 0;
+            if (!Grounded) Gravity += 2f; // same as player
+            else Gravity = 0;
 
             Canvas.SetTop(Enemy, Canvas.GetTop(Enemy) + Gravity);
 
