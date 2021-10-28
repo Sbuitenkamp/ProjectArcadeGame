@@ -87,7 +87,7 @@ namespace Tron_Mario
                 EnemyController enemy = Enemies[i];
                 if (enemy.Dead) {
                     Enemies.Remove(enemy);
-                    PlayerInformation.Score += 500;
+                    PlayerInformation.Score += enemy.Boss ? 1000 : 500;
                     i--;
                     continue;
                 }
@@ -107,7 +107,7 @@ namespace Tron_Mario
                         enemy.HandleLanding(floorHitbox);
                         break;
                     } else {
-                        if (enemy.Enemy.Name == "Boss" && x.Name != "Floor") continue; // prevent the boss from having weird colliding issues due to it's size
+                        if (enemy.Boss && x.Name != "Floor") continue; // prevent the boss from having weird colliding issues due to it's size
                         enemy.Fall();
                     }
                 }

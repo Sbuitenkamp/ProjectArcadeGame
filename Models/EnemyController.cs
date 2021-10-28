@@ -13,14 +13,15 @@ namespace Tron_Mario.Models
     public class EnemyController
     {
         private readonly Dictionary<int, ImageBrush> Skins = new Dictionary<int, ImageBrush>();
-        private bool MoveLeft, MoveRight, Grounded, Boss, Invincible;
+        private Rectangle Enemy;
+        private bool MoveLeft, MoveRight, Grounded, Invincible;
         private const int Speed = 8;
         private int Health = 1;
         private float Gravity = 15;
 
         public Rect Hitbox { get; private set; }
-        public Rectangle Enemy { get; }
-        public bool Dead;
+        public bool Dead { get; private set; }
+        public bool Boss { get; }
 
         /// <summary>
         /// controller object for an enemy
@@ -122,11 +123,6 @@ namespace Tron_Mario.Models
         {
             Gravity = 8;
             Grounded = false;
-        }
-
-        private void GoInvincible(object sender, EventArgs e)
-        {
-            
         }
     }
 }
