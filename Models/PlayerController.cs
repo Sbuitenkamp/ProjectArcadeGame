@@ -24,11 +24,10 @@ namespace Tron_Mario.Models
         private Rectangle EndPortal;
         private bool MoveLeft, MoveRight, Jumping, Grounded, Invincible, Visible = true, FreeMovement, LeftStopSpawned, RightStopSpawned, Shooting, FacingRight = true, EndPortalSpawned;
         private float Gravity = 15;
+        private double FloorHeight;
         private const int Speed = 15;
         private int Health;
-
-        private Label Debug;
-
+        
         public readonly List<Bullet> PlayerProjecticles = new List<Bullet>();
         public Rect Hitbox { get; private set; }
         public bool Dead { get; private set; }
@@ -74,10 +73,8 @@ namespace Tron_Mario.Models
         /// <summary>
         /// Is called every time the gameEngine is called
         /// </summary>
-        /// <param name="debug"></param>
-        public void OnTick(Label debug)
+        public void OnTick()
         {
-            Debug = debug;
             // hitbox
             Hitbox = new Rect(Canvas.GetLeft(Player), Canvas.GetTop(Player), Player.Width, Player.Height);
             Rect cameraStopLeftHitbox = new Rect(Canvas.GetLeft(CameraStopLeft), Canvas.GetTop(CameraStopLeft), CameraStopLeft.Width, CameraStopLeft.Height);
@@ -85,9 +82,7 @@ namespace Tron_Mario.Models
 
             bool leftOfStop = LeftStopSpawned && Hitbox.Left <= cameraStopLeftHitbox.Left;
             bool rightOfStop = RightStopSpawned && Hitbox.Left + Hitbox.Width >= cameraStopRightHitbox.Left;
-
-            Debug.Content = "Left: " + cameraStopLeftHitbox.Left + "\nRight: " + cameraStopRightHitbox.Left;
-
+            
             if (EndPortalSpawned) {
                 Rect endPortalHitbox = new Rect(Canvas.GetLeft(EndPortal), Canvas.GetTop(EndPortal), EndPortal.Width, EndPortal.Height);
                 if (Hitbox.IntersectsWith(endPortalHitbox)) LevelFinished = true;
@@ -309,7 +304,16 @@ namespace Tron_Mario.Models
         {
             // fuck it, we're moving the whole lot
             foreach (Rectangle x in GameCanvas.Children.OfType<Rectangle>()) {
-                if (x.Name == "Player" || x.Name == "Floor" || x.Name == "HealthMeter") continue;
+                switch (x.Name) {
+                    case "Floor":
+                        // get the top of the floor to spawn the end portal properly
+                        FloorHeight = Canvas.GetTop(x);
+                        goto case "Player"; // fallthrough
+                    case "Player":
+                    case "HealthMeter":
+                        continue;
+                }
+
                 Canvas.SetLeft(x, Canvas.GetLeft(x) + speed);
             }
             foreach (Image x in GameCanvas.Children.OfType<Image>()) {
@@ -353,11 +357,13 @@ namespace Tron_Mario.Models
             EndPortal = new Rectangle {
                 Height = 160,
                 Width = 100,
-                Fill = Brushes.Black
+                Fill = Brushes.Black,
+                Stroke = Brushes.DarkMagenta
+
             };
             
             Canvas.SetLeft(EndPortal, Application.Current.MainWindow.Width - EndPortal.Width);
-            Canvas.SetTop(EndPortal, Hitbox.Top + Hitbox.Height - EndPortal.Height);
+            Canvas.SetTop(EndPortal, FloorHeight - EndPortal.Height);
 
             GameCanvas.Children.Add(EndPortal);
             EndPortalSpawned = true;

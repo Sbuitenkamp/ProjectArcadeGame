@@ -42,7 +42,6 @@
         <Rectangle Tag="walkable" Fill="DarkGreen" Height="15" Width="210" Canvas.Left="1352" Canvas.Top="704" />
         <Rectangle Tag="walkable" Fill="DarkGreen" Height="15" Width="185" Canvas.Left="99" Canvas.Top="704" />
         <Rectangle x:Name="Floor" Tag="walkable" Fill="Transparent" Height="213" Width="1918" Canvas.Left="0" Canvas.Top="869" />
-        <Label x:Name="Debug" Content="Label" Canvas.Left="64" Canvas.Top="61" Width="537" Foreground="#f8f8f8"/>
         <Rectangle x:Name="HealthMeter" Fill="DarkGreen" Height="25" Canvas.Left="64" Canvas.Top="34" Width="86"/>
     </Canvas>
 
