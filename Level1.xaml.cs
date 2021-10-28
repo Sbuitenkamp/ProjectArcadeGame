@@ -106,7 +106,10 @@ namespace Tron_Mario
                     if (enemy.Hitbox.IntersectsWith(floorHitbox)) {
                         enemy.HandleLanding(floorHitbox);
                         break;
-                    } else enemy.Fall();
+                    } else {
+                        if (enemy.Enemy.Name == "Boss" && x.Name != "Floor") continue; // prevent the boss from having weird colliding issues due to it's size
+                        enemy.Fall();
+                    }
                 }
             }
         }
