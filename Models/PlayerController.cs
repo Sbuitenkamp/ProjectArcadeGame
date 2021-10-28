@@ -23,7 +23,7 @@ namespace Tron_Mario.Models
         private readonly Rectangle Player, HealthIndicator, CameraStopLeft, CameraStopRight;
         private Rectangle EndPortal;
         private bool MoveLeft, MoveRight, Jumping, Grounded, Invincible, Visible = true, FreeMovement, LeftStopSpawned, RightStopSpawned, Shooting, FacingRight = true, EndPortalSpawned;
-        private float Gravity = 15;
+        private float Gravity = 30;
         private double FloorHeight;
         private const int Speed = 15;
         private int Health;
@@ -109,13 +109,9 @@ namespace Tron_Mario.Models
             // gravity
             Canvas.SetTop(Player, Canvas.GetTop(Player) + Gravity);
 
-            if (Jumping) {
-                Gravity += .5f;
-                if (Gravity >= 10) {
-                    Jumping = false;
-                    Gravity = 20;
-                }
-            } else if (Grounded) Gravity = 0;
+            // Keep increasing gravity to create an escalating fall
+            if (Jumping) Gravity += 2f;
+            else if (Grounded) Gravity = 0;
             // movement and create borders on the edge of the screen
             if (MoveLeft) {
                 if (Visible) Player.Fill = PlayerSkins["left"];
@@ -177,13 +173,13 @@ namespace Tron_Mario.Models
                     break;
                 case Key.W: // fallthrough
                 case Key.Up:
-                case Key.Space:
                     if (Jumping || !Grounded) break;
-                    Gravity = -15;
+                    Gravity = -30;
                     Jumping = true;
                     Grounded = false;
                     break;
                 case Key.F:
+                case Key.Space:
                     Shoot();
                     Shooting = true;
                     break;
@@ -206,6 +202,7 @@ namespace Tron_Mario.Models
                     MoveRight = false;
                     break;
                 case Key.F:
+                case Key.Space:
                     CancellationTokenSource cancellationTokenSource = new CancellationTokenSource();
                     CancellationToken cancellationToken = cancellationTokenSource.Token;
                     Task.Delay(500, cancellationToken).ContinueWith( t => Shooting = false, cancellationToken);
@@ -360,10 +357,9 @@ namespace Tron_Mario.Models
                 Width = 100,
                 Fill = Brushes.Black,
                 Stroke = Brushes.DarkMagenta
-
             };
             
-            Canvas.SetLeft(EndPortal, Application.Current.MainWindow.Width - EndPortal.Width);
+            Canvas.SetLeft(EndPortal, Application.Current.MainWindow.Width - EndPortal.Width - 25);
             Canvas.SetTop(EndPortal, FloorHeight - EndPortal.Height);
 
             GameCanvas.Children.Add(EndPortal);
