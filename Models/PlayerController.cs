@@ -31,6 +31,7 @@ namespace Tron_Mario.Models
         public readonly List<Bullet> PlayerProjecticles = new List<Bullet>();
         public Rect Hitbox { get; private set; }
         public bool Dead { get; private set; }
+        public bool BossKilled { get; set; }
         public bool LevelFinished { get; private set; }
 
         /// <summary>
@@ -352,7 +353,7 @@ namespace Tron_Mario.Models
 
         private void SpawnEndPortal()
         {
-            if (EndPortalSpawned) return;
+            if (!BossKilled || EndPortalSpawned) return;
             
             EndPortal = new Rectangle {
                 Height = 160,
